@@ -1,0 +1,54 @@
+<nav class="navbar navbar-solid-transition" *ngIf="authService.IsAuthenticated && !authService.LoginSkipped">
+  <div class="nav-wrapper">
+    <a href="horizontal-half.html" class="brand-logo"><i class="icon-diamond"></i></a>
+    <ul id="nav-mobile" class="left hide-on-med-and-down">
+      <li class="active"><a class="dropdown-trigger" href="#!" data-target="pages">Pages<i class="material-icons left">arrow_drop_down</i></a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="team.html">Team</a></li>
+      <li><a href="docs/about.html">Docs</a></li>
+    </ul>
+
+    <ul id="pages" class="dropdown-content">
+      <li><a href="horizontal-half.html">Horizontal Halves</a></li>
+      <li><a href="sierra.html">Zoom Out</a></li>
+      <li><a href="circle-reveal.html">Circle Reveal</a></li>
+      <li><a href="phone-wall.html">Phone Wall</a></li>
+      <li><a href="element-transitions.html">Element Transitions</a></li>
+      <li><a class="active" href="basic-elements.html">Basic Elements</a></li>
+      <li><a href="card-shuffle.html">Shuffle</a></li>
+      <li><a href="postcards.html">Postcards</a></li>
+    </ul>
+
+    <a href="#" data-target="slide-out" class="sidenav-trigger button-collapse left"><i class="material-icons white-text">menu</i></a>
+  </div>
+</nav>
+<ul id="slide-out" class="sidenav">
+  <li class="no-padding">
+    <ul class="collapsible collapsible-accordion">
+      <li class="bold">
+        <a class="collapsible-header waves-effect waves-brown active">Female</a>
+        <div class="collapsible-body">
+          <ul>
+            <!-- <li *ngFor="let dog of dogService.FemaleDogs()"><a href="horizontal-half.html">{{dog.Name}}</a></li> -->
+          </ul>
+        </div>
+      </li>
+    </ul>
+  </li>
+  <li class="no-padding">
+    <ul class="collapsible collapsible-accordion">
+      <li class="bold">
+        <a class="collapsible-header waves-effect waves-brown active">Male</a>
+        <div class="collapsible-body">
+          <ul>
+            <!-- <li *ngFor="let dog of dogService.MaleDogs()"><a href="horizontal-half.html">{{dog.Name}}</a></li> -->
+          </ul>
+        </div>
+      </li>
+    </ul>
+  </li>
+  <!-- <li><a class="waves-effect waves-brown" href="blog.html">Blog</a></li>
+  <li><a class="waves-effect waves-brown" href="team.html">Team</a></li>
+  <li><a class="waves-effect waves-brown" href="docs/about.html">Docs</a></li>
+  <li><a class="waves-effect waves-brown" href="#">Buy Now!</a></li> -->
+</ul>

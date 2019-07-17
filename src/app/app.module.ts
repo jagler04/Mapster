@@ -10,6 +10,7 @@ import { HttpIntercept } from './http-intercept';
 import { LoginComponent } from './Popups/login/login.component';
 import { HomeComponent } from './Pages/home/home.component';
 import {MatDialogModule} from '@angular/material/dialog';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -22,13 +23,17 @@ import {MatDialogModule} from '@angular/material/dialog';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    MatDialogModule
+    MatDialogModule,
+    BrowserAnimationsModule
   ],
   providers: [
     AuthenticationService,
     PubSubService,
     HttpIntercept  
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents:[
+    LoginComponent
+  ]
 })
 export class AppModule { }

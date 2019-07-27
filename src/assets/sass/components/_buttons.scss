@@ -314,6 +314,9 @@ button.btn-floating {
   i {
     font-size: $button-small-icon-font-size;
   }
+  color: $font-color;
+  background-color: $primary-color;
+  margin: 5px;
 }
 
 // Block button

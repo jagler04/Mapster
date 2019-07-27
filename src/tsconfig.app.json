@@ -7,7 +7,7 @@
       "jquery": ["..//@types/jquery"] ,
       "bootstrap":["lib/@types/bootstrap"]
     },
-    "types": []
+    "types": ["googlemaps"]
   },
   "exclude": [
     "test.ts",

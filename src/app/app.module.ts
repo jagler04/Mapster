@@ -34,7 +34,7 @@ import { AgmCoreModule } from '@agm/core';
     MatCardModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyCU2867Rocotglq5fwvzEQnOJI6GqXCmSU',
-      libraries: ['places']
+      libraries: ['places', 'drawing', 'geometry']
     })
   ],
   providers: [

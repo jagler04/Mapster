@@ -9,6 +9,16 @@ import { NavigationService } from './Services/navigation.service';
 })
 export class AppComponent {
   title = 'Mapster';
-  constructor(private pubsub: PubSubService, private nav: NavigationService){ }
+  constructor(private pubsub: PubSubService, private nav: NavigationService){
+    pubsub.$sub("Add Area Page Active").subscribe(data =>{
+      var navbr = document.getElementById("nvbar") as HTMLElement;
+      navbr.style.display = 'none';
+    })
+    pubsub.$sub("Add Area Page Deactivated").subscribe(data => {
+      var navbr = document.getElementById("nvbar") as HTMLElement;
+      navbr.style.display = 'block';
+    })
+   }
+
 
 }

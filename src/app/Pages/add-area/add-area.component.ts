@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { MapsAPILoader } from '@agm/core';
 import { PubSubService } from 'src/app/Services/pub-sub.service';
+import { NavigationService } from 'src/app/Services/navigation.service';
 //import { } from '@types/googlemaps';
 
 @Component({
@@ -25,7 +26,9 @@ export class AddAreaComponent implements OnInit {
 
   drawing: boolean = false;
 
-  constructor(private mapsAPILoader: MapsAPILoader, private ngZone: NgZone, private pubsub: PubSubService) { }
+  map: any;
+  constructor(private mapsAPILoader: MapsAPILoader, private ngZone: NgZone, private pubsub: PubSubService,
+    private nav: NavigationService) { }
 
   ngOnInit() {
     this.pubsub.$pub("Add Area Page Active");
@@ -74,13 +77,45 @@ export class AddAreaComponent implements OnInit {
     }
   }
 
+  drawingManager: google.maps.drawing.DrawingManager;
   StartDraw() {
     this.drawing = true;
+    const drawingManager = new google.maps.drawing.DrawingManager({
+      drawingMode: google.maps.drawing.OverlayType.POLYGON,
+      drawingControl: false,
+      drawingControlOptions: {
+        position: google.maps.ControlPosition.RIGHT_CENTER,
+        drawingModes: [google.maps.drawing.OverlayType.POLYGON]
+      },
+      polygonOptions: {
+        strokeColor: '#5DAA68',
+        strokeOpacity: 0.8,
+        strokeWeight: 3,
+        editable: true,
+        clickable: true
+      }
+    });
+    drawingManager.setMap(this.map);
+    this.drawingManager = drawingManager;
   }
   CancelDraw(){
     this.drawing = false;
+    this.drawingManager.setMap(null);
+    //this.drawingManager.
   }
   SaveDraw(){
 
+  }
+  GoBack() {
+    this.pubsub.$pub("Add Area Page Deactivated");
+    this.nav.Push("Areas");
+  }
+  onMapReady(map) {
+    this.initDrawingManager(map);
+  }
+
+  initDrawingManager(map: any) {
+    this.map = map;
+    
   }
 }

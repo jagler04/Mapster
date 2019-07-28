@@ -17,16 +17,17 @@ export class AddAreaComponent implements OnInit {
   @ViewChild('search', { static: true })
   public searchElementRef: ElementRef;
 
-  // map: google.maps.Map;
-
   latitude: number = 51.678418;
   longitude: number = 7.809007;
   zoom: number = 15;
   private geoCoder;
 
   drawing: boolean = false;
+  drawnPolygon: google.maps.Polygon;
+  drawnOverlay: any;
+  map: google.maps.Map;
+  hasPolygon: boolean = false;
 
-  map: any;
   constructor(private mapsAPILoader: MapsAPILoader, private ngZone: NgZone, private pubsub: PubSubService,
     private nav: NavigationService) { }
 
@@ -97,10 +98,35 @@ export class AddAreaComponent implements OnInit {
     });
     drawingManager.setMap(this.map);
     this.drawingManager = drawingManager;
+    var googleMap = this.map;
+    //google.maps.event.addListener(drawingManager, "polygoncomplete", this.PolygonComplete);
+    google.maps.event.addListener(drawingManager, 'overlaycomplete', this.OverlayComplete);
+  }
+  PolygonComplete(poly: google.maps.Polygon){
+    if(!this.hasPolygon){
+      this.hasPolygon = true;
+    }
+    this.drawnPolygon = poly;
+  }
+  OverlayComplete(event: google.maps.drawing.OverlayCompleteEvent) {
+    if(event.type === google.maps.drawing.OverlayType.POLYGON){
+      this.drawnOverlay = event.overlay;
+    }
   }
   CancelDraw(){
     this.drawing = false;
+    this.hasPolygon = false;
+    if(this.drawnOverlay !== undefined){
+      this.drawnOverlay.setMap(null);
+      this.drawnOverlay = undefined;
+      this.drawnPolygon = undefined;
+    }
     this.drawingManager.setMap(null);
+    // if(this.drawnPolygon !== undefined){
+    //   this.drawnPolygon.setMap(null);
+    //   this.drawnPolygon.setEditable(false);
+    //   this.drawnPolygon = undefined;
+    // }
     //this.drawingManager.
   }
   SaveDraw(){

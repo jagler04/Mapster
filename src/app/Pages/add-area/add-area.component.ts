@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
-import { MapsAPILoader } from '@agm/core';
+import { MapsAPILoader, LatLngLiteral } from '@agm/core';
 import { PubSubService } from 'src/app/Services/pub-sub.service';
 import { NavigationService } from 'src/app/Services/navigation.service';
 //import { } from '@types/googlemaps';
@@ -23,9 +23,9 @@ export class AddAreaComponent implements OnInit {
   private geoCoder;
 
   drawing: boolean = false;
-  drawnPolygon: google.maps.Polygon;
-  drawnOverlay: any;
-  map: google.maps.Map;
+  //drawnPolygon: google.maps.Polygon;
+  public drawnOverlay: any;
+  //map: google.maps.Map;
   hasPolygon: boolean = false;
 
   constructor(private mapsAPILoader: MapsAPILoader, private ngZone: NgZone, private pubsub: PubSubService,
@@ -33,12 +33,7 @@ export class AddAreaComponent implements OnInit {
 
   ngOnInit() {
     this.pubsub.$pub("Add Area Page Active");
-    // var mapProp = {
-    //   center: new google.maps.LatLng(18.5793, 73.8143),
-    //   zoom: 15,
-    //   mapTypeId: google.maps.MapTypeId.ROADMAP
-    // };
-    // this.map = new google.maps.Map(this.gmapElement.nativeElement, mapProp);
+
     this.setCurrentLocation();
     //load Places Autocomplete
     this.mapsAPILoader.load().then(() => {
@@ -78,70 +73,80 @@ export class AddAreaComponent implements OnInit {
     }
   }
 
-  drawingManager: google.maps.drawing.DrawingManager;
   StartDraw() {
     this.drawing = true;
-    const drawingManager = new google.maps.drawing.DrawingManager({
-      drawingMode: google.maps.drawing.OverlayType.POLYGON,
-      drawingControl: false,
-      drawingControlOptions: {
-        position: google.maps.ControlPosition.RIGHT_CENTER,
-        drawingModes: [google.maps.drawing.OverlayType.POLYGON]
-      },
-      polygonOptions: {
-        strokeColor: '#5DAA68',
-        strokeOpacity: 0.8,
-        strokeWeight: 3,
-        editable: true,
-        clickable: true
-      }
-    });
-    drawingManager.setMap(this.map);
-    this.drawingManager = drawingManager;
-    var googleMap = this.map;
-    //google.maps.event.addListener(drawingManager, "polygoncomplete", this.PolygonComplete);
-    google.maps.event.addListener(drawingManager, 'overlaycomplete', this.OverlayComplete);
-  }
-  PolygonComplete(poly: google.maps.Polygon){
-    if(!this.hasPolygon){
-      this.hasPolygon = true;
-    }
-    this.drawnPolygon = poly;
-  }
-  OverlayComplete(event: google.maps.drawing.OverlayCompleteEvent) {
-    if(event.type === google.maps.drawing.OverlayType.POLYGON){
-      this.drawnOverlay = event.overlay;
+    if(this.paths.length > 0){
+      this.paths.forEach(p => {
+        this.markers.push({
+          lat: p.lat,
+        lng: p.lng,
+        draggable: true
+        })
+      });
+      this.paths = [];
     }
   }
+
   CancelDraw(){
     this.drawing = false;
-    this.hasPolygon = false;
-    if(this.drawnOverlay !== undefined){
-      this.drawnOverlay.setMap(null);
-      this.drawnOverlay = undefined;
-      this.drawnPolygon = undefined;
-    }
-    this.drawingManager.setMap(null);
-    // if(this.drawnPolygon !== undefined){
-    //   this.drawnPolygon.setMap(null);
-    //   this.drawnPolygon.setEditable(false);
-    //   this.drawnPolygon = undefined;
-    // }
-    //this.drawingManager.
+    this.markers = [];
   }
   SaveDraw(){
-
+    this.paths = [];
+    this.markers.forEach(m =>{
+      this.paths.push({
+        lat: m.lat,
+        lng: m.lng
+      });
+    });
+    this.markers = [];
+    this.drawing = false;
   }
   GoBack() {
     this.pubsub.$pub("Add Area Page Deactivated");
     this.nav.Push("Areas");
   }
-  onMapReady(map) {
-    this.initDrawingManager(map);
-  }
+  // onMapReady(map) {
+  //   this.initDrawingManager(map);
+  // }
 
-  initDrawingManager(map: any) {
-    this.map = map;
+  // initDrawingManager(map: any) {
+  //   //this.map = map;
+    
+  // }
+  markers: marker[] = [];
+  paths: Array<LatLngLiteral> = [];
+  mapClicked($event: any) {
+    if(this.drawing){
+      this.markers.push({
+        lat: $event.coords.lat,
+        lng: $event.coords.lng,
+        draggable: true
+      });
+      // if (this.markers.length > 1){
+      //   var lineCount = this.markers.length / 2;
+      //   var pos = 0;
+      //   while (pos < this.markers.length){
+
+      //     pos += 2;
+      //   }
+      // }
+    }
+  }
+  markerDragEnd(i: number, $event: any) {
+    console.log("Marker: " + i + " updated");
+    this.markers[i] =  {
+      lat: $event.coords.lat,
+      lng: $event.coords.lng,
+      draggable: true
+    };
     
   }
+}
+
+interface marker {
+	lat: number;
+	lng: number;
+	label?: string;
+	draggable: boolean;
 }

@@ -7,7 +7,7 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<nav>\r\n    <div class=\"nav-wrapper\">\r\n        <a (click)=\"GoBack()\" class=\"button-collapse left inlineBlock\"><i class=\"material-icons white-text\">arrow_back</i></a>\r\n        <div class=\"input-field inlineBlock search\">\r\n            <input id=\"search\" type=\"search\" #search autocorrect=\"off\" autocapitalize=\"off\" spellcheck=\"off\">\r\n            <label class=\"label-icon\" for=\"search\"><i class=\"material-icons\">search</i></label>\r\n            <i class=\"material-icons\">close</i>\r\n        </div>\r\n    </div>\r\n</nav>\r\n\r\n<div class=\"map\">\r\n    <agm-map class=\"gmap\" [latitude]=\"latitude\" [longitude]=\"longitude\" [zoom]=\"zoom\" (mapReady)=\"onMapReady($event)\">\r\n        <agm-marker [latitude]=\"latitude\" [longitude]=\"longitude\"></agm-marker>\r\n    </agm-map>\r\n    <a class=\"btn-floating btn-meduim waves-effect waves-light apply\" *ngIf=\"hasPolygon === true\" (click)=\"SaveDraw()\"><i class=\"material-icons\">check</i></a>\r\n    <a class=\"btn-floating btn-meduim waves-effect waves-light draw\" *ngIf=\"!drawing\" (click)=\"StartDraw()\"><i class=\"material-icons\">edit</i></a>\r\n    <a class=\"btn-floating btn-meduim waves-effect waves-light draw\" *ngIf=\"drawing\" (click)=\"CancelDraw()\"><i class=\"material-icons\">close</i></a>\r\n</div>\r\n\r\n<!-- <div #gmap class=\"gmap\"></div>\r\n<div class=\"section google-map\" style=\"height: -webkit-fill-available;\"></div> -->"
+module.exports = "<nav>\r\n    <div class=\"nav-wrapper\">\r\n        <a (click)=\"GoBack()\" class=\"button-collapse left inlineBlock\"><i class=\"material-icons white-text\">arrow_back</i></a>\r\n        <div class=\"input-field inlineBlock search\">\r\n            <input id=\"search\" type=\"search\" #search autocorrect=\"off\" autocapitalize=\"off\" spellcheck=\"off\">\r\n            <label class=\"label-icon\" for=\"search\"><i class=\"material-icons\">search</i></label>\r\n            <i class=\"material-icons\">close</i>\r\n        </div>\r\n    </div>\r\n</nav>\r\n\r\n<div class=\"map\">\r\n    <agm-map class=\"gmap\" [latitude]=\"latitude\" [longitude]=\"longitude\" [zoom]=\"zoom\" (mapReady)=\"onMapReady($event)\">\r\n        <agm-marker [latitude]=\"latitude\" [longitude]=\"longitude\"></agm-marker>\r\n    </agm-map>\r\n    <a class=\"btn-floating btn-meduim waves-effect waves-light apply\" *ngIf=\"hasPolygon === true\" (click)=\"SaveDraw()\"><i class=\"material-icons\">check</i></a>\r\n    <a class=\"btn-floating btn-meduim waves-effect waves-light draw\" *ngIf=\"!drawing\" (click)=\"StartDraw()\"><i class=\"material-icons\">edit</i></a>\r\n    <a class=\"btn-floating btn-meduim waves-effect waves-light draw\" *ngIf=\"drawing\" (click)=\"CancelDraw()\"><i class=\"material-icons\">close</i></a>\r\n    <!-- <a class=\"btn-floating btn-meduim waves-effect waves-light draw\" (click)=\"GimmieSum()\"><i class=\"material-icons\">ctry</i></a> -->\r\n\r\n</div>\r\n\r\n<!-- <div #gmap class=\"gmap\"></div>\r\n<div class=\"section google-map\" style=\"height: -webkit-fill-available;\"></div> -->"
 
 /***/ }),
 
@@ -194,10 +194,11 @@ let AddAreaComponent = class AddAreaComponent {
         drawingManager.setMap(this.map);
         this.drawingManager = drawingManager;
         var googleMap = this.map;
-        //google.maps.event.addListener(drawingManager, "polygoncomplete", this.PolygonComplete);
+        google.maps.event.addListener(drawingManager, "polygoncomplete", this.PolygonComplete);
         google.maps.event.addListener(drawingManager, 'overlaycomplete', this.OverlayComplete);
     }
     PolygonComplete(poly) {
+        console.log(poly);
         if (!this.hasPolygon) {
             this.hasPolygon = true;
         }
@@ -211,24 +212,26 @@ let AddAreaComponent = class AddAreaComponent {
     CancelDraw() {
         this.drawing = false;
         this.hasPolygon = false;
-        if (this.drawnOverlay !== undefined) {
-            this.drawnOverlay.setMap(null);
-            this.drawnOverlay = undefined;
-            this.drawnPolygon = undefined;
+        if (this.drawingManager.drawnOverlay !== undefined) {
+            this.drawingManager.drawnOverlay.setMap(null);
+            this.drawingManager.drawnOverlay = undefined;
+            this.drawingManager.drawnPolygon = undefined;
         }
         this.drawingManager.setMap(null);
-        // if(this.drawnPolygon !== undefined){
-        //   this.drawnPolygon.setMap(null);
-        //   this.drawnPolygon.setEditable(false);
-        //   this.drawnPolygon = undefined;
-        // }
-        //this.drawingManager.
+        if (this.drawingManager.drawnPolygon !== undefined) {
+            this.drawingManager.drawnPolygon.setMap(null);
+            this.drawingManager.drawnPolygon.setEditable(false);
+            this.drawingManager.drawnPolygon = undefined;
+        }
     }
     SaveDraw() {
     }
     GoBack() {
         this.pubsub.$pub("Add Area Page Deactivated");
         this.nav.Push("Areas");
+    }
+    GimmieSum() {
+        //console.log(this.)
     }
     onMapReady(map) {
         this.initDrawingManager(map);

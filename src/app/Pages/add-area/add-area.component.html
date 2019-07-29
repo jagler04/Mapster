@@ -1,0 +1,22 @@
+<nav>
+    <div class="nav-wrapper">
+        <a (click)="GoBack()" class="button-collapse left inlineBlock"><i class="material-icons white-text">arrow_back</i></a>
+        <div class="input-field inlineBlock search">
+            <input id="search" type="search" #search autocorrect="off" autocapitalize="off" spellcheck="off">
+            <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+            <i class="material-icons">close</i>
+        </div>
+    </div>
+</nav>
+
+<div class="map">
+    <agm-map class="gmap" [latitude]="latitude" [longitude]="longitude" [zoom]="zoom" (mapReady)="onMapReady($event)">
+        <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
+    </agm-map>
+    <a class="btn-floating btn-meduim waves-effect waves-light apply" *ngIf="hasPolygon === true" (click)="SaveDraw()"><i class="material-icons">check</i></a>
+    <a class="btn-floating btn-meduim waves-effect waves-light draw" *ngIf="!drawing" (click)="StartDraw()"><i class="material-icons">edit</i></a>
+    <a class="btn-floating btn-meduim waves-effect waves-light draw" *ngIf="drawing" (click)="CancelDraw()"><i class="material-icons">close</i></a>
+</div>
+
+<!-- <div #gmap class="gmap"></div>
+<div class="section google-map" style="height: -webkit-fill-available;"></div> -->

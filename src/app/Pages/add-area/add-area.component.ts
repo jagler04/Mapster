@@ -22,9 +22,11 @@ export class AddAreaComponent implements OnInit {
   zoom: number = 15;
   private geoCoder;
 
-  drawing: boolean = false;
-  drawnPolygon: google.maps.Polygon;
-  drawnOverlay: any;
+  public drawing: boolean = false;
+  public drawnPolygon: google.maps.Polygon;
+  public drawnOverlay: any;
+  public drawingManager: any;
+
   map: google.maps.Map;
   hasPolygon: boolean = false;
 
@@ -65,7 +67,7 @@ export class AddAreaComponent implements OnInit {
         });
       });
     });
-  
+
   }
 
   private setCurrentLocation() {
@@ -78,7 +80,6 @@ export class AddAreaComponent implements OnInit {
     }
   }
 
-  drawingManager: google.maps.drawing.DrawingManager;
   StartDraw() {
     this.drawing = true;
     const drawingManager = new google.maps.drawing.DrawingManager({
@@ -99,42 +100,46 @@ export class AddAreaComponent implements OnInit {
     drawingManager.setMap(this.map);
     this.drawingManager = drawingManager;
     var googleMap = this.map;
-    //google.maps.event.addListener(drawingManager, "polygoncomplete", this.PolygonComplete);
+    google.maps.event.addListener(drawingManager, "polygoncomplete", this.PolygonComplete);
     google.maps.event.addListener(drawingManager, 'overlaycomplete', this.OverlayComplete);
   }
-  PolygonComplete(poly: google.maps.Polygon){
-    if(!this.hasPolygon){
+  PolygonComplete(poly: google.maps.Polygon) {
+    console.log(poly)
+    if (!this.hasPolygon) {
       this.hasPolygon = true;
     }
     this.drawnPolygon = poly;
   }
   OverlayComplete(event: google.maps.drawing.OverlayCompleteEvent) {
-    if(event.type === google.maps.drawing.OverlayType.POLYGON){
+    if (event.type === google.maps.drawing.OverlayType.POLYGON) {
       this.drawnOverlay = event.overlay;
     }
   }
-  CancelDraw(){
+  public CancelDraw() {
     this.drawing = false;
     this.hasPolygon = false;
-    if(this.drawnOverlay !== undefined){
-      this.drawnOverlay.setMap(null);
-      this.drawnOverlay = undefined;
-      this.drawnPolygon = undefined;
+    if (this.drawingManager.drawnOverlay !== undefined) {
+      this.drawingManager.drawnOverlay.setMap(null);
+      this.drawingManager.drawnOverlay = undefined;
+      this.drawingManager.drawnPolygon = undefined;
     }
     this.drawingManager.setMap(null);
-    // if(this.drawnPolygon !== undefined){
-    //   this.drawnPolygon.setMap(null);
-    //   this.drawnPolygon.setEditable(false);
-    //   this.drawnPolygon = undefined;
-    // }
-    //this.drawingManager.
+    if (this.drawingManager.drawnPolygon !== undefined) {
+      this.drawingManager.drawnPolygon.setMap(null);
+      this.drawingManager.drawnPolygon.setEditable(false);
+      this.drawingManager.drawnPolygon = undefined;
+    }
   }
-  SaveDraw(){
+  SaveDraw() {
 
   }
   GoBack() {
     this.pubsub.$pub("Add Area Page Deactivated");
     this.nav.Push("Areas");
+  }
+
+  GimmieSum() {
+    //console.log(this.)
   }
   onMapReady(map) {
     this.initDrawingManager(map);
@@ -142,6 +147,6 @@ export class AddAreaComponent implements OnInit {
 
   initDrawingManager(map: any) {
     this.map = map;
-    
+
   }
 }

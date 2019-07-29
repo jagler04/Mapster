@@ -23,9 +23,7 @@ export class AddAreaComponent implements OnInit {
   private geoCoder;
 
   drawing: boolean = false;
-  //drawnPolygon: google.maps.Polygon;
   public drawnOverlay: any;
-  //map: google.maps.Map;
   hasPolygon: boolean = false;
 
   constructor(private mapsAPILoader: MapsAPILoader, private ngZone: NgZone, private pubsub: PubSubService,
@@ -60,7 +58,7 @@ export class AddAreaComponent implements OnInit {
         });
       });
     });
-  
+
   }
 
   private setCurrentLocation() {
@@ -106,14 +104,7 @@ export class AddAreaComponent implements OnInit {
     this.pubsub.$pub("Add Area Page Deactivated");
     this.nav.Push("Areas");
   }
-  // onMapReady(map) {
-  //   this.initDrawingManager(map);
-  // }
-
-  // initDrawingManager(map: any) {
-  //   //this.map = map;
-    
-  // }
+  
   markers: marker[] = [];
   paths: Array<LatLngLiteral> = [];
   mapClicked($event: any) {
@@ -123,14 +114,6 @@ export class AddAreaComponent implements OnInit {
         lng: $event.coords.lng,
         draggable: true
       });
-      // if (this.markers.length > 1){
-      //   var lineCount = this.markers.length / 2;
-      //   var pos = 0;
-      //   while (pos < this.markers.length){
-
-      //     pos += 2;
-      //   }
-      // }
     }
   }
   markerDragEnd(i: number, $event: any) {

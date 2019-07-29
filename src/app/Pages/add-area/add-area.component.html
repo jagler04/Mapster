@@ -33,6 +33,8 @@
     <a class="btn-floating btn-meduim waves-effect waves-light apply" *ngIf="markers !== undefined && markers.length >= 3" (click)="SaveDraw()"><i class="material-icons">check</i></a>
     <a class="btn-floating btn-meduim waves-effect waves-light draw" *ngIf="!drawing" (click)="StartDraw()"><i class="material-icons">edit</i></a>
     <a class="btn-floating btn-meduim waves-effect waves-light draw" *ngIf="drawing" (click)="CancelDraw()"><i class="material-icons">close</i></a>
+    <!-- <a class="btn-floating btn-meduim waves-effect waves-light draw" (click)="GimmieSum()"><i class="material-icons">ctry</i></a> -->
+
 </div>
 
 <!-- <div #gmap class="gmap"></div>

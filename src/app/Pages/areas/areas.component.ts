@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PubSubService } from 'src/app/Services/pub-sub.service';
 import { Router } from '@angular/router';
 import { NavigationService } from 'src/app/Services/navigation.service';
+import { AreaService } from 'src/app/Services/area.service';
 
 @Component({
   selector: 'app-areas',
@@ -10,7 +11,7 @@ import { NavigationService } from 'src/app/Services/navigation.service';
 })
 export class AreasComponent implements OnInit {
 
-  constructor(private nav: NavigationService) { }
+  constructor(private nav: NavigationService, private areaService: AreaService) { }
 
   ngOnInit() {
   }

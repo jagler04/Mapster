@@ -1,0 +1,10 @@
+<div mat-dialog-content>
+    <h3 mat-dialog-title>{{Text}}</h3>
+    <mat-form-field>
+        <input matInput [(ngModel)]="entryValue">
+    </mat-form-field>
+</div>
+<div mat-dialog-actions>    
+    <a class="waves-effect waves-green btn-flat" (click)="Cancel()">Cancel</a>
+    <a class="waves-effect waves-green btn" (click)="Save()">Ok</a>
+</div>

@@ -1,1 +1,4 @@
 <a class="btn-floating btn-meduim waves-effect waves-light" (click)="GoToAdd()"><i class="material-icons">add</i></a>
+<div *ngFor="let a of areaService.Areas; let i = index">
+    <h1>{{a.AreaName}}</h1>
+</div>

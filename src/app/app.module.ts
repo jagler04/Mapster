@@ -10,11 +10,14 @@ import { HttpIntercept } from './http-intercept';
 import { LoginComponent } from './Pages/login/login.component';
 import { HomeComponent } from './Pages/home/home.component';
 import {MatDialogModule} from '@angular/material/dialog';
-import { MatCardModule} from '@angular/material';
+import { MatCardModule, MatFormFieldModule, MatInputModule} from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AreasComponent } from './Pages/areas/areas.component';
 import { AddAreaComponent } from './Pages/add-area/add-area.component';
 import { AgmCoreModule } from '@agm/core';
+import { EntryDialogComponent } from './Popups/entry-dialog/entry-dialog.component';
+import { FormsModule } from '@angular/forms';
+import { AddMeasurementTypesComponent } from './Pages/add-measurement-types/add-measurement-types.component';
 
 
 @NgModule({
@@ -24,7 +27,9 @@ import { AgmCoreModule } from '@agm/core';
     LoginComponent,
     HomeComponent,
     AreasComponent,
-    AddAreaComponent
+    AddAreaComponent,
+    EntryDialogComponent,
+    AddMeasurementTypesComponent
   ],
   imports: [
     BrowserModule,
@@ -32,6 +37,9 @@ import { AgmCoreModule } from '@agm/core';
     MatDialogModule,
     BrowserAnimationsModule,
     MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyCU2867Rocotglq5fwvzEQnOJI6GqXCmSU',
       libraries: ['places', 'drawing', 'geometry']
@@ -44,7 +52,8 @@ import { AgmCoreModule } from '@agm/core';
   ],
   bootstrap: [AppComponent],
   entryComponents:[
-    LoginComponent
+    LoginComponent,
+    EntryDialogComponent
   ]
 })
 export class AppModule { }

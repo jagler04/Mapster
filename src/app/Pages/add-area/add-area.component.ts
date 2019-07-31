@@ -2,6 +2,10 @@ import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core'
 import { MapsAPILoader, LatLngLiteral } from '@agm/core';
 import { PubSubService } from 'src/app/Services/pub-sub.service';
 import { NavigationService } from 'src/app/Services/navigation.service';
+import { MatDialog } from '@angular/material';
+import { EntryDialogComponent } from 'src/app/Popups/entry-dialog/entry-dialog.component';
+import { AreaService } from 'src/app/Services/area.service';
+import { MeasurementTypeService } from 'src/app/Services/measurement-type.service';
 //import { } from '@types/googlemaps';
 
 @Component({
@@ -25,9 +29,11 @@ export class AddAreaComponent implements OnInit {
   drawing: boolean = false;
   public drawnOverlay: any;
   hasPolygon: boolean = false;
+  areaName: string = "";
 
   constructor(private mapsAPILoader: MapsAPILoader, private ngZone: NgZone, private pubsub: PubSubService,
-    private nav: NavigationService) { }
+    private nav: NavigationService, public dialog: MatDialog, private areaService: AreaService,
+    private measurementTypeService: MeasurementTypeService) { }
 
   ngOnInit() {
     this.pubsub.$pub("Add Area Page Active");
@@ -89,6 +95,7 @@ export class AddAreaComponent implements OnInit {
     this.drawing = false;
     this.markers = [];
   }
+  private dialogRef;
   SaveDraw(){
     this.paths = [];
     this.markers.forEach(m =>{
@@ -99,6 +106,29 @@ export class AddAreaComponent implements OnInit {
     });
     this.markers = [];
     this.drawing = false;
+    console.log("Still hitting");
+    this.dialogRef = this.dialog.open(EntryDialogComponent, {
+      data: {Text: "Enter an area name"}
+    });
+
+    this.dialogRef.afterClosed().subscribe(result => {
+      if(result !== undefined){
+        this.areaName = result;
+        this.FinalizeArea();
+      }
+    });
+  }
+  FinalizeArea(){
+    console.log(this.paths);
+    console.log(this.areaName);
+    this.areaService.CreateNewArea(this.paths, this.areaName);
+    if(this.measurementTypeService.MeasurementTypes.length > 0){
+      this.GoBack();
+    }
+    else{
+      this.pubsub.$pub("Add Area Page Deactivated");
+      this.nav.Push("AddMeasurementTypes");
+    }
   }
   GoBack() {
     this.pubsub.$pub("Add Area Page Deactivated");

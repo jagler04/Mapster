@@ -4,6 +4,7 @@ import { HomeComponent } from './Pages/home/home.component';
 import { LoginComponent } from './Pages/login/login.component';
 import { AreasComponent } from './Pages/areas/areas.component';
 import { AddAreaComponent } from './Pages/add-area/add-area.component';
+import { AddMeasurementTypesComponent } from './Pages/add-measurement-types/add-measurement-types.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -12,7 +13,8 @@ const routes: Routes = [
   { path:'Areas', component: AreasComponent },
   { path:'areas', component: AreasComponent },
   { path: "AddArea", component: AddAreaComponent },
-  { path: "addarea", component: AddAreaComponent }
+  { path: "addarea", component: AddAreaComponent },
+  { path: "AddMeasurementTypes", component: AddMeasurementTypesComponent }
 ];
 
 @NgModule({

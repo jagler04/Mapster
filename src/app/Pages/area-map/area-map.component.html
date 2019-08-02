@@ -1,0 +1,6 @@
+<div class="map">
+    <agm-map class="gmap" [latitude]="latitude" [longitude]="longitude" [zoom]="zoom" (mapClick)="mapClicked($event)"
+        [clickableIcons]="false" [streetViewControl]="false" [zoomControl]="false">
+        <agm-polygon [paths]="paths" [strokeColor]="'#5DAA68'"></agm-polygon>
+    </agm-map>
+</div>

@@ -14,16 +14,22 @@ export class NavigationService {
     //this.router.events.subscribe(this.RouterEvents);
   }
 
-  public Push(page: string) {
+  public Push(page: string, param: string = null) {
     console.log("page pushed: " + page);
+    this.CurrentPage = page.replace(/([A-Z])/g, ' $1').trim();
     if(this.pages.length == 0){
       this.pages = [page];
     }
     else{
       this.pages.push(page);
     }
-
-    this.router.navigateByUrl("/" + page);
+    if(param !== null){
+      this.router.navigate(["/" + page, param])
+    }
+    else{
+      this.router.navigateByUrl("/" + page);
+    }
+    
   }
   public Pop(){
     if(this.pages.length > 0){

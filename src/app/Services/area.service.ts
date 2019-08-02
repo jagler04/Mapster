@@ -18,11 +18,16 @@ export class AreaService {
        this.Areas.push( {
          id: (pos + 1).toString(),
         AreaName: "Area " + pos,
-        Points: []
+        Points: [
+          {Position: 0, Latitude: 41.037705631717294, Longitude: -81.47310225399781},
+          {Position: 1, Latitude: 41.03051908036947, Longitude: -81.47267310055543},
+          {Position: 2, Latitude: 41.030713321802, Longitude: -81.46336047085572}
+        ]
       })
       pos ++;
      }
    }
+
   public CreateNewArea(path: Array<LatLngLiteral>, areaName: string){
     var newArea = {
       id: (this.Areas.length + 1).toString(),
@@ -43,8 +48,8 @@ export class AreaService {
     this.pubsub.$pub("Areas Updates", this.Areas);
   }
   public UpdateAreaName(area: AreaModel, newName: string){
-    var index = this.Areas.findIndex(a => a.id === area.id);
-    this.Areas[index].AreaName = newName;
+    var area = this.Areas.find(a => {if(a.id === area.id) return true;});
+    area.AreaName = newName;
   }
 }
 

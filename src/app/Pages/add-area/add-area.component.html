@@ -11,7 +11,7 @@
 
 <div class="map">
     <agm-map class="gmap" [latitude]="latitude" [longitude]="longitude" [zoom]="zoom" (mapClick)="mapClicked($event)"
-        [clickableIcons]="false">
+        [clickableIcons]="false" [streetViewControl]="false" [zoomControl]="false">
         <agm-marker [latitude]="latitude" [longitude]="longitude" >
             <agm-info-window>
                 <strong>You are here</strong>

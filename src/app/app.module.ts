@@ -20,6 +20,8 @@ import { FormsModule } from '@angular/forms';
 import { MeasurementTypesComponent } from './Pages/measurement-types/measurement-types.component';
 import { AddEditMeasurementTypeDialogComponent } from './Popups/add-edit-measurement-type-dialog/add-edit-measurement-type-dialog.component';
 import { SelectionDialogComponent } from './Popups/selection-dialog/selection-dialog.component';
+import { AreaMeasurementsComponent } from './Pages/area-measurements/area-measurements.component';
+import { AreaMapComponent } from './Pages/area-map/area-map.component';
 
 
 @NgModule({
@@ -33,7 +35,9 @@ import { SelectionDialogComponent } from './Popups/selection-dialog/selection-di
     EntryDialogComponent,
     MeasurementTypesComponent,
     AddEditMeasurementTypeDialogComponent,
-    SelectionDialogComponent
+    SelectionDialogComponent,
+    AreaMeasurementsComponent,
+    AreaMapComponent
   ],
   imports: [
     BrowserModule,

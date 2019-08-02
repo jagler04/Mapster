@@ -7,6 +7,7 @@
       <li><a (click)="GoToPage('AddMeasurementTypes')" >Measurement Types</a></li>
     </ul>
     <a href="#" data-target="slide-out" class="sidenav-trigger button-collapse left"><i class="material-icons white-text">menu</i></a>
+    <a class="brand-logoe center">{{nav.CurrentPage}}</a>
   </div>
 </nav>
 <ul id="slide-out" class="sidenav" *ngIf="IsAuthenticated">

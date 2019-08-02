@@ -1,0 +1,16 @@
+<div *ngFor="let mt of measurementTypes">
+    <div  class="measurementItem">
+        <span><b>{{mt.measurementName}}</b></span>
+        <a class="btn-flat AlignRight" (click)="ShowHideMeasurements(mt)" *ngIf="mt.isOpen"><i class="material-icons">arrow_drop_down</i></a>
+        <a class="btn-flat AlignRight" (click)="ShowHideMeasurements(mt)" *ngIf="!mt.isOpen"><i class="material-icons">arrow_drop_up</i></a>
+        <a class="btn-small waves-effect waves-light AlignRight" (click)="ShowAdd(mt)"><i class="material-icons">add</i></a>
+    </div>
+
+    <div *ngIf="mt.isOpen">
+        <div *ngFor="let entry of mt.entries">
+            <span><b>Date: </b>{{entry.dateAdded |  date:'short'}}</span>
+            <span><b>Measurement: </b>{{entry.measurment}} {{mt.units}}</span>
+        </div>
+    </div>
+    
+</div>

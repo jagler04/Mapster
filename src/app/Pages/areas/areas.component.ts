@@ -41,12 +41,13 @@ export class AreasComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result =>{
       if(result !== undefined){
+        console.log("User selected: " + result);
         switch(result){
           case("View Map"):
-
+            this.nav.Push("AreaMap", area.id);
             break;
           case("Add Measurement"):
-
+            this.nav.Push("AreaMeasurements", area.id);
             break;
           case("Edit Area Name"):
             this.ShowEdit(area);

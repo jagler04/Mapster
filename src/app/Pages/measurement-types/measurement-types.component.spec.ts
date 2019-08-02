@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddMeasurementTypesComponent } from './add-measurement-types.component';
+import { AddMeasurementTypesComponent } from './measurement-types.component';
 
 describe('AddMeasurementTypesComponent', () => {
   let component: AddMeasurementTypesComponent;

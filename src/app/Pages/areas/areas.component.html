@@ -1,4 +1,7 @@
-<a class="btn-floating btn-meduim waves-effect waves-light" (click)="GoToAdd()"><i class="material-icons">add</i></a>
-<div *ngFor="let a of areaService.Areas; let i = index">
-    <h1>{{a.AreaName}}</h1>
+<a class="btn-floating btn-meduim waves-effect waves-light AddButton" (click)="GoToAdd()"><i class="material-icons">add</i></a>
+<div *ngIf="areaService.Areas.length == 0" class="noAreas">
+    <h4>No Areas</h4>
+</div>
+<div *ngFor="let a of areaService.Areas; let i = index" (click)="ShowSelect(a)" class="areaItem">
+    <span><b>{{a.AreaName}}</b></span>
 </div>

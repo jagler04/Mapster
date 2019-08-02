@@ -8,10 +8,24 @@ import { PubSubService } from './pub-sub.service';
 export class AreaService {
 
   public Areas: Array<AreaModel> = [];
-  constructor(public pubsub: PubSubService) { }
+  constructor(public pubsub: PubSubService) {
+    this.Testing();
+   }
 
+   Testing(){
+     var pos = 0;
+     while (pos < 20){
+       this.Areas.push( {
+         id: (pos + 1).toString(),
+        AreaName: "Area " + pos,
+        Points: []
+      })
+      pos ++;
+     }
+   }
   public CreateNewArea(path: Array<LatLngLiteral>, areaName: string){
     var newArea = {
+      id: (this.Areas.length + 1).toString(),
       AreaName: areaName,
       Points: []
     };
@@ -28,9 +42,14 @@ export class AreaService {
     this.Areas.push(newArea);
     this.pubsub.$pub("Areas Updates", this.Areas);
   }
+  public UpdateAreaName(area: AreaModel, newName: string){
+    var index = this.Areas.findIndex(a => a.id === area.id);
+    this.Areas[index].AreaName = newName;
+  }
 }
 
 export interface AreaModel{
+  id: string,
   AreaName: string;
   Points: Array<AreaPoint>;
 }

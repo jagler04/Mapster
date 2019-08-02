@@ -121,3 +121,24 @@
 	min-width: 1px;
 	min-height: 1px
 }
+app-areas, measurement-types {
+    margin-top:56px;
+    position: absolute;
+    width:100vw;
+}
+.AddButton {
+    bottom: 30px;
+    right: 10px;
+	position: fixed;
+	z-index: 2;
+}
+.areaItem, .measurementItem{
+    height: 50px;
+    border-bottom: black;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    margin: 10px;
+}
+.AlignRight{
+    float: right;
+}

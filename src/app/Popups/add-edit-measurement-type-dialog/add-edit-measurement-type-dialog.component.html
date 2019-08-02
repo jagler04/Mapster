@@ -1,0 +1,19 @@
+<h2 mat-dialog-title>Add Type</h2>
+<div mat-dialog-content>
+    <div>
+        <mat-form-field>
+            <input matInput placeholder="Name" [(ngModel)]="newMeasurementType.measurementName">
+        </mat-form-field>
+    </div>
+    <div>
+        <mat-form-field>
+            <input matInput placeholder="Units" [(ngModel)]="newMeasurementType.units">
+        </mat-form-field>
+    </div>
+
+</div>
+<div mat-dialog-actions>    
+    <a class="waves-effect waves-green btn-flat" (click)="Cancel()">Cancel</a>
+    <a class="waves-effect waves-green btn" *ngIf="newMeasurementType.id !== ''" (click)="Save()">Update</a>
+    <a class="waves-effect waves-green btn" *ngIf="newMeasurementType.id === ''" (click)="Save()">Ok</a>
+</div>

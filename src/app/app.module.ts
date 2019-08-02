@@ -17,7 +17,9 @@ import { AddAreaComponent } from './Pages/add-area/add-area.component';
 import { AgmCoreModule } from '@agm/core';
 import { EntryDialogComponent } from './Popups/entry-dialog/entry-dialog.component';
 import { FormsModule } from '@angular/forms';
-import { AddMeasurementTypesComponent } from './Pages/add-measurement-types/add-measurement-types.component';
+import { MeasurementTypesComponent } from './Pages/measurement-types/measurement-types.component';
+import { AddEditMeasurementTypeDialogComponent } from './Popups/add-edit-measurement-type-dialog/add-edit-measurement-type-dialog.component';
+import { SelectionDialogComponent } from './Popups/selection-dialog/selection-dialog.component';
 
 
 @NgModule({
@@ -29,7 +31,9 @@ import { AddMeasurementTypesComponent } from './Pages/add-measurement-types/add-
     AreasComponent,
     AddAreaComponent,
     EntryDialogComponent,
-    AddMeasurementTypesComponent
+    MeasurementTypesComponent,
+    AddEditMeasurementTypeDialogComponent,
+    SelectionDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -53,7 +57,9 @@ import { AddMeasurementTypesComponent } from './Pages/add-measurement-types/add-
   bootstrap: [AppComponent],
   entryComponents:[
     LoginComponent,
-    EntryDialogComponent
+    EntryDialogComponent,
+    AddEditMeasurementTypeDialogComponent,
+    SelectionDialogComponent
   ]
 })
 export class AppModule { }

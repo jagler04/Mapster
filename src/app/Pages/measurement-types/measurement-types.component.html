@@ -1,0 +1,9 @@
+<a class="btn-floating btn-meduim waves-effect waves-light AddButton" (click)="ShowAdd()"><i class="material-icons">add</i></a>
+<div *ngIf="measurementTypeService.MeasurementTypes.length == 0" class="noMeasurementTypes">
+    <h4>No Measurement Types</h4>
+</div>
+<div *ngFor="let tp of measurementTypeService.MeasurementTypes" class="measurementItem">
+    <span class="name"><b>Name: </b>{{tp.measurementName}}</span>
+    <span class="units"><b>Units: </b>{{tp.units}}</span>
+    <a class="btn-meduim waves-effect waves-light AlignRight" (click)="ShowEdit(tp)"><i class="material-icons">edit</i></a>    
+</div>

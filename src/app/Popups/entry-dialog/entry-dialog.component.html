@@ -6,5 +6,6 @@
 </div>
 <div mat-dialog-actions>    
     <a class="waves-effect waves-green btn-flat" (click)="Cancel()">Cancel</a>
-    <a class="waves-effect waves-green btn" (click)="Save()">Ok</a>
+    <a class="waves-effect waves-green btn" *ngIf="passedValue" (click)="Save()">Update</a>
+    <a class="waves-effect waves-green btn" *ngIf="!passedValue" (click)="Save()">Ok</a>
 </div>

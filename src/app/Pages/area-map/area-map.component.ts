@@ -15,7 +15,7 @@ export class AreaMapComponent implements OnInit {
   longitude: number = 0;
   zoom: number = 15;
 
-  constructor(private areaService: AreaService, private route: ActivatedRoute, private mapsAPILoader: MapsAPILoader) { }
+  constructor(public areaService: AreaService, private route: ActivatedRoute, private mapsAPILoader: MapsAPILoader) { }
 
   ngOnInit() {
     this.route.params.subscribe(params =>{

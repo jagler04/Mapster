@@ -1,0 +1,17 @@
+{
+	"pods": {
+		"StitchSDK": {
+			"type": "pod",
+			"name": "StitchSDK",
+			"version": "~> 5.0.0"
+		},
+		"StitchLocalMongoDBService": {
+			"type": "pod",
+			"name": "StitchLocalMongoDBService",
+			"version": "~> 5.0.0"
+		}
+	},
+	"sources": {},
+	"iosMinVersion": "11.0",
+	"useFrameworks": true
+}

@@ -1,0 +1,117 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "cordova-plugin-add-swift-support",
+        "scope": null,
+        "escapedName": "cordova-plugin-add-swift-support",
+        "name": "cordova-plugin-add-swift-support",
+        "rawSpec": "",
+        "spec": "latest",
+        "type": "tag"
+      },
+      "C:\\Users\\jagler\\Documents\\GitHub\\Mapster\\Mapster"
+    ]
+  ],
+  "_from": "cordova-plugin-add-swift-support@latest",
+  "_hasShrinkwrap": false,
+  "_id": "cordova-plugin-add-swift-support@2.0.2",
+  "_inCache": true,
+  "_location": "/cordova-plugin-add-swift-support",
+  "_nodeVersion": "10.15.0",
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/cordova-plugin-add-swift-support_2.0.2_1554460067209_0.7300802788097087"
+  },
+  "_npmUser": {
+    "name": "alexiskofman",
+    "email": "alexis.kofman@gmail.com"
+  },
+  "_npmVersion": "6.4.1",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "cordova-plugin-add-swift-support",
+    "scope": null,
+    "escapedName": "cordova-plugin-add-swift-support",
+    "name": "cordova-plugin-add-swift-support",
+    "rawSpec": "",
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/cordova-plugin-add-swift-support/-/cordova-plugin-add-swift-support-2.0.2.tgz",
+  "_shasum": "bfa848356f35edc0898403eb510fe407adb40e9f",
+  "_shrinkwrap": null,
+  "_spec": "cordova-plugin-add-swift-support",
+  "_where": "C:\\Users\\jagler\\Documents\\GitHub\\Mapster\\Mapster",
+  "author": {
+    "name": "Alexis Kofman",
+    "email": "alexis.kofman@gmail.com",
+    "url": "http://twitter.com/alexiskofman"
+  },
+  "bugs": {
+    "url": "https://github.com/akofman/cordova-plugin-add-swift-support/issues"
+  },
+  "cordova": {
+    "id": "cordova-plugin-add-swift-support",
+    "platforms": [
+      "ios"
+    ]
+  },
+  "dependencies": {
+    "glob": "^7.1.3",
+    "semver": "^6.0.0",
+    "xcode": "^2.0.0"
+  },
+  "description": "Add Swift support to your iOS plugins",
+  "devDependencies": {
+    "acorn": "^6.1.1",
+    "eslint": "^5.15.3",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-node": "^8.0.1",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0"
+  },
+  "directories": {},
+  "dist": {
+    "integrity": "sha512-K03WDnsD3GT+n7Od3BnS17D8rYnAFZbZjjQJa2r7qW8QLq8+h7hGbFaiF+w5+nUtyAqUNq+HT/d/MdqBGLNzxA==",
+    "shasum": "bfa848356f35edc0898403eb510fe407adb40e9f",
+    "tarball": "https://registry.npmjs.org/cordova-plugin-add-swift-support/-/cordova-plugin-add-swift-support-2.0.2.tgz",
+    "fileCount": 7,
+    "unpackedSize": 22861,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJcpy2kCRA9TVsSAnZWagAAUYYP/2BmZ1Tpq5MBfQhQbN2t\nt0yq8mPLWwi/gOmazRFGyD3lH2atBPG7fDpFUV8Ny4qKOiEsJ/n6iZ82VpVR\nLP5I2jNlSNUOc3HHDF9Fa5o314MYpEjyWHeSiMN7x/yGwDdiunEp5vQbuXfq\ntWMi/bqmrH+oJionxAA8fG3kH+XBczSZj7FrAoAQ/1tsGO4xgBHZfKuf3EJJ\n5egeGSvsOoNy+zeOR8MNEONTJ+xzHfGSPhylqTMeFPc7ntRaSQZOEylKSeGs\nvL4HnF8IXYC10yJ6xMDdNIaGJU0fj3IgUObW2QiQItv5z0kwjbLcdBS4QPSn\nrynN7TFATivnhSLwflfHsEfnCJU7fJh2TAaI0s1sCQHqIh94BSyp1CEFfWGv\nFzR2S4Ef883ID8mvv7Zp9W3u4EY3k3LR9HFlSCCpUnmWIbU1PDetx28y78ND\n2cex6M43ZOrIo4upGBqkPZIVfNrRpPCfOpsuTUl2QfXuLsXePVb3P9azRxt1\nnlpImkWBjvC02TYVNOOY3tc+gRLuy1cd8IqovZ+jef+GfsZNXnYX4Z8gkAKI\nUuqmv0q/7zXJLJ0k2frDsAYO8EIxQiORM4omzGxe7BQniO4inYl3cWF7cgDn\nNNKSQXdBgAWuQ8Vk/UQyHBD4pXNxk2wqEAQY8MuEYq4Hv39UuaRKDDxNP435\nlDTy\r\n=E4dK\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "gitHead": "80289f8654027b4d447ada5ae55fac9dd5ae0e49",
+  "homepage": "https://github.com/akofman/cordova-plugin-add-swift-support",
+  "keywords": [
+    "cordova",
+    "ios",
+    "swift",
+    "swift-support",
+    "ecosystem:cordova",
+    "cordova-ios",
+    "cordova:plugin"
+  ],
+  "license": "Apache-2.0",
+  "maintainers": [
+    {
+      "name": "alexiskofman",
+      "email": "alexis.kofman@gmail.com"
+    }
+  ],
+  "name": "cordova-plugin-add-swift-support",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akofman/cordova-plugin-add-swift-support.git"
+  },
+  "scripts": {
+    "test": "eslint src"
+  },
+  "version": "2.0.2"
+}

@@ -13,7 +13,7 @@ export class NavBarComponent implements OnInit, OnDestroy {
   @ViewChild("areaButton", {static: false})
   btnArea: ElementRef;
   
-  private IsAuthenticated: boolean = true;
+  public IsAuthenticated: boolean = true;
   
   constructor(private pubsub: PubSubService, private authService: AuthenticationService,
     private nav: NavigationService, private renderer: Renderer2) { }

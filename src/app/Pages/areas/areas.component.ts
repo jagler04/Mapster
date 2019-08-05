@@ -14,7 +14,7 @@ import { SelectionDialogComponent } from 'src/app/Popups/selection-dialog/select
 })
 export class AreasComponent implements OnInit {
 
-  constructor(private nav: NavigationService, private areaService: AreaService, private dialog: MatDialog) { }
+  constructor(private nav: NavigationService, public areaService: AreaService, private dialog: MatDialog) { }
 
   ngOnInit() {
   }

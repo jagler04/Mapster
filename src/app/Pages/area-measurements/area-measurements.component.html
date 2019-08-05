@@ -8,8 +8,8 @@
 
     <div *ngIf="mt.isOpen">
         <div *ngFor="let entry of mt.entries">
-            <span><b>Date: </b>{{entry.dateAdded |  date:'short'}}</span>
-            <span><b>Measurement: </b>{{entry.measurment}} {{mt.units}}</span>
+            <span class="date"><b>Date: </b>{{entry.dateAdded |  date:'short'}}</span>
+            <span class="measurement"><b>Measurement: </b>{{entry.measurement}} {{mt.units}}</span>
         </div>
     </div>
     

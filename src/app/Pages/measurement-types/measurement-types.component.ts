@@ -11,7 +11,7 @@ import { AddEditMeasurementTypeDialogComponent } from 'src/app/Popups/add-edit-m
 })
 export class MeasurementTypesComponent implements OnInit {
 
-  constructor(private dialog: MatDialog, private measurementTypeService: MeasurementTypeService, private pubsub: PubSubService) { }
+  constructor(private dialog: MatDialog, public measurementTypeService: MeasurementTypeService, private pubsub: PubSubService) { }
 
   ngOnInit() {
   }

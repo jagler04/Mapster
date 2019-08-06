@@ -9,8 +9,8 @@ import { PubSubService } from './Services/pub-sub.service';
 import { HttpIntercept } from './http-intercept';
 import { LoginComponent } from './Pages/login/login.component';
 import { HomeComponent } from './Pages/home/home.component';
-import {MatDialogModule} from '@angular/material/dialog';
-import { MatCardModule, MatFormFieldModule, MatInputModule} from '@angular/material';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatCardModule, MatFormFieldModule, MatInputModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AreasComponent } from './Pages/areas/areas.component';
 import { AddAreaComponent } from './Pages/add-area/add-area.component';
@@ -22,7 +22,9 @@ import { AddEditMeasurementTypeDialogComponent } from './Popups/add-edit-measure
 import { SelectionDialogComponent } from './Popups/selection-dialog/selection-dialog.component';
 import { AreaMeasurementsComponent } from './Pages/area-measurements/area-measurements.component';
 import { AreaMapComponent } from './Pages/area-map/area-map.component';
+import { Client, API_BASE_URL } from './Services/mapster.client'
 
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -56,10 +58,12 @@ import { AreaMapComponent } from './Pages/area-map/area-map.component';
   providers: [
     AuthenticationService,
     PubSubService,
+    Client,
+    { provide: API_BASE_URL, useValue: "https://localhost:44325" },
     HttpIntercept
   ],
   bootstrap: [AppComponent],
-  entryComponents:[
+  entryComponents: [
     LoginComponent,
     EntryDialogComponent,
     AddEditMeasurementTypeDialogComponent,

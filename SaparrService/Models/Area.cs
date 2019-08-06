@@ -12,10 +12,10 @@ namespace Mapster.Models
     [BsonRepresentation(BsonType.ObjectId)]
     public string owner { get; set; }
     public string areaname { get; set; }
-    public List<Points> points { get; set; }
+    public List<Point> points { get; set; }
   }
 
-  public class Points
+  public class Point
   {
     public int position { get; set; }
     public Location loc { get; set; }

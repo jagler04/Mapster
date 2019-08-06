@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { LatLngLiteral } from '@agm/core';
 import { PubSubService } from './pub-sub.service';
-import { Area, User, Points, Location, Client } from './mapster.client';
+import { Area, User, Point, Location, Client } from './mapster.client';
 
 @Injectable({
   providedIn: 'root'
@@ -52,7 +52,7 @@ export class AreaService {
     })
     var pos = 0;
     while (pos < path.length) {
-      newAreaDB.points.push(new Points({
+      newAreaDB.points.push(new Point({
         position: pos,
         loc: new Location({
           lat: path[pos].lat,

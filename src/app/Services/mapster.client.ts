@@ -9,10 +9,10 @@
 
 import { mergeMap as _observableMergeMap, catchError as _observableCatch } from 'rxjs/operators';
 import { Observable, throwError as _observableThrow, of as _observableOf } from 'rxjs';
-import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
+import { Injectable, Inject, Optional, OpaqueToken } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angular/common/http';
 
-export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
+export const API_BASE_URL = new OpaqueToken('API_BASE_URL');
 
 @Injectable()
 export class Client {
@@ -32,7 +32,7 @@ export class Client {
         let url_ = this.baseUrl + "/api/Area/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -59,8 +59,8 @@ export class Client {
 
     protected processGetArea(response: HttpResponseBase): Observable<Area> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -80,7 +80,7 @@ export class Client {
     }
 
     /**
-     * @param body (optional)
+     * @param body (optional) 
      * @return Success
      */
     area(body: Area | undefined): Observable<Area> {
@@ -94,12 +94,10 @@ export class Client {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json-patch+json",
+                "Content-Type": "application/json-patch+json", 
                 "Accept": "text/plain"
             })
         };
-        console.log(url_)
-        console.log(options_)
 
         return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
             return this.processArea(response_);
@@ -117,8 +115,8 @@ export class Client {
 
     protected processArea(response: HttpResponseBase): Observable<Area> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -138,7 +136,7 @@ export class Client {
     }
 
     /**
-     * @param body (optional)
+     * @param body (optional) 
      * @return Success
      */
     login(body: User | undefined): Observable<void> {
@@ -152,7 +150,7 @@ export class Client {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json-patch+json",
+                "Content-Type": "application/json-patch+json", 
             })
         };
 
@@ -172,8 +170,8 @@ export class Client {
 
     protected processLogin(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -220,8 +218,8 @@ export class Client {
 
     protected processUsersAll(response: HttpResponseBase): Observable<User[]> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -245,7 +243,7 @@ export class Client {
     }
 
     /**
-     * @param body (optional)
+     * @param body (optional) 
      * @return Success
      */
     users(body: User | undefined): Observable<User> {
@@ -259,7 +257,7 @@ export class Client {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json-patch+json",
+                "Content-Type": "application/json-patch+json", 
                 "Accept": "text/plain"
             })
         };
@@ -280,8 +278,8 @@ export class Client {
 
     protected processUsers(response: HttpResponseBase): Observable<User> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -307,7 +305,7 @@ export class Client {
         let url_ = this.baseUrl + "/api/Users/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -334,8 +332,8 @@ export class Client {
 
     protected processGetUser(response: HttpResponseBase): Observable<User> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -355,14 +353,14 @@ export class Client {
     }
 
     /**
-     * @param body (optional)
+     * @param body (optional) 
      * @return Success
      */
     users2(id: number, body: string | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/Users/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(body);
@@ -372,7 +370,7 @@ export class Client {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json-patch+json",
+                "Content-Type": "application/json-patch+json", 
             })
         };
 
@@ -392,8 +390,8 @@ export class Client {
 
     protected processUsers2(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -416,7 +414,7 @@ export class Client {
         let url_ = this.baseUrl + "/api/Users/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -442,8 +440,8 @@ export class Client {
 
     protected processUsers3(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -490,8 +488,8 @@ export class Client {
 
     protected processValuesAll(response: HttpResponseBase): Observable<string[]> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -515,7 +513,7 @@ export class Client {
     }
 
     /**
-     * @param body (optional)
+     * @param body (optional) 
      * @return Success
      */
     values(body: string | undefined): Observable<void> {
@@ -529,7 +527,7 @@ export class Client {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json-patch+json",
+                "Content-Type": "application/json-patch+json", 
             })
         };
 
@@ -549,8 +547,8 @@ export class Client {
 
     protected processValues(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -573,7 +571,7 @@ export class Client {
         let url_ = this.baseUrl + "/api/Values/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -600,8 +598,8 @@ export class Client {
 
     protected processValues2(response: HttpResponseBase): Observable<string> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -621,14 +619,14 @@ export class Client {
     }
 
     /**
-     * @param body (optional)
+     * @param body (optional) 
      * @return Success
      */
     values3(id: number, body: string | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/Values/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(body);
@@ -638,7 +636,7 @@ export class Client {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json-patch+json",
+                "Content-Type": "application/json-patch+json", 
             })
         };
 
@@ -658,8 +656,8 @@ export class Client {
 
     protected processValues3(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -682,7 +680,7 @@ export class Client {
         let url_ = this.baseUrl + "/api/Values/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -708,8 +706,8 @@ export class Client {
 
     protected processValues4(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -757,7 +755,7 @@ export class Location implements ILocation {
         data = typeof data === 'object' ? data : {};
         data["lat"] = this.lat;
         data["longitude"] = this.longitude;
-        return data;
+        return data; 
     }
 }
 
@@ -766,11 +764,11 @@ export interface ILocation {
     longitude?: number;
 }
 
-export class Points implements IPoints {
+export class Point implements IPoint {
     position?: number;
     loc?: Location;
 
-    constructor(data?: IPoints) {
+    constructor(data?: IPoint) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -786,9 +784,9 @@ export class Points implements IPoints {
         }
     }
 
-    static fromJS(data: any): Points {
+    static fromJS(data: any): Point {
         data = typeof data === 'object' ? data : {};
-        let result = new Points();
+        let result = new Point();
         result.init(data);
         return result;
     }
@@ -797,11 +795,11 @@ export class Points implements IPoints {
         data = typeof data === 'object' ? data : {};
         data["position"] = this.position;
         data["loc"] = this.loc ? this.loc.toJSON() : <any>undefined;
-        return data;
+        return data; 
     }
 }
 
-export interface IPoints {
+export interface IPoint {
     position?: number;
     loc?: Location;
 }
@@ -810,7 +808,7 @@ export class Area implements IArea {
     id?: string;
     owner?: string;
     areaname?: string;
-    points?: Points[];
+    points?: Point[];
 
     constructor(data?: IArea) {
         if (data) {
@@ -829,7 +827,7 @@ export class Area implements IArea {
             if (Array.isArray(data["points"])) {
                 this.points = [] as any;
                 for (let item of data["points"])
-                    this.points!.push(Points.fromJS(item));
+                    this.points!.push(Point.fromJS(item));
             }
         }
     }
@@ -851,7 +849,7 @@ export class Area implements IArea {
             for (let item of this.points)
                 data["points"].push(item.toJSON());
         }
-        return data;
+        return data; 
     }
 }
 
@@ -859,7 +857,7 @@ export interface IArea {
     id?: string;
     owner?: string;
     areaname?: string;
-    points?: Points[];
+    points?: Point[];
 }
 
 export class User implements IUser {
@@ -905,7 +903,7 @@ export class User implements IUser {
         data["password"] = this.password;
         data["companyname"] = this.companyname;
         data["premium"] = this.premium;
-        return data;
+        return data; 
     }
 }
 
@@ -920,10 +918,10 @@ export interface IUser {
 
 export class ApiException extends Error {
     message: string;
-    status: number;
-    response: string;
+    status: number; 
+    response: string; 
     headers: { [key: string]: any; };
-    result: any;
+    result: any; 
 
     constructor(message: string, status: number, response: string, headers: { [key: string]: any; }, result: any) {
         super();
@@ -955,12 +953,12 @@ function blobToText(blob: any): Observable<string> {
             observer.next("");
             observer.complete();
         } else {
-            let reader = new FileReader();
-            reader.onload = event => {
+            let reader = new FileReader(); 
+            reader.onload = event => { 
                 observer.next((<any>event.target).result);
                 observer.complete();
             };
-            reader.readAsText(blob);
+            reader.readAsText(blob); 
         }
     });
 }

@@ -7,7 +7,29 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<nav>\r\n    <div class=\"nav-wrapper\">\r\n        <a (click)=\"GoBack()\" class=\"button-collapse left inlineBlock\"><i class=\"material-icons white-text\">arrow_back</i></a>\r\n        <div class=\"input-field inlineBlock search\">\r\n            <input id=\"search\" type=\"search\" #search autocorrect=\"off\" autocapitalize=\"off\" spellcheck=\"off\">\r\n            <label class=\"label-icon\" for=\"search\"><i class=\"material-icons\">search</i></label>\r\n            <i class=\"material-icons\">close</i>\r\n        </div>\r\n    </div>\r\n</nav>\r\n\r\n<div class=\"map\">\r\n    <agm-map class=\"gmap\" [latitude]=\"latitude\" [longitude]=\"longitude\" [zoom]=\"zoom\" (mapReady)=\"onMapReady($event)\">\r\n        <agm-marker [latitude]=\"latitude\" [longitude]=\"longitude\"></agm-marker>\r\n    </agm-map>\r\n    <a class=\"btn-floating btn-meduim waves-effect waves-light apply\" *ngIf=\"hasPolygon === true\" (click)=\"SaveDraw()\"><i class=\"material-icons\">check</i></a>\r\n    <a class=\"btn-floating btn-meduim waves-effect waves-light draw\" *ngIf=\"!drawing\" (click)=\"StartDraw()\"><i class=\"material-icons\">edit</i></a>\r\n    <a class=\"btn-floating btn-meduim waves-effect waves-light draw\" *ngIf=\"drawing\" (click)=\"CancelDraw()\"><i class=\"material-icons\">close</i></a>\r\n    <!-- <a class=\"btn-floating btn-meduim waves-effect waves-light draw\" (click)=\"GimmieSum()\"><i class=\"material-icons\">ctry</i></a> -->\r\n\r\n</div>\r\n\r\n<!-- <div #gmap class=\"gmap\"></div>\r\n<div class=\"section google-map\" style=\"height: -webkit-fill-available;\"></div> -->"
+module.exports = "<nav>\r\n    <div class=\"nav-wrapper\">\r\n        <a (click)=\"GoBack()\" class=\"button-collapse left inlineBlock\"><i class=\"material-icons white-text\">arrow_back</i></a>\r\n        <div class=\"input-field inlineBlock search\">\r\n            <input id=\"search\" type=\"search\" #search autocorrect=\"off\" autocapitalize=\"off\" spellcheck=\"off\">\r\n            <label class=\"label-icon\" for=\"search\"><i class=\"material-icons\">search</i></label>\r\n            <i class=\"material-icons\">close</i>\r\n        </div>\r\n    </div>\r\n</nav>\r\n\r\n<div class=\"map\">\r\n    <agm-map class=\"gmap\" [latitude]=\"latitude\" [longitude]=\"longitude\" [zoom]=\"zoom\" (mapClick)=\"mapClicked($event)\"\r\n        [clickableIcons]=\"false\" [streetViewControl]=\"false\" [zoomControl]=\"false\">\r\n        <agm-marker [latitude]=\"latitude\" [longitude]=\"longitude\" >\r\n            <agm-info-window>\r\n                <strong>You are here</strong>\r\n              </agm-info-window>\r\n        </agm-marker>\r\n        <agm-marker *ngFor=\"let m of markers; let i = index\" [latitude]=\"m.lat\" [longitude]=\"m.lng\" [label]=\"m.label\" [markerDraggable]=\"true\"\r\n            (dragEnd)=\"markerDragEnd(i, $event)\" [iconUrl]=\"'../../assets/images/green-dot.png'\">\r\n        </agm-marker>\r\n        <agm-polyline [strokeColor]=\"'#5DAA68'\">\r\n            <agm-polyline-point *ngFor=\"let m of markers; let i = index\" [latitude]=\"m.lat\" [longitude]=\"m.lng\">\r\n\r\n            </agm-polyline-point>\r\n        </agm-polyline>\r\n\r\n        <agm-polygon [paths]=\"paths\" [strokeColor]=\"'#5DAA68'\">\r\n            \r\n        </agm-polygon>\r\n    </agm-map>\r\n    <a class=\"btn-floating btn-meduim waves-effect waves-light apply\" *ngIf=\"markers !== undefined && markers.length >= 3\"\r\n         (click)=\"SaveDraw()\" ><i class=\"material-icons\">check</i></a>\r\n    <a class=\"btn-floating btn-meduim waves-effect waves-light draw\" *ngIf=\"!drawing\" (click)=\"StartDraw()\"><i class=\"material-icons\">edit</i></a>\r\n    <a class=\"btn-floating btn-meduim waves-effect waves-light draw\" *ngIf=\"drawing\" (click)=\"CancelDraw()\"><i class=\"material-icons\">close</i></a>\r\n</div>"
+
+/***/ }),
+
+/***/ "./node_modules/raw-loader/index.js!./src/app/Pages/area-map/area-map.component.html":
+/*!**********************************************************************************!*\
+  !*** ./node_modules/raw-loader!./src/app/Pages/area-map/area-map.component.html ***!
+  \**********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"map\">\r\n    <agm-map class=\"gmap\" [latitude]=\"latitude\" [longitude]=\"longitude\" [zoom]=\"zoom\"\r\n        [clickableIcons]=\"false\" [streetViewControl]=\"false\" [zoomControl]=\"false\">\r\n        <agm-polygon [paths]=\"paths\" [strokeColor]=\"'#5DAA68'\"></agm-polygon>\r\n    </agm-map>\r\n</div>"
+
+/***/ }),
+
+/***/ "./node_modules/raw-loader/index.js!./src/app/Pages/area-measurements/area-measurements.component.html":
+/*!****************************************************************************************************!*\
+  !*** ./node_modules/raw-loader!./src/app/Pages/area-measurements/area-measurements.component.html ***!
+  \****************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div *ngFor=\"let mt of measurementTypes\">\r\n    <div  class=\"measurementItem\">\r\n        <span><b>{{mt.measurementName}}</b></span>\r\n        <a class=\"btn-flat AlignRight\" (click)=\"ShowHideMeasurements(mt)\" *ngIf=\"mt.isOpen\"><i class=\"material-icons\">arrow_drop_down</i></a>\r\n        <a class=\"btn-flat AlignRight\" (click)=\"ShowHideMeasurements(mt)\" *ngIf=\"!mt.isOpen\"><i class=\"material-icons\">arrow_drop_up</i></a>\r\n        <a class=\"btn-small waves-effect waves-light AlignRight\" (click)=\"ShowAdd(mt)\"><i class=\"material-icons\">add</i></a>\r\n    </div>\r\n\r\n    <div *ngIf=\"mt.isOpen\">\r\n        <div *ngFor=\"let entry of mt.entries\">\r\n            <span class=\"date\"><b>Date: </b>{{entry.dateAdded |  date:'short'}}</span>\r\n            <span class=\"measurement\"><b>Measurement: </b>{{entry.measurement}} {{mt.units}}</span>\r\n        </div>\r\n    </div>\r\n    \r\n</div>\r\n"
 
 /***/ }),
 
@@ -18,7 +40,7 @@ module.exports = "<nav>\r\n    <div class=\"nav-wrapper\">\r\n        <a (click)
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<a class=\"btn-floating btn-meduim waves-effect waves-light\" (click)=\"GoToAdd()\"><i class=\"material-icons\">add</i></a>"
+module.exports = "<a class=\"btn-floating btn-meduim waves-effect waves-light AddButton\" (click)=\"GoToAdd()\"><i class=\"material-icons\">add</i></a>\r\n<div *ngIf=\"areaService.Areas.length == 0\" class=\"noAreas\">\r\n    <h4>No Areas</h4>\r\n</div>\r\n<div *ngFor=\"let a of areaService.Areas; let i = index\" (click)=\"ShowSelect(a)\" class=\"areaItem\">\r\n    <span><b>{{a.AreaName}}</b></span>\r\n</div>"
 
 /***/ }),
 
@@ -44,6 +66,50 @@ module.exports = "<div class=\"container\">\r\n  <div class=\"card\">\r\n      <
 
 /***/ }),
 
+/***/ "./node_modules/raw-loader/index.js!./src/app/Pages/measurement-types/measurement-types.component.html":
+/*!****************************************************************************************************!*\
+  !*** ./node_modules/raw-loader!./src/app/Pages/measurement-types/measurement-types.component.html ***!
+  \****************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<a class=\"btn-floating btn-meduim waves-effect waves-light AddButton\" (click)=\"ShowAdd()\"><i class=\"material-icons\">add</i></a>\r\n<div *ngIf=\"measurementTypeService.MeasurementTypes.length == 0\" class=\"noMeasurementTypes\">\r\n    <h4>No Measurement Types</h4>\r\n</div>\r\n<div *ngFor=\"let tp of measurementTypeService.MeasurementTypes\" class=\"measurementItem\">\r\n    <span class=\"name\"><b>Name: </b>{{tp.measurementName}}</span>\r\n    <span class=\"units\"><b>Units: </b>{{tp.units}}</span>\r\n    <a class=\"btn-meduim waves-effect waves-light AlignRight\" (click)=\"ShowEdit(tp)\"><i class=\"material-icons\">edit</i></a>    \r\n</div>"
+
+/***/ }),
+
+/***/ "./node_modules/raw-loader/index.js!./src/app/Popups/add-edit-measurement-type-dialog/add-edit-measurement-type-dialog.component.html":
+/*!***********************************************************************************************************************************!*\
+  !*** ./node_modules/raw-loader!./src/app/Popups/add-edit-measurement-type-dialog/add-edit-measurement-type-dialog.component.html ***!
+  \***********************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<h2 mat-dialog-title>Add Type</h2>\r\n<div mat-dialog-content>\r\n    <div>\r\n        <mat-form-field>\r\n            <input matInput placeholder=\"Name\" [(ngModel)]=\"newMeasurementType.measurementName\">\r\n        </mat-form-field>\r\n    </div>\r\n    <div>\r\n        <mat-form-field>\r\n            <input matInput placeholder=\"Units\" [(ngModel)]=\"newMeasurementType.units\">\r\n        </mat-form-field>\r\n    </div>\r\n\r\n</div>\r\n<div mat-dialog-actions>    \r\n    <a class=\"waves-effect waves-green btn-flat\" (click)=\"Cancel()\">Cancel</a>\r\n    <a class=\"waves-effect waves-green btn\" *ngIf=\"newMeasurementType.id !== ''\" (click)=\"Save()\">Update</a>\r\n    <a class=\"waves-effect waves-green btn\" *ngIf=\"newMeasurementType.id === ''\" (click)=\"Save()\">Ok</a>\r\n</div>"
+
+/***/ }),
+
+/***/ "./node_modules/raw-loader/index.js!./src/app/Popups/entry-dialog/entry-dialog.component.html":
+/*!*******************************************************************************************!*\
+  !*** ./node_modules/raw-loader!./src/app/Popups/entry-dialog/entry-dialog.component.html ***!
+  \*******************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div mat-dialog-content>\r\n    <h3 mat-dialog-title>{{Text}}</h3>\r\n    <mat-form-field>\r\n        <input matInput [(ngModel)]=\"entryValue\">\r\n    </mat-form-field>\r\n</div>\r\n<div mat-dialog-actions>    \r\n    <a class=\"waves-effect waves-green btn-flat\" (click)=\"Cancel()\">Cancel</a>\r\n    <a class=\"waves-effect waves-green btn\" *ngIf=\"passedValue\" (click)=\"Save()\">Update</a>\r\n    <a class=\"waves-effect waves-green btn\" *ngIf=\"!passedValue\" (click)=\"Save()\">Ok</a>\r\n</div>"
+
+/***/ }),
+
+/***/ "./node_modules/raw-loader/index.js!./src/app/Popups/selection-dialog/selection-dialog.component.html":
+/*!***************************************************************************************************!*\
+  !*** ./node_modules/raw-loader!./src/app/Popups/selection-dialog/selection-dialog.component.html ***!
+  \***************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<h5 mat-dialog-header>{{header}}</h5>\r\n<div *ngFor=\"let s of selections\">\r\n    <a class=\"btn-meduim waves-effect waves-light btn-flat\" (click)=\"Select(s)\">{{s}}</a>\r\n</div>"
+
+/***/ }),
+
 /***/ "./node_modules/raw-loader/index.js!./src/app/app.component.html":
 /*!**************************************************************!*\
   !*** ./node_modules/raw-loader!./src/app/app.component.html ***!
@@ -62,7 +128,7 @@ module.exports = "<nav-bar id=\"nvbar\"></nav-bar>\r\n<router-outlet></router-ou
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-solid-transition\" *ngIf=\"IsAuthenticated\" >\r\n  <div class=\"nav-wrapper\">\r\n    <a href=\"horizontal-half.html\" class=\"brand-logo\"><i class=\"icon-diamond\"></i></a>\r\n    <ul id=\"nav-mobile\" class=\"left hide-on-med-and-down\">\r\n      <li><a (click)=\"GoToPage('Areas')\" >Areas</a></li>\r\n    </ul>\r\n    <a href=\"#\" data-target=\"slide-out\" class=\"sidenav-trigger button-collapse left\"><i class=\"material-icons white-text\">menu</i></a>\r\n  </div>\r\n</nav>\r\n<ul id=\"slide-out\" class=\"sidenav\" *ngIf=\"IsAuthenticated\">\r\n  <li><a class=\"waves-effect waves-green\" (click)=\"GoToPage('Areas')\">Areas</a></li>\r\n</ul>\r\n"
+module.exports = "<nav class=\"navbar navbar-solid-transition\" *ngIf=\"IsAuthenticated\" >\r\n  <div class=\"nav-wrapper\">\r\n    <a href=\"horizontal-half.html\" class=\"brand-logo\"><i class=\"icon-diamond\"></i></a>\r\n    <ul id=\"nav-mobile\" class=\"left hide-on-med-and-down\">\r\n        <li><a (click)=\"GoToPage('Home')\" >Home</a></li>\r\n        <li><a (click)=\"GoToPage('Areas')\" >Areas</a></li>\r\n      <li><a (click)=\"GoToPage('AddMeasurementTypes')\" >Measurement Types</a></li>\r\n    </ul>\r\n    <a href=\"#\" data-target=\"slide-out\" class=\"sidenav-trigger button-collapse left\"><i class=\"material-icons white-text\">menu</i></a>\r\n    <a class=\"brand-logoe center\">{{nav.CurrentPage}}</a>\r\n  </div>\r\n</nav>\r\n<ul id=\"slide-out\" class=\"sidenav\" *ngIf=\"IsAuthenticated\">\r\n    <li><a class=\"waves-effect waves-green\" (click)=\"GoToPage('Home')\">Home</a></li>\r\n    <li><a class=\"waves-effect waves-green\" (click)=\"GoToPage('Areas')\">Areas</a></li>\r\n  <li><a class=\"waves-effect waves-green\" (click)=\"GoToPage('AddMeasurementTypes')\">Measurement Types</a></li>\r\n</ul>\r\n"
 
 /***/ }),
 
@@ -115,6 +181,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _agm_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @agm/core */ "./node_modules/@agm/core/index.js");
 /* harmony import */ var src_app_Services_pub_sub_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/Services/pub-sub.service */ "./src/app/Services/pub-sub.service.ts");
 /* harmony import */ var src_app_Services_navigation_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/Services/navigation.service */ "./src/app/Services/navigation.service.ts");
+/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm2015/material.js");
+/* harmony import */ var src_app_Popups_entry_dialog_entry_dialog_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/Popups/entry-dialog/entry-dialog.component */ "./src/app/Popups/entry-dialog/entry-dialog.component.ts");
+/* harmony import */ var src_app_Services_area_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! src/app/Services/area.service */ "./src/app/Services/area.service.ts");
+/* harmony import */ var src_app_Services_measurement_type_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! src/app/Services/measurement-type.service */ "./src/app/Services/measurement-type.service.ts");
+
+
+
+
 
 
 
@@ -122,25 +196,25 @@ __webpack_require__.r(__webpack_exports__);
 
 //import { } from '@types/googlemaps';
 let AddAreaComponent = class AddAreaComponent {
-    constructor(mapsAPILoader, ngZone, pubsub, nav) {
+    constructor(mapsAPILoader, ngZone, pubsub, nav, dialog, areaService, measurementTypeService) {
         this.mapsAPILoader = mapsAPILoader;
         this.ngZone = ngZone;
         this.pubsub = pubsub;
         this.nav = nav;
+        this.dialog = dialog;
+        this.areaService = areaService;
+        this.measurementTypeService = measurementTypeService;
         this.latitude = 51.678418;
         this.longitude = 7.809007;
         this.zoom = 15;
         this.drawing = false;
         this.hasPolygon = false;
+        this.areaName = "";
+        this.markers = [];
+        this.paths = [];
     }
     ngOnInit() {
         this.pubsub.$pub("Add Area Page Active");
-        // var mapProp = {
-        //   center: new google.maps.LatLng(18.5793, 73.8143),
-        //   zoom: 15,
-        //   mapTypeId: google.maps.MapTypeId.ROADMAP
-        // };
-        // this.map = new google.maps.Map(this.gmapElement.nativeElement, mapProp);
         this.setCurrentLocation();
         //load Places Autocomplete
         this.mapsAPILoader.load().then(() => {
@@ -176,75 +250,84 @@ let AddAreaComponent = class AddAreaComponent {
     }
     StartDraw() {
         this.drawing = true;
-        const drawingManager = new google.maps.drawing.DrawingManager({
-            drawingMode: google.maps.drawing.OverlayType.POLYGON,
-            drawingControl: false,
-            drawingControlOptions: {
-                position: google.maps.ControlPosition.RIGHT_CENTER,
-                drawingModes: [google.maps.drawing.OverlayType.POLYGON]
-            },
-            polygonOptions: {
-                strokeColor: '#5DAA68',
-                strokeOpacity: 0.8,
-                strokeWeight: 3,
-                editable: true,
-                clickable: true
-            }
-        });
-        drawingManager.setMap(this.map);
-        this.drawingManager = drawingManager;
-        var googleMap = this.map;
-        google.maps.event.addListener(drawingManager, "polygoncomplete", this.PolygonComplete);
-        google.maps.event.addListener(drawingManager, 'overlaycomplete', this.OverlayComplete);
-    }
-    PolygonComplete(poly) {
-        console.log(poly);
-        if (!this.hasPolygon) {
-            this.hasPolygon = true;
-        }
-        this.drawnPolygon = poly;
-    }
-    OverlayComplete(event) {
-        if (event.type === google.maps.drawing.OverlayType.POLYGON) {
-            this.drawnOverlay = event.overlay;
+        if (this.paths.length > 0) {
+            this.paths.forEach(p => {
+                this.markers.push({
+                    lat: p.lat,
+                    lng: p.lng,
+                    draggable: true
+                });
+            });
+            this.paths = [];
         }
     }
     CancelDraw() {
         this.drawing = false;
-        this.hasPolygon = false;
-        if (this.drawingManager.drawnOverlay !== undefined) {
-            this.drawingManager.drawnOverlay.setMap(null);
-            this.drawingManager.drawnOverlay = undefined;
-            this.drawingManager.drawnPolygon = undefined;
-        }
-        this.drawingManager.setMap(null);
-        if (this.drawingManager.drawnPolygon !== undefined) {
-            this.drawingManager.drawnPolygon.setMap(null);
-            this.drawingManager.drawnPolygon.setEditable(false);
-            this.drawingManager.drawnPolygon = undefined;
-        }
+        this.markers = [];
     }
     SaveDraw() {
+        this.paths = [];
+        this.markers.forEach(m => {
+            this.paths.push({
+                lat: m.lat,
+                lng: m.lng
+            });
+        });
+        this.markers = [];
+        this.drawing = false;
+        console.log("Still hitting");
+        this.dialogRef = this.dialog.open(src_app_Popups_entry_dialog_entry_dialog_component__WEBPACK_IMPORTED_MODULE_6__["EntryDialogComponent"], {
+            data: { Text: "Enter an area name" }
+        });
+        this.dialogRef.afterClosed().subscribe(result => {
+            if (result !== undefined) {
+                this.areaName = result;
+                this.FinalizeArea();
+            }
+        });
+    }
+    FinalizeArea() {
+        console.log(this.paths);
+        console.log(this.areaName);
+        this.areaService.CreateNewArea(this.paths, this.areaName);
+        if (this.measurementTypeService.MeasurementTypes.length > 0) {
+            this.GoBack();
+        }
+        else {
+            this.pubsub.$pub("Add Area Page Deactivated");
+            this.nav.Push("AddMeasurementTypes");
+        }
     }
     GoBack() {
         this.pubsub.$pub("Add Area Page Deactivated");
         this.nav.Push("Areas");
     }
-    GimmieSum() {
-        //console.log(this.)
+    mapClicked($event) {
+        if (this.drawing) {
+            this.markers.push({
+                lat: $event.coords.lat,
+                lng: $event.coords.lng,
+                draggable: true
+            });
+        }
     }
-    onMapReady(map) {
-        this.initDrawingManager(map);
-    }
-    initDrawingManager(map) {
-        this.map = map;
+    markerDragEnd(i, $event) {
+        console.log("Marker: " + i + " updated");
+        this.markers[i] = {
+            lat: $event.coords.lat,
+            lng: $event.coords.lng,
+            draggable: true
+        };
     }
 };
 AddAreaComponent.ctorParameters = () => [
     { type: _agm_core__WEBPACK_IMPORTED_MODULE_2__["MapsAPILoader"] },
     { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["NgZone"] },
     { type: src_app_Services_pub_sub_service__WEBPACK_IMPORTED_MODULE_3__["PubSubService"] },
-    { type: src_app_Services_navigation_service__WEBPACK_IMPORTED_MODULE_4__["NavigationService"] }
+    { type: src_app_Services_navigation_service__WEBPACK_IMPORTED_MODULE_4__["NavigationService"] },
+    { type: _angular_material__WEBPACK_IMPORTED_MODULE_5__["MatDialog"] },
+    { type: src_app_Services_area_service__WEBPACK_IMPORTED_MODULE_7__["AreaService"] },
+    { type: src_app_Services_measurement_type_service__WEBPACK_IMPORTED_MODULE_8__["MeasurementTypeService"] }
 ];
 tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('search', { static: true }),
@@ -257,8 +340,236 @@ AddAreaComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         styles: [__webpack_require__(/*! ./add-area.component.scss */ "./src/app/Pages/add-area/add-area.component.scss")]
     }),
     tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_agm_core__WEBPACK_IMPORTED_MODULE_2__["MapsAPILoader"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["NgZone"], src_app_Services_pub_sub_service__WEBPACK_IMPORTED_MODULE_3__["PubSubService"],
-        src_app_Services_navigation_service__WEBPACK_IMPORTED_MODULE_4__["NavigationService"]])
+        src_app_Services_navigation_service__WEBPACK_IMPORTED_MODULE_4__["NavigationService"], _angular_material__WEBPACK_IMPORTED_MODULE_5__["MatDialog"], src_app_Services_area_service__WEBPACK_IMPORTED_MODULE_7__["AreaService"],
+        src_app_Services_measurement_type_service__WEBPACK_IMPORTED_MODULE_8__["MeasurementTypeService"]])
 ], AddAreaComponent);
+
+
+
+/***/ }),
+
+/***/ "./src/app/Pages/area-map/area-map.component.scss":
+/*!********************************************************!*\
+  !*** ./src/app/Pages/area-map/area-map.component.scss ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ".gmap {\n  height: -webkit-fill-available;\n}\n\n.map {\n  position: fixed;\n  top: 0;\n  width: 100vw;\n  height: 100vh;\n  z-index: -1;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvUGFnZXMvYXJlYS1tYXAvQzpcXFVzZXJzXFxjemFyYW1vXFxQcm9qZWN0c1xcTWFwc3Rlci9zcmNcXGFwcFxcUGFnZXNcXGFyZWEtbWFwXFxhcmVhLW1hcC5jb21wb25lbnQuc2NzcyIsInNyYy9hcHAvUGFnZXMvYXJlYS1tYXAvYXJlYS1tYXAuY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDSSw4QkFBQTtBQ0NKOztBRENBO0VBQ0ksZUFBQTtFQUNBLE1BQUE7RUFDQSxZQUFBO0VBQ0EsYUFBQTtFQUNBLFdBQUE7QUNFSiIsImZpbGUiOiJzcmMvYXBwL1BhZ2VzL2FyZWEtbWFwL2FyZWEtbWFwLmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLmdtYXB7XHJcbiAgICBoZWlnaHQ6IC13ZWJraXQtZmlsbC1hdmFpbGFibGU7XHJcbn1cclxuLm1hcHtcclxuICAgIHBvc2l0aW9uOiBmaXhlZDtcclxuICAgIHRvcDogMDtcclxuICAgIHdpZHRoOiAxMDB2dztcclxuICAgIGhlaWdodDogMTAwdmg7XHJcbiAgICB6LWluZGV4OiAtMTtcclxufSIsIi5nbWFwIHtcbiAgaGVpZ2h0OiAtd2Via2l0LWZpbGwtYXZhaWxhYmxlO1xufVxuXG4ubWFwIHtcbiAgcG9zaXRpb246IGZpeGVkO1xuICB0b3A6IDA7XG4gIHdpZHRoOiAxMDB2dztcbiAgaGVpZ2h0OiAxMDB2aDtcbiAgei1pbmRleDogLTE7XG59Il19 */"
+
+/***/ }),
+
+/***/ "./src/app/Pages/area-map/area-map.component.ts":
+/*!******************************************************!*\
+  !*** ./src/app/Pages/area-map/area-map.component.ts ***!
+  \******************************************************/
+/*! exports provided: AreaMapComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AreaMapComponent", function() { return AreaMapComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony import */ var src_app_Services_area_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/Services/area.service */ "./src/app/Services/area.service.ts");
+/* harmony import */ var _agm_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @agm/core */ "./node_modules/@agm/core/index.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
+
+
+
+
+
+let AreaMapComponent = class AreaMapComponent {
+    constructor(areaService, route, mapsAPILoader) {
+        this.areaService = areaService;
+        this.route = route;
+        this.mapsAPILoader = mapsAPILoader;
+        this.paths = [];
+        this.latitude = 0;
+        this.longitude = 0;
+        this.zoom = 15;
+    }
+    ngOnInit() {
+        this.route.params.subscribe(params => {
+            if (params !== undefined) {
+                var id = params["id"];
+                var area = this.areaService.Areas.find(a => { if (a.id === params["id"])
+                    return true; });
+                if (area !== undefined) {
+                    var maxLat = area.Points[0].Latitude;
+                    var minLat = area.Points[0].Latitude;
+                    var maxLon = area.Points[0].Longitude;
+                    var minLon = area.Points[0].Longitude;
+                    var points = [];
+                    area.Points.forEach(p => {
+                        if (maxLat < p.Latitude) {
+                            maxLat = p.Latitude;
+                        }
+                        if (minLat > p.Latitude) {
+                            minLat = p.Latitude;
+                        }
+                        if (maxLon < p.Longitude) {
+                            maxLon = p.Longitude;
+                        }
+                        if (minLon > p.Longitude) {
+                            minLon = p.Longitude;
+                        }
+                        points.push({
+                            lat: p.Latitude,
+                            lng: p.Longitude
+                        });
+                    });
+                    console.log(points);
+                    this.latitude = maxLat - ((maxLat - minLat) / 2);
+                    this.longitude = maxLon - ((maxLon - minLon) / 2);
+                    console.log("Latitude: " + this.latitude + " Longitude: " + this.longitude);
+                    this.paths = points;
+                }
+            }
+        });
+    }
+    setCurrentLocation() {
+        if ('geolocation' in navigator) {
+            navigator.geolocation.getCurrentPosition((position) => {
+                this.latitude = position.coords.latitude;
+                this.longitude = position.coords.longitude;
+                this.zoom = 15;
+            });
+        }
+    }
+};
+AreaMapComponent.ctorParameters = () => [
+    { type: src_app_Services_area_service__WEBPACK_IMPORTED_MODULE_2__["AreaService"] },
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_4__["ActivatedRoute"] },
+    { type: _agm_core__WEBPACK_IMPORTED_MODULE_3__["MapsAPILoader"] }
+];
+AreaMapComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+        selector: 'area-map',
+        template: __webpack_require__(/*! raw-loader!./area-map.component.html */ "./node_modules/raw-loader/index.js!./src/app/Pages/area-map/area-map.component.html"),
+        styles: [__webpack_require__(/*! ./area-map.component.scss */ "./src/app/Pages/area-map/area-map.component.scss")]
+    }),
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [src_app_Services_area_service__WEBPACK_IMPORTED_MODULE_2__["AreaService"], _angular_router__WEBPACK_IMPORTED_MODULE_4__["ActivatedRoute"], _agm_core__WEBPACK_IMPORTED_MODULE_3__["MapsAPILoader"]])
+], AreaMapComponent);
+
+
+
+/***/ }),
+
+/***/ "./src/app/Pages/area-measurements/area-measurements.component.scss":
+/*!**************************************************************************!*\
+  !*** ./src/app/Pages/area-measurements/area-measurements.component.scss ***!
+  \**************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "span.measurement {\n  margin-right: 10px;\n  margin-left: 5vw;\n}\n\nspan.date {\n  margin-left: 10px;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvUGFnZXMvYXJlYS1tZWFzdXJlbWVudHMvQzpcXFVzZXJzXFxjemFyYW1vXFxQcm9qZWN0c1xcTWFwc3Rlci9zcmNcXGFwcFxcUGFnZXNcXGFyZWEtbWVhc3VyZW1lbnRzXFxhcmVhLW1lYXN1cmVtZW50cy5jb21wb25lbnQuc2NzcyIsInNyYy9hcHAvUGFnZXMvYXJlYS1tZWFzdXJlbWVudHMvYXJlYS1tZWFzdXJlbWVudHMuY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDSSxrQkFBQTtFQUNBLGdCQUFBO0FDQ0o7O0FEQ0E7RUFDSSxpQkFBQTtBQ0VKIiwiZmlsZSI6InNyYy9hcHAvUGFnZXMvYXJlYS1tZWFzdXJlbWVudHMvYXJlYS1tZWFzdXJlbWVudHMuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyJzcGFuLm1lYXN1cmVtZW50IHtcclxuICAgIG1hcmdpbi1yaWdodDogMTBweDtcclxuICAgIG1hcmdpbi1sZWZ0OiA1dnc7XHJcbn1cclxuc3Bhbi5kYXRlIHtcclxuICAgIG1hcmdpbi1sZWZ0OiAxMHB4O1xyXG59Iiwic3Bhbi5tZWFzdXJlbWVudCB7XG4gIG1hcmdpbi1yaWdodDogMTBweDtcbiAgbWFyZ2luLWxlZnQ6IDV2dztcbn1cblxuc3Bhbi5kYXRlIHtcbiAgbWFyZ2luLWxlZnQ6IDEwcHg7XG59Il19 */"
+
+/***/ }),
+
+/***/ "./src/app/Pages/area-measurements/area-measurements.component.ts":
+/*!************************************************************************!*\
+  !*** ./src/app/Pages/area-measurements/area-measurements.component.ts ***!
+  \************************************************************************/
+/*! exports provided: AreaMeasurementsComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AreaMeasurementsComponent", function() { return AreaMeasurementsComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony import */ var src_app_Services_measurement_type_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/Services/measurement-type.service */ "./src/app/Services/measurement-type.service.ts");
+/* harmony import */ var src_app_Services_measurement_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/Services/measurement.service */ "./src/app/Services/measurement.service.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
+/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm2015/material.js");
+/* harmony import */ var src_app_Popups_entry_dialog_entry_dialog_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/Popups/entry-dialog/entry-dialog.component */ "./src/app/Popups/entry-dialog/entry-dialog.component.ts");
+
+
+
+
+
+
+
+let AreaMeasurementsComponent = class AreaMeasurementsComponent {
+    constructor(measurementTypeService, measurementService, route, dialog) {
+        this.measurementTypeService = measurementTypeService;
+        this.measurementService = measurementService;
+        this.route = route;
+        this.dialog = dialog;
+        this.measurementTypes = [];
+    }
+    ngOnInit() {
+        this.route.params.subscribe(params => {
+            if (params !== undefined) {
+                this.areaId = params["id"];
+            }
+        });
+        this.measurementTypeService.MeasurementTypes.forEach(mt => {
+            this.measurementTypes.push({
+                id: mt.id,
+                measurementName: mt.measurementName,
+                units: mt.units,
+                isOpen: false,
+                entries: []
+            });
+        });
+    }
+    ShowAdd(mt) {
+        var dialogRef = this.dialog.open(src_app_Popups_entry_dialog_entry_dialog_component__WEBPACK_IMPORTED_MODULE_6__["EntryDialogComponent"], { data: { Text: "Enter " + mt.measurementName } });
+        dialogRef.afterClosed().subscribe(result => {
+            if (result !== undefined) {
+                var newEntry = this.measurementService.Add(this.areaId, mt.id, result);
+                var measurementType = this.measurementTypes.find(m => m.id === newEntry.measurementTypeId);
+                if (measurementType !== undefined && (measurementType.isOpen || measurementType.entries.length > 0)) {
+                    measurementType.entries.unshift({
+                        id: newEntry.id,
+                        areaId: this.areaId,
+                        measurementTypeId: newEntry.measurementTypeId,
+                        dateAdded: Date.now(),
+                        measurement: newEntry.measurement
+                    });
+                }
+                //var addedRef = this.measurementService.Add(this.areaId, mt.id, result);
+                // addedRef.subscribe(result => {
+                //   if (result != null){
+                //     var measurementType = this.measurementTypes.find(m => m.id == result.measurementTypeId);
+                //     if (measurementType !== undefined){
+                //       measurementType.entries.push({
+                //         id: result.id,
+                //         areaId: this.areaId,
+                //         measurementTypeId: result.measurementTypeId, 
+                //         dateAdded: Date.now(),
+                //         measurement: result.measurement
+                //       });
+                //     }
+            }
+            //})
+            // }
+        });
+    }
+    ShowHideMeasurements(mt) {
+        mt.isOpen = !mt.isOpen;
+        if (mt.isOpen && mt.entries.length === 0) {
+            mt.entries = this.measurementService.Get(this.areaId, mt.id);
+        }
+    }
+};
+AreaMeasurementsComponent.ctorParameters = () => [
+    { type: src_app_Services_measurement_type_service__WEBPACK_IMPORTED_MODULE_2__["MeasurementTypeService"] },
+    { type: src_app_Services_measurement_service__WEBPACK_IMPORTED_MODULE_3__["MeasurementService"] },
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_4__["ActivatedRoute"] },
+    { type: _angular_material__WEBPACK_IMPORTED_MODULE_5__["MatDialog"] }
+];
+AreaMeasurementsComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+        selector: 'area-measurements',
+        template: __webpack_require__(/*! raw-loader!./area-measurements.component.html */ "./node_modules/raw-loader/index.js!./src/app/Pages/area-measurements/area-measurements.component.html"),
+        styles: [__webpack_require__(/*! ./area-measurements.component.scss */ "./src/app/Pages/area-measurements/area-measurements.component.scss")]
+    }),
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [src_app_Services_measurement_type_service__WEBPACK_IMPORTED_MODULE_2__["MeasurementTypeService"], src_app_Services_measurement_service__WEBPACK_IMPORTED_MODULE_3__["MeasurementService"],
+        _angular_router__WEBPACK_IMPORTED_MODULE_4__["ActivatedRoute"], _angular_material__WEBPACK_IMPORTED_MODULE_5__["MatDialog"]])
+], AreaMeasurementsComponent);
 
 
 
@@ -271,7 +582,7 @@ AddAreaComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL1BhZ2VzL2FyZWFzL2FyZWFzLmNvbXBvbmVudC5zY3NzIn0= */"
+module.exports = ".noAreas {\n  text-align: center;\n}\n\n.areaItem {\n  cursor: pointer;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvUGFnZXMvYXJlYXMvQzpcXFVzZXJzXFxjemFyYW1vXFxQcm9qZWN0c1xcTWFwc3Rlci9zcmNcXGFwcFxcUGFnZXNcXGFyZWFzXFxhcmVhcy5jb21wb25lbnQuc2NzcyIsInNyYy9hcHAvUGFnZXMvYXJlYXMvYXJlYXMuY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDSSxrQkFBQTtBQ0NKOztBRENBO0VBQ0ksZUFBQTtBQ0VKIiwiZmlsZSI6InNyYy9hcHAvUGFnZXMvYXJlYXMvYXJlYXMuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIubm9BcmVhc3tcclxuICAgIHRleHQtYWxpZ246IGNlbnRlcjtcclxufVxyXG4uYXJlYUl0ZW0ge1xyXG4gICAgY3Vyc29yOiBwb2ludGVyO1xyXG59IiwiLm5vQXJlYXMge1xuICB0ZXh0LWFsaWduOiBjZW50ZXI7XG59XG5cbi5hcmVhSXRlbSB7XG4gIGN1cnNvcjogcG9pbnRlcjtcbn0iXX0= */"
 
 /***/ }),
 
@@ -288,21 +599,65 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
 /* harmony import */ var src_app_Services_navigation_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/Services/navigation.service */ "./src/app/Services/navigation.service.ts");
+/* harmony import */ var src_app_Services_area_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/Services/area.service */ "./src/app/Services/area.service.ts");
+/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm2015/material.js");
+/* harmony import */ var src_app_Popups_entry_dialog_entry_dialog_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/Popups/entry-dialog/entry-dialog.component */ "./src/app/Popups/entry-dialog/entry-dialog.component.ts");
+/* harmony import */ var src_app_Popups_selection_dialog_selection_dialog_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/Popups/selection-dialog/selection-dialog.component */ "./src/app/Popups/selection-dialog/selection-dialog.component.ts");
+
+
+
+
 
 
 
 let AreasComponent = class AreasComponent {
-    constructor(nav) {
+    constructor(nav, areaService, dialog) {
         this.nav = nav;
+        this.areaService = areaService;
+        this.dialog = dialog;
     }
     ngOnInit() {
     }
     GoToAdd() {
         this.nav.Push("AddArea");
     }
+    ShowEdit(area) {
+        var name = area.AreaName;
+        var dialogRef = this.dialog.open(src_app_Popups_entry_dialog_entry_dialog_component__WEBPACK_IMPORTED_MODULE_5__["EntryDialogComponent"], { data: { Text: "Update Area Name", Value: name }
+        });
+        dialogRef.afterClosed().subscribe(result => {
+            if (result !== undefined) {
+                this.areaService.UpdateAreaName(area, result);
+            }
+        });
+    }
+    ShowSelect(area) {
+        var dialogRef = this.dialog.open(src_app_Popups_selection_dialog_selection_dialog_component__WEBPACK_IMPORTED_MODULE_6__["SelectionDialogComponent"], { data: {
+                Header: area.AreaName,
+                Selections: ["View Map", "Add Measurement", "Edit Area Name"]
+            } });
+        dialogRef.afterClosed().subscribe(result => {
+            if (result !== undefined) {
+                console.log("User selected: " + result);
+                switch (result) {
+                    case ("View Map"):
+                        this.nav.Push("AreaMap", area.id);
+                        break;
+                    case ("Add Measurement"):
+                        this.nav.Push("AreaMeasurements", area.id);
+                        break;
+                    case ("Edit Area Name"):
+                        this.ShowEdit(area);
+                        break;
+                }
+            }
+        });
+    }
 };
 AreasComponent.ctorParameters = () => [
-    { type: src_app_Services_navigation_service__WEBPACK_IMPORTED_MODULE_2__["NavigationService"] }
+    { type: src_app_Services_navigation_service__WEBPACK_IMPORTED_MODULE_2__["NavigationService"] },
+    { type: src_app_Services_area_service__WEBPACK_IMPORTED_MODULE_3__["AreaService"] },
+    { type: _angular_material__WEBPACK_IMPORTED_MODULE_4__["MatDialog"] }
 ];
 AreasComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -310,7 +665,7 @@ AreasComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         template: __webpack_require__(/*! raw-loader!./areas.component.html */ "./node_modules/raw-loader/index.js!./src/app/Pages/areas/areas.component.html"),
         styles: [__webpack_require__(/*! ./areas.component.scss */ "./src/app/Pages/areas/areas.component.scss")]
     }),
-    tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [src_app_Services_navigation_service__WEBPACK_IMPORTED_MODULE_2__["NavigationService"]])
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [src_app_Services_navigation_service__WEBPACK_IMPORTED_MODULE_2__["NavigationService"], src_app_Services_area_service__WEBPACK_IMPORTED_MODULE_3__["AreaService"], _angular_material__WEBPACK_IMPORTED_MODULE_4__["MatDialog"]])
 ], AreasComponent);
 
 
@@ -432,6 +787,377 @@ LoginComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
 
 /***/ }),
 
+/***/ "./src/app/Pages/measurement-types/measurement-types.component.scss":
+/*!**************************************************************************!*\
+  !*** ./src/app/Pages/measurement-types/measurement-types.component.scss ***!
+  \**************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "span {\n  font-size: medium;\n  padding: 10px;\n}\n\n.noMeasurementTypes {\n  text-align: center;\n}\n\nspan.name {\n  max-width: 50vw;\n}\n\nspan.units {\n  max-width: 50vw;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvUGFnZXMvbWVhc3VyZW1lbnQtdHlwZXMvQzpcXFVzZXJzXFxjemFyYW1vXFxQcm9qZWN0c1xcTWFwc3Rlci9zcmNcXGFwcFxcUGFnZXNcXG1lYXN1cmVtZW50LXR5cGVzXFxtZWFzdXJlbWVudC10eXBlcy5jb21wb25lbnQuc2NzcyIsInNyYy9hcHAvUGFnZXMvbWVhc3VyZW1lbnQtdHlwZXMvbWVhc3VyZW1lbnQtdHlwZXMuY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDSSxpQkFBQTtFQUNBLGFBQUE7QUNDSjs7QURDQTtFQUNJLGtCQUFBO0FDRUo7O0FEQUE7RUFDSSxlQUFBO0FDR0o7O0FEREE7RUFDSSxlQUFBO0FDSUoiLCJmaWxlIjoic3JjL2FwcC9QYWdlcy9tZWFzdXJlbWVudC10eXBlcy9tZWFzdXJlbWVudC10eXBlcy5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbInNwYW57XHJcbiAgICBmb250LXNpemU6IG1lZGl1bTtcclxuICAgIHBhZGRpbmc6IDEwcHg7XHJcbn1cclxuLm5vTWVhc3VyZW1lbnRUeXBlc3tcclxuICAgIHRleHQtYWxpZ246IGNlbnRlcjtcclxufVxyXG5zcGFuLm5hbWV7XHJcbiAgICBtYXgtd2lkdGg6IDUwdnc7XHJcbn1cclxuc3Bhbi51bml0cyB7XHJcbiAgICBtYXgtd2lkdGg6IDUwdnc7XHJcbn0iLCJzcGFuIHtcbiAgZm9udC1zaXplOiBtZWRpdW07XG4gIHBhZGRpbmc6IDEwcHg7XG59XG5cbi5ub01lYXN1cmVtZW50VHlwZXMge1xuICB0ZXh0LWFsaWduOiBjZW50ZXI7XG59XG5cbnNwYW4ubmFtZSB7XG4gIG1heC13aWR0aDogNTB2dztcbn1cblxuc3Bhbi51bml0cyB7XG4gIG1heC13aWR0aDogNTB2dztcbn0iXX0= */"
+
+/***/ }),
+
+/***/ "./src/app/Pages/measurement-types/measurement-types.component.ts":
+/*!************************************************************************!*\
+  !*** ./src/app/Pages/measurement-types/measurement-types.component.ts ***!
+  \************************************************************************/
+/*! exports provided: MeasurementTypesComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MeasurementTypesComponent", function() { return MeasurementTypesComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm2015/material.js");
+/* harmony import */ var src_app_Services_measurement_type_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/Services/measurement-type.service */ "./src/app/Services/measurement-type.service.ts");
+/* harmony import */ var src_app_Services_pub_sub_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/Services/pub-sub.service */ "./src/app/Services/pub-sub.service.ts");
+/* harmony import */ var src_app_Popups_add_edit_measurement_type_dialog_add_edit_measurement_type_dialog_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/Popups/add-edit-measurement-type-dialog/add-edit-measurement-type-dialog.component */ "./src/app/Popups/add-edit-measurement-type-dialog/add-edit-measurement-type-dialog.component.ts");
+
+
+
+
+
+
+let MeasurementTypesComponent = class MeasurementTypesComponent {
+    constructor(dialog, measurementTypeService, pubsub) {
+        this.dialog = dialog;
+        this.measurementTypeService = measurementTypeService;
+        this.pubsub = pubsub;
+    }
+    ngOnInit() {
+    }
+    ShowAdd() {
+        var dialogRef = this.dialog.open(src_app_Popups_add_edit_measurement_type_dialog_add_edit_measurement_type_dialog_component__WEBPACK_IMPORTED_MODULE_5__["AddEditMeasurementTypeDialogComponent"]);
+        dialogRef.afterClosed().subscribe((result) => {
+            if (result !== undefined) {
+                this.measurementTypeService.CreateMeasurementType(result);
+            }
+        });
+    }
+    ShowEdit(mt) {
+        //Decouple the measurement type from the reference or it would cause the element to be modified
+        var nmt = { id: mt.id, measurementName: mt.measurementName, units: mt.units };
+        var dialogRef = this.dialog.open(src_app_Popups_add_edit_measurement_type_dialog_add_edit_measurement_type_dialog_component__WEBPACK_IMPORTED_MODULE_5__["AddEditMeasurementTypeDialogComponent"], { data: nmt });
+        dialogRef.afterClosed().subscribe((result) => {
+            if (result !== undefined) {
+                this.measurementTypeService.UpdateMeasurementType(result);
+            }
+        });
+    }
+};
+MeasurementTypesComponent.ctorParameters = () => [
+    { type: _angular_material__WEBPACK_IMPORTED_MODULE_2__["MatDialog"] },
+    { type: src_app_Services_measurement_type_service__WEBPACK_IMPORTED_MODULE_3__["MeasurementTypeService"] },
+    { type: src_app_Services_pub_sub_service__WEBPACK_IMPORTED_MODULE_4__["PubSubService"] }
+];
+MeasurementTypesComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+        selector: 'measurement-types',
+        template: __webpack_require__(/*! raw-loader!./measurement-types.component.html */ "./node_modules/raw-loader/index.js!./src/app/Pages/measurement-types/measurement-types.component.html"),
+        styles: [__webpack_require__(/*! ./measurement-types.component.scss */ "./src/app/Pages/measurement-types/measurement-types.component.scss")]
+    }),
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_material__WEBPACK_IMPORTED_MODULE_2__["MatDialog"], src_app_Services_measurement_type_service__WEBPACK_IMPORTED_MODULE_3__["MeasurementTypeService"], src_app_Services_pub_sub_service__WEBPACK_IMPORTED_MODULE_4__["PubSubService"]])
+], MeasurementTypesComponent);
+
+
+
+/***/ }),
+
+/***/ "./src/app/Popups/add-edit-measurement-type-dialog/add-edit-measurement-type-dialog.component.scss":
+/*!*********************************************************************************************************!*\
+  !*** ./src/app/Popups/add-edit-measurement-type-dialog/add-edit-measurement-type-dialog.component.scss ***!
+  \*********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ".mat-dialog-content {\n  overflow: hidden;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvUG9wdXBzL2FkZC1lZGl0LW1lYXN1cmVtZW50LXR5cGUtZGlhbG9nL0M6XFxVc2Vyc1xcY3phcmFtb1xcUHJvamVjdHNcXE1hcHN0ZXIvc3JjXFxhcHBcXFBvcHVwc1xcYWRkLWVkaXQtbWVhc3VyZW1lbnQtdHlwZS1kaWFsb2dcXGFkZC1lZGl0LW1lYXN1cmVtZW50LXR5cGUtZGlhbG9nLmNvbXBvbmVudC5zY3NzIiwic3JjL2FwcC9Qb3B1cHMvYWRkLWVkaXQtbWVhc3VyZW1lbnQtdHlwZS1kaWFsb2cvYWRkLWVkaXQtbWVhc3VyZW1lbnQtdHlwZS1kaWFsb2cuY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDSSxnQkFBQTtBQ0NKIiwiZmlsZSI6InNyYy9hcHAvUG9wdXBzL2FkZC1lZGl0LW1lYXN1cmVtZW50LXR5cGUtZGlhbG9nL2FkZC1lZGl0LW1lYXN1cmVtZW50LXR5cGUtZGlhbG9nLmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLm1hdC1kaWFsb2ctY29udGVudHtcclxuICAgIG92ZXJmbG93OiBoaWRkZW47XHJcbn0iLCIubWF0LWRpYWxvZy1jb250ZW50IHtcbiAgb3ZlcmZsb3c6IGhpZGRlbjtcbn0iXX0= */"
+
+/***/ }),
+
+/***/ "./src/app/Popups/add-edit-measurement-type-dialog/add-edit-measurement-type-dialog.component.ts":
+/*!*******************************************************************************************************!*\
+  !*** ./src/app/Popups/add-edit-measurement-type-dialog/add-edit-measurement-type-dialog.component.ts ***!
+  \*******************************************************************************************************/
+/*! exports provided: AddEditMeasurementTypeDialogComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AddEditMeasurementTypeDialogComponent", function() { return AddEditMeasurementTypeDialogComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm2015/material.js");
+
+
+
+let AddEditMeasurementTypeDialogComponent = class AddEditMeasurementTypeDialogComponent {
+    constructor(dialogRef, data) {
+        this.dialogRef = dialogRef;
+        this.data = data;
+        this.newMeasurementType = { id: "", measurementName: "", units: "" };
+        this.passedMeasurementType = false;
+        if (data !== undefined && data !== null) {
+            this.newMeasurementType = data;
+            this.passedMeasurementType = true;
+        }
+        else {
+            this.newMeasurementType = { id: "", measurementName: "", units: "" };
+        }
+    }
+    ngOnInit() {
+    }
+    Cancel() {
+        this.dialogRef.close();
+    }
+    Save() {
+        this.dialogRef.close(this.newMeasurementType);
+    }
+};
+AddEditMeasurementTypeDialogComponent.ctorParameters = () => [
+    { type: _angular_material__WEBPACK_IMPORTED_MODULE_2__["MatDialogRef"] },
+    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"], args: [_angular_material__WEBPACK_IMPORTED_MODULE_2__["MAT_DIALOG_DATA"],] }] }
+];
+AddEditMeasurementTypeDialogComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+        selector: 'add-edit-measurement-type',
+        template: __webpack_require__(/*! raw-loader!./add-edit-measurement-type-dialog.component.html */ "./node_modules/raw-loader/index.js!./src/app/Popups/add-edit-measurement-type-dialog/add-edit-measurement-type-dialog.component.html"),
+        styles: [__webpack_require__(/*! ./add-edit-measurement-type-dialog.component.scss */ "./src/app/Popups/add-edit-measurement-type-dialog/add-edit-measurement-type-dialog.component.scss")]
+    }),
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__param"](1, Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"])(_angular_material__WEBPACK_IMPORTED_MODULE_2__["MAT_DIALOG_DATA"])),
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_material__WEBPACK_IMPORTED_MODULE_2__["MatDialogRef"], Object])
+], AddEditMeasurementTypeDialogComponent);
+
+
+
+/***/ }),
+
+/***/ "./src/app/Popups/entry-dialog/entry-dialog.component.scss":
+/*!*****************************************************************!*\
+  !*** ./src/app/Popups/entry-dialog/entry-dialog.component.scss ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ".mat-dialog-content {\n  overflow: hidden;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvUG9wdXBzL2VudHJ5LWRpYWxvZy9DOlxcVXNlcnNcXGN6YXJhbW9cXFByb2plY3RzXFxNYXBzdGVyL3NyY1xcYXBwXFxQb3B1cHNcXGVudHJ5LWRpYWxvZ1xcZW50cnktZGlhbG9nLmNvbXBvbmVudC5zY3NzIiwic3JjL2FwcC9Qb3B1cHMvZW50cnktZGlhbG9nL2VudHJ5LWRpYWxvZy5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNJLGdCQUFBO0FDQ0oiLCJmaWxlIjoic3JjL2FwcC9Qb3B1cHMvZW50cnktZGlhbG9nL2VudHJ5LWRpYWxvZy5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi5tYXQtZGlhbG9nLWNvbnRlbnR7XHJcbiAgICBvdmVyZmxvdzogaGlkZGVuO1xyXG59IiwiLm1hdC1kaWFsb2ctY29udGVudCB7XG4gIG92ZXJmbG93OiBoaWRkZW47XG59Il19 */"
+
+/***/ }),
+
+/***/ "./src/app/Popups/entry-dialog/entry-dialog.component.ts":
+/*!***************************************************************!*\
+  !*** ./src/app/Popups/entry-dialog/entry-dialog.component.ts ***!
+  \***************************************************************/
+/*! exports provided: EntryDialogComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EntryDialogComponent", function() { return EntryDialogComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm2015/material.js");
+
+
+
+let EntryDialogComponent = class EntryDialogComponent {
+    constructor(dialogRef, data) {
+        this.dialogRef = dialogRef;
+        this.data = data;
+        this.Text = data.Text;
+        if (data.Value !== null && data.Value !== undefined) {
+            this.entryValue = data.Value;
+            this.passedValue = true;
+        }
+        else {
+            this.passedValue = false;
+        }
+    }
+    ngOnInit() {
+    }
+    Cancel() {
+        this.dialogRef.close();
+    }
+    Save() {
+        this.dialogRef.close(this.entryValue);
+    }
+};
+EntryDialogComponent.ctorParameters = () => [
+    { type: _angular_material__WEBPACK_IMPORTED_MODULE_2__["MatDialogRef"] },
+    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"], args: [_angular_material__WEBPACK_IMPORTED_MODULE_2__["MAT_DIALOG_DATA"],] }] }
+];
+EntryDialogComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+        selector: 'app-entry-dialog',
+        template: __webpack_require__(/*! raw-loader!./entry-dialog.component.html */ "./node_modules/raw-loader/index.js!./src/app/Popups/entry-dialog/entry-dialog.component.html"),
+        styles: [__webpack_require__(/*! ./entry-dialog.component.scss */ "./src/app/Popups/entry-dialog/entry-dialog.component.scss")]
+    }),
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__param"](1, Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"])(_angular_material__WEBPACK_IMPORTED_MODULE_2__["MAT_DIALOG_DATA"])),
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_material__WEBPACK_IMPORTED_MODULE_2__["MatDialogRef"], Object])
+], EntryDialogComponent);
+
+
+
+/***/ }),
+
+/***/ "./src/app/Popups/selection-dialog/selection-dialog.component.scss":
+/*!*************************************************************************!*\
+  !*** ./src/app/Popups/selection-dialog/selection-dialog.component.scss ***!
+  \*************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL1BvcHVwcy9zZWxlY3Rpb24tZGlhbG9nL3NlbGVjdGlvbi1kaWFsb2cuY29tcG9uZW50LnNjc3MifQ== */"
+
+/***/ }),
+
+/***/ "./src/app/Popups/selection-dialog/selection-dialog.component.ts":
+/*!***********************************************************************!*\
+  !*** ./src/app/Popups/selection-dialog/selection-dialog.component.ts ***!
+  \***********************************************************************/
+/*! exports provided: SelectionDialogComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SelectionDialogComponent", function() { return SelectionDialogComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm2015/material.js");
+
+
+
+let SelectionDialogComponent = class SelectionDialogComponent {
+    constructor(dialogRef, data) {
+        this.dialogRef = dialogRef;
+        this.data = data;
+        this.header = data.Header;
+        this.selections = data.Selections;
+    }
+    ngOnInit() {
+    }
+    Select(selection) {
+        this.dialogRef.close(selection);
+    }
+};
+SelectionDialogComponent.ctorParameters = () => [
+    { type: _angular_material__WEBPACK_IMPORTED_MODULE_2__["MatDialogRef"] },
+    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"], args: [_angular_material__WEBPACK_IMPORTED_MODULE_2__["MAT_DIALOG_DATA"],] }] }
+];
+SelectionDialogComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+        selector: 'app-selection-dialog',
+        template: __webpack_require__(/*! raw-loader!./selection-dialog.component.html */ "./node_modules/raw-loader/index.js!./src/app/Popups/selection-dialog/selection-dialog.component.html"),
+        styles: [__webpack_require__(/*! ./selection-dialog.component.scss */ "./src/app/Popups/selection-dialog/selection-dialog.component.scss")]
+    }),
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__param"](1, Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"])(_angular_material__WEBPACK_IMPORTED_MODULE_2__["MAT_DIALOG_DATA"])),
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_material__WEBPACK_IMPORTED_MODULE_2__["MatDialogRef"], Object])
+], SelectionDialogComponent);
+
+
+
+/***/ }),
+
+/***/ "./src/app/Services/area.service.ts":
+/*!******************************************!*\
+  !*** ./src/app/Services/area.service.ts ***!
+  \******************************************/
+/*! exports provided: AreaService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AreaService", function() { return AreaService; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony import */ var _pub_sub_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./pub-sub.service */ "./src/app/Services/pub-sub.service.ts");
+/* harmony import */ var _mapster_client__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./mapster.client */ "./src/app/Services/mapster.client.ts");
+
+
+
+
+let AreaService = class AreaService {
+    constructor(pubsub, backendClient) {
+        this.pubsub = pubsub;
+        this.backendClient = backendClient;
+        this.Areas = [];
+        this.Testing();
+    }
+    Testing() {
+        var pos = 0;
+        while (pos < 20) {
+            this.Areas.push({
+                id: (pos + 1).toString(),
+                AreaName: "Area " + pos,
+                Points: [
+                    { Position: 0, Latitude: 41.037705631717294, Longitude: -81.47310225399781 },
+                    { Position: 1, Latitude: 41.03051908036947, Longitude: -81.47267310055543 },
+                    { Position: 2, Latitude: 41.030713321802, Longitude: -81.46336047085572 }
+                ]
+            });
+            pos++;
+        }
+    }
+    CreateNewArea(path, areaName) {
+        var newArea = {
+            id: (this.Areas.length + 1).toString(),
+            AreaName: areaName,
+            Points: []
+        };
+        var pos = 0;
+        while (pos < path.length) {
+            newArea.Points.push({
+                Position: pos,
+                Longitude: path[pos].lng,
+                Latitude: path[pos].lat
+            });
+            pos++;
+        }
+        let newAreaDB = new _mapster_client__WEBPACK_IMPORTED_MODULE_3__["Area"]({
+            areaname: areaName,
+            points: [],
+            owner: "5d432f621c9d666b6473ffec"
+        });
+        var pos = 0;
+        while (pos < path.length) {
+            newAreaDB.points.push(new _mapster_client__WEBPACK_IMPORTED_MODULE_3__["Point"]({
+                position: pos,
+                loc: new _mapster_client__WEBPACK_IMPORTED_MODULE_3__["Location"]({
+                    lat: path[pos].lat,
+                    longitude: path[pos].lng
+                })
+            }));
+            pos++;
+        }
+        //NEED TO PUSH TO DB
+        this.Areas.push(newArea);
+        this.backendClient.area(newAreaDB).subscribe(x => {
+            console.log(x);
+            console.log('creation complete!');
+        });
+        this.pubsub.$pub("Areas Updates", this.Areas);
+    }
+    UpdateAreaName(area, newName) {
+        var area = this.Areas.find(a => { if (a.id === area.id)
+            return true; });
+        area.AreaName = newName;
+    }
+};
+AreaService.ctorParameters = () => [
+    { type: _pub_sub_service__WEBPACK_IMPORTED_MODULE_2__["PubSubService"] },
+    { type: _mapster_client__WEBPACK_IMPORTED_MODULE_3__["Client"] }
+];
+AreaService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
+        providedIn: 'root'
+    }),
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_pub_sub_service__WEBPACK_IMPORTED_MODULE_2__["PubSubService"], _mapster_client__WEBPACK_IMPORTED_MODULE_3__["Client"]])
+], AreaService);
+
+
+
+/***/ }),
+
 /***/ "./src/app/Services/authentication.service.ts":
 /*!****************************************************!*\
   !*** ./src/app/Services/authentication.service.ts ***!
@@ -477,6 +1203,1214 @@ AuthenticationService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
 
 /***/ }),
 
+/***/ "./src/app/Services/connection.service.ts":
+/*!************************************************!*\
+  !*** ./src/app/Services/connection.service.ts ***!
+  \************************************************/
+/*! exports provided: ConnectionService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ConnectionService", function() { return ConnectionService; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony import */ var _cordova_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./cordova.service */ "./src/app/Services/cordova.service.ts");
+
+
+
+let ConnectionService = class ConnectionService {
+    constructor(cordova) {
+        this.cordova = cordova;
+    }
+    AddMeasurement(newMeasurement) {
+        newMeasurement.id = "TETSDS";
+        if (this.cordova.cordova !== undefined && this.cordova.cordova.device.platform === "Android"
+            || this.cordova.cordova.device.platform === "iOS") {
+            console.log(this.cordova.cordova.device.platform);
+        }
+        else {
+            //GO DIRECTLY TO THE WEB SERVICE SKIP TRYING OT USE LOCAL DB
+        }
+        return newMeasurement;
+    }
+    GetMeasurements(areaId, measurementTypeId) {
+    }
+};
+ConnectionService.ctorParameters = () => [
+    { type: _cordova_service__WEBPACK_IMPORTED_MODULE_2__["CordovaService"] }
+];
+ConnectionService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
+        providedIn: 'root'
+    }),
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_cordova_service__WEBPACK_IMPORTED_MODULE_2__["CordovaService"]])
+], ConnectionService);
+
+
+
+/***/ }),
+
+/***/ "./src/app/Services/cordova.service.ts":
+/*!*********************************************!*\
+  !*** ./src/app/Services/cordova.service.ts ***!
+  \*********************************************/
+/*! exports provided: CordovaService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CordovaService", function() { return CordovaService; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm2015/index.js");
+
+
+
+function _window() {
+    // return the global native browser window object
+    return window;
+}
+let CordovaService = class CordovaService {
+    constructor(zone) {
+        this.zone = zone;
+        console.log("Cordova started");
+        this.resume = new rxjs__WEBPACK_IMPORTED_MODULE_2__["BehaviorSubject"](null);
+        Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["fromEvent"])(document, 'resume').subscribe(event => {
+            this.zone.run(() => {
+                this.onResume();
+            });
+        });
+    }
+    get cordova() {
+        console.log(_window().cordova);
+        return _window().cordova;
+    }
+    get onCordova() {
+        return !!_window().cordova;
+    }
+    onResume() {
+        this.resume.next(true);
+    }
+};
+CordovaService.ctorParameters = () => [
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["NgZone"] }
+];
+CordovaService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
+        providedIn: 'root'
+    }),
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_core__WEBPACK_IMPORTED_MODULE_1__["NgZone"]])
+], CordovaService);
+
+
+
+/***/ }),
+
+/***/ "./src/app/Services/mapster.client.ts":
+/*!********************************************!*\
+  !*** ./src/app/Services/mapster.client.ts ***!
+  \********************************************/
+/*! exports provided: API_BASE_URL, Client, Location, Point, Area, User, ApiException */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "API_BASE_URL", function() { return API_BASE_URL; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Client", function() { return Client; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Location", function() { return Location; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Point", function() { return Point; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Area", function() { return Area; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "User", function() { return User; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ApiException", function() { return ApiException; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm2015/operators/index.js");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm2015/index.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm2015/http.js");
+/* tslint:disable */
+/* eslint-disable */
+//----------------------
+// <auto-generated>
+//     Generated using the NSwag toolchain v13.0.4.0 (NJsonSchema v10.0.21.0 (Newtonsoft.Json v11.0.0.0)) (http://NSwag.org)
+// </auto-generated>
+//----------------------
+// ReSharper disable InconsistentNaming
+
+
+
+
+
+const API_BASE_URL = new _angular_core__WEBPACK_IMPORTED_MODULE_3__["InjectionToken"]('API_BASE_URL');
+let Client = class Client {
+    constructor(http, baseUrl) {
+        this.jsonParseReviver = undefined;
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+    /**
+     * @return Success
+     */
+    getArea(id) {
+        let url_ = this.baseUrl + "/api/Area/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+        let options_ = {
+            observe: "response",
+            responseType: "blob",
+            headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpHeaders"]({
+                "Accept": "text/plain"
+            })
+        };
+        return this.http.request("get", url_, options_).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])((response_) => {
+            return this.processGetArea(response_);
+        })).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["catchError"])((response_) => {
+            if (response_ instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpResponseBase"]) {
+                try {
+                    return this.processGetArea(response_);
+                }
+                catch (e) {
+                    return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(e);
+                }
+            }
+            else
+                return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(response_);
+        }));
+    }
+    processGetArea(response) {
+        const status = response.status;
+        const responseBlob = response instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpResponse"] ? response.body :
+            response.error instanceof Blob ? response.error : undefined;
+        let _headers = {};
+        if (response.headers) {
+            for (let key of response.headers.keys()) {
+                _headers[key] = response.headers.get(key);
+            }
+        }
+        ;
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(_responseText => {
+                let result200 = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = Area.fromJS(resultData200);
+                return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(result200);
+            }));
+        }
+        else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(_responseText => {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(null);
+    }
+    /**
+     * @param body (optional)
+     * @return Success
+     */
+    area(body) {
+        let url_ = this.baseUrl + "/api/Area";
+        url_ = url_.replace(/[?&]$/, "");
+        const content_ = JSON.stringify(body);
+        let options_ = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpHeaders"]({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+        return this.http.request("post", url_, options_).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])((response_) => {
+            return this.processArea(response_);
+        })).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["catchError"])((response_) => {
+            if (response_ instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpResponseBase"]) {
+                try {
+                    return this.processArea(response_);
+                }
+                catch (e) {
+                    return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(e);
+                }
+            }
+            else
+                return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(response_);
+        }));
+    }
+    processArea(response) {
+        const status = response.status;
+        const responseBlob = response instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpResponse"] ? response.body :
+            response.error instanceof Blob ? response.error : undefined;
+        let _headers = {};
+        if (response.headers) {
+            for (let key of response.headers.keys()) {
+                _headers[key] = response.headers.get(key);
+            }
+        }
+        ;
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(_responseText => {
+                let result200 = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = Area.fromJS(resultData200);
+                return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(result200);
+            }));
+        }
+        else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(_responseText => {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(null);
+    }
+    /**
+     * @param body (optional)
+     * @return Success
+     */
+    login(body) {
+        let url_ = this.baseUrl + "/api/Login";
+        url_ = url_.replace(/[?&]$/, "");
+        const content_ = JSON.stringify(body);
+        let options_ = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpHeaders"]({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+        return this.http.request("post", url_, options_).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])((response_) => {
+            return this.processLogin(response_);
+        })).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["catchError"])((response_) => {
+            if (response_ instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpResponseBase"]) {
+                try {
+                    return this.processLogin(response_);
+                }
+                catch (e) {
+                    return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(e);
+                }
+            }
+            else
+                return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(response_);
+        }));
+    }
+    processLogin(response) {
+        const status = response.status;
+        const responseBlob = response instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpResponse"] ? response.body :
+            response.error instanceof Blob ? response.error : undefined;
+        let _headers = {};
+        if (response.headers) {
+            for (let key of response.headers.keys()) {
+                _headers[key] = response.headers.get(key);
+            }
+        }
+        ;
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(_responseText => {
+                return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(null);
+            }));
+        }
+        else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(_responseText => {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(null);
+    }
+    /**
+     * @return Success
+     */
+    usersAll() {
+        let url_ = this.baseUrl + "/api/Users";
+        url_ = url_.replace(/[?&]$/, "");
+        let options_ = {
+            observe: "response",
+            responseType: "blob",
+            headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpHeaders"]({
+                "Accept": "text/plain"
+            })
+        };
+        return this.http.request("get", url_, options_).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])((response_) => {
+            return this.processUsersAll(response_);
+        })).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["catchError"])((response_) => {
+            if (response_ instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpResponseBase"]) {
+                try {
+                    return this.processUsersAll(response_);
+                }
+                catch (e) {
+                    return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(e);
+                }
+            }
+            else
+                return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(response_);
+        }));
+    }
+    processUsersAll(response) {
+        const status = response.status;
+        const responseBlob = response instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpResponse"] ? response.body :
+            response.error instanceof Blob ? response.error : undefined;
+        let _headers = {};
+        if (response.headers) {
+            for (let key of response.headers.keys()) {
+                _headers[key] = response.headers.get(key);
+            }
+        }
+        ;
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(_responseText => {
+                let result200 = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                if (Array.isArray(resultData200)) {
+                    result200 = [];
+                    for (let item of resultData200)
+                        result200.push(User.fromJS(item));
+                }
+                return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(result200);
+            }));
+        }
+        else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(_responseText => {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(null);
+    }
+    /**
+     * @param body (optional)
+     * @return Success
+     */
+    users(body) {
+        let url_ = this.baseUrl + "/api/Users";
+        url_ = url_.replace(/[?&]$/, "");
+        const content_ = JSON.stringify(body);
+        let options_ = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpHeaders"]({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+        return this.http.request("post", url_, options_).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])((response_) => {
+            return this.processUsers(response_);
+        })).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["catchError"])((response_) => {
+            if (response_ instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpResponseBase"]) {
+                try {
+                    return this.processUsers(response_);
+                }
+                catch (e) {
+                    return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(e);
+                }
+            }
+            else
+                return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(response_);
+        }));
+    }
+    processUsers(response) {
+        const status = response.status;
+        const responseBlob = response instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpResponse"] ? response.body :
+            response.error instanceof Blob ? response.error : undefined;
+        let _headers = {};
+        if (response.headers) {
+            for (let key of response.headers.keys()) {
+                _headers[key] = response.headers.get(key);
+            }
+        }
+        ;
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(_responseText => {
+                let result200 = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = User.fromJS(resultData200);
+                return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(result200);
+            }));
+        }
+        else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(_responseText => {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(null);
+    }
+    /**
+     * @return Success
+     */
+    getUser(id) {
+        let url_ = this.baseUrl + "/api/Users/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+        let options_ = {
+            observe: "response",
+            responseType: "blob",
+            headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpHeaders"]({
+                "Accept": "text/plain"
+            })
+        };
+        return this.http.request("get", url_, options_).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])((response_) => {
+            return this.processGetUser(response_);
+        })).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["catchError"])((response_) => {
+            if (response_ instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpResponseBase"]) {
+                try {
+                    return this.processGetUser(response_);
+                }
+                catch (e) {
+                    return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(e);
+                }
+            }
+            else
+                return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(response_);
+        }));
+    }
+    processGetUser(response) {
+        const status = response.status;
+        const responseBlob = response instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpResponse"] ? response.body :
+            response.error instanceof Blob ? response.error : undefined;
+        let _headers = {};
+        if (response.headers) {
+            for (let key of response.headers.keys()) {
+                _headers[key] = response.headers.get(key);
+            }
+        }
+        ;
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(_responseText => {
+                let result200 = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = User.fromJS(resultData200);
+                return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(result200);
+            }));
+        }
+        else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(_responseText => {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(null);
+    }
+    /**
+     * @param body (optional)
+     * @return Success
+     */
+    users2(id, body) {
+        let url_ = this.baseUrl + "/api/Users/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+        const content_ = JSON.stringify(body);
+        let options_ = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpHeaders"]({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+        return this.http.request("put", url_, options_).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])((response_) => {
+            return this.processUsers2(response_);
+        })).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["catchError"])((response_) => {
+            if (response_ instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpResponseBase"]) {
+                try {
+                    return this.processUsers2(response_);
+                }
+                catch (e) {
+                    return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(e);
+                }
+            }
+            else
+                return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(response_);
+        }));
+    }
+    processUsers2(response) {
+        const status = response.status;
+        const responseBlob = response instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpResponse"] ? response.body :
+            response.error instanceof Blob ? response.error : undefined;
+        let _headers = {};
+        if (response.headers) {
+            for (let key of response.headers.keys()) {
+                _headers[key] = response.headers.get(key);
+            }
+        }
+        ;
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(_responseText => {
+                return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(null);
+            }));
+        }
+        else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(_responseText => {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(null);
+    }
+    /**
+     * @return Success
+     */
+    users3(id) {
+        let url_ = this.baseUrl + "/api/Users/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+        let options_ = {
+            observe: "response",
+            responseType: "blob",
+            headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpHeaders"]({})
+        };
+        return this.http.request("delete", url_, options_).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])((response_) => {
+            return this.processUsers3(response_);
+        })).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["catchError"])((response_) => {
+            if (response_ instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpResponseBase"]) {
+                try {
+                    return this.processUsers3(response_);
+                }
+                catch (e) {
+                    return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(e);
+                }
+            }
+            else
+                return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(response_);
+        }));
+    }
+    processUsers3(response) {
+        const status = response.status;
+        const responseBlob = response instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpResponse"] ? response.body :
+            response.error instanceof Blob ? response.error : undefined;
+        let _headers = {};
+        if (response.headers) {
+            for (let key of response.headers.keys()) {
+                _headers[key] = response.headers.get(key);
+            }
+        }
+        ;
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(_responseText => {
+                return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(null);
+            }));
+        }
+        else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(_responseText => {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(null);
+    }
+    /**
+     * @return Success
+     */
+    valuesAll() {
+        let url_ = this.baseUrl + "/api/Values";
+        url_ = url_.replace(/[?&]$/, "");
+        let options_ = {
+            observe: "response",
+            responseType: "blob",
+            headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpHeaders"]({
+                "Accept": "text/plain"
+            })
+        };
+        return this.http.request("get", url_, options_).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])((response_) => {
+            return this.processValuesAll(response_);
+        })).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["catchError"])((response_) => {
+            if (response_ instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpResponseBase"]) {
+                try {
+                    return this.processValuesAll(response_);
+                }
+                catch (e) {
+                    return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(e);
+                }
+            }
+            else
+                return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(response_);
+        }));
+    }
+    processValuesAll(response) {
+        const status = response.status;
+        const responseBlob = response instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpResponse"] ? response.body :
+            response.error instanceof Blob ? response.error : undefined;
+        let _headers = {};
+        if (response.headers) {
+            for (let key of response.headers.keys()) {
+                _headers[key] = response.headers.get(key);
+            }
+        }
+        ;
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(_responseText => {
+                let result200 = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                if (Array.isArray(resultData200)) {
+                    result200 = [];
+                    for (let item of resultData200)
+                        result200.push(item);
+                }
+                return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(result200);
+            }));
+        }
+        else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(_responseText => {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(null);
+    }
+    /**
+     * @param body (optional)
+     * @return Success
+     */
+    values(body) {
+        let url_ = this.baseUrl + "/api/Values";
+        url_ = url_.replace(/[?&]$/, "");
+        const content_ = JSON.stringify(body);
+        let options_ = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpHeaders"]({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+        return this.http.request("post", url_, options_).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])((response_) => {
+            return this.processValues(response_);
+        })).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["catchError"])((response_) => {
+            if (response_ instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpResponseBase"]) {
+                try {
+                    return this.processValues(response_);
+                }
+                catch (e) {
+                    return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(e);
+                }
+            }
+            else
+                return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(response_);
+        }));
+    }
+    processValues(response) {
+        const status = response.status;
+        const responseBlob = response instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpResponse"] ? response.body :
+            response.error instanceof Blob ? response.error : undefined;
+        let _headers = {};
+        if (response.headers) {
+            for (let key of response.headers.keys()) {
+                _headers[key] = response.headers.get(key);
+            }
+        }
+        ;
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(_responseText => {
+                return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(null);
+            }));
+        }
+        else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(_responseText => {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(null);
+    }
+    /**
+     * @return Success
+     */
+    values2(id) {
+        let url_ = this.baseUrl + "/api/Values/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+        let options_ = {
+            observe: "response",
+            responseType: "blob",
+            headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpHeaders"]({
+                "Accept": "text/plain"
+            })
+        };
+        return this.http.request("get", url_, options_).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])((response_) => {
+            return this.processValues2(response_);
+        })).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["catchError"])((response_) => {
+            if (response_ instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpResponseBase"]) {
+                try {
+                    return this.processValues2(response_);
+                }
+                catch (e) {
+                    return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(e);
+                }
+            }
+            else
+                return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(response_);
+        }));
+    }
+    processValues2(response) {
+        const status = response.status;
+        const responseBlob = response instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpResponse"] ? response.body :
+            response.error instanceof Blob ? response.error : undefined;
+        let _headers = {};
+        if (response.headers) {
+            for (let key of response.headers.keys()) {
+                _headers[key] = response.headers.get(key);
+            }
+        }
+        ;
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(_responseText => {
+                let result200 = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 !== undefined ? resultData200 : null;
+                return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(result200);
+            }));
+        }
+        else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(_responseText => {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(null);
+    }
+    /**
+     * @param body (optional)
+     * @return Success
+     */
+    values3(id, body) {
+        let url_ = this.baseUrl + "/api/Values/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+        const content_ = JSON.stringify(body);
+        let options_ = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpHeaders"]({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+        return this.http.request("put", url_, options_).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])((response_) => {
+            return this.processValues3(response_);
+        })).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["catchError"])((response_) => {
+            if (response_ instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpResponseBase"]) {
+                try {
+                    return this.processValues3(response_);
+                }
+                catch (e) {
+                    return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(e);
+                }
+            }
+            else
+                return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(response_);
+        }));
+    }
+    processValues3(response) {
+        const status = response.status;
+        const responseBlob = response instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpResponse"] ? response.body :
+            response.error instanceof Blob ? response.error : undefined;
+        let _headers = {};
+        if (response.headers) {
+            for (let key of response.headers.keys()) {
+                _headers[key] = response.headers.get(key);
+            }
+        }
+        ;
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(_responseText => {
+                return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(null);
+            }));
+        }
+        else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(_responseText => {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(null);
+    }
+    /**
+     * @return Success
+     */
+    values4(id) {
+        let url_ = this.baseUrl + "/api/Values/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+        let options_ = {
+            observe: "response",
+            responseType: "blob",
+            headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpHeaders"]({})
+        };
+        return this.http.request("delete", url_, options_).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])((response_) => {
+            return this.processValues4(response_);
+        })).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["catchError"])((response_) => {
+            if (response_ instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpResponseBase"]) {
+                try {
+                    return this.processValues4(response_);
+                }
+                catch (e) {
+                    return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(e);
+                }
+            }
+            else
+                return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(response_);
+        }));
+    }
+    processValues4(response) {
+        const status = response.status;
+        const responseBlob = response instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpResponse"] ? response.body :
+            response.error instanceof Blob ? response.error : undefined;
+        let _headers = {};
+        if (response.headers) {
+            for (let key of response.headers.keys()) {
+                _headers[key] = response.headers.get(key);
+            }
+        }
+        ;
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(_responseText => {
+                return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(null);
+            }));
+        }
+        else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(_responseText => {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(null);
+    }
+};
+Client.ctorParameters = () => [
+    { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpClient"], decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_3__["Inject"], args: [_angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpClient"],] }] },
+    { type: String, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_3__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_3__["Inject"], args: [API_BASE_URL,] }] }
+];
+Client = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["Injectable"])(),
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__param"](0, Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["Inject"])(_angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpClient"])), tslib__WEBPACK_IMPORTED_MODULE_0__["__param"](1, Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["Optional"])()), tslib__WEBPACK_IMPORTED_MODULE_0__["__param"](1, Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["Inject"])(API_BASE_URL)),
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpClient"], String])
+], Client);
+
+class Location {
+    constructor(data) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    this[property] = data[property];
+            }
+        }
+    }
+    init(data) {
+        if (data) {
+            this.lat = data["lat"];
+            this.longitude = data["longitude"];
+        }
+    }
+    static fromJS(data) {
+        data = typeof data === 'object' ? data : {};
+        let result = new Location();
+        result.init(data);
+        return result;
+    }
+    toJSON(data) {
+        data = typeof data === 'object' ? data : {};
+        data["lat"] = this.lat;
+        data["longitude"] = this.longitude;
+        return data;
+    }
+}
+Location.ctorParameters = () => [
+    { type: undefined }
+];
+class Point {
+    constructor(data) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    this[property] = data[property];
+            }
+        }
+    }
+    init(data) {
+        if (data) {
+            this.position = data["position"];
+            this.loc = data["loc"] ? Location.fromJS(data["loc"]) : undefined;
+        }
+    }
+    static fromJS(data) {
+        data = typeof data === 'object' ? data : {};
+        let result = new Point();
+        result.init(data);
+        return result;
+    }
+    toJSON(data) {
+        data = typeof data === 'object' ? data : {};
+        data["position"] = this.position;
+        data["loc"] = this.loc ? this.loc.toJSON() : undefined;
+        return data;
+    }
+}
+Point.ctorParameters = () => [
+    { type: undefined }
+];
+class Area {
+    constructor(data) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    this[property] = data[property];
+            }
+        }
+    }
+    init(data) {
+        if (data) {
+            this.id = data["id"];
+            this.owner = data["owner"];
+            this.areaname = data["areaname"];
+            if (Array.isArray(data["points"])) {
+                this.points = [];
+                for (let item of data["points"])
+                    this.points.push(Point.fromJS(item));
+            }
+        }
+    }
+    static fromJS(data) {
+        data = typeof data === 'object' ? data : {};
+        let result = new Area();
+        result.init(data);
+        return result;
+    }
+    toJSON(data) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["owner"] = this.owner;
+        data["areaname"] = this.areaname;
+        if (Array.isArray(this.points)) {
+            data["points"] = [];
+            for (let item of this.points)
+                data["points"].push(item.toJSON());
+        }
+        return data;
+    }
+}
+Area.ctorParameters = () => [
+    { type: undefined }
+];
+class User {
+    constructor(data) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    this[property] = data[property];
+            }
+        }
+    }
+    init(data) {
+        if (data) {
+            this.id = data["id"];
+            this.username = data["username"];
+            this.email = data["email"];
+            this.password = data["password"];
+            this.companyname = data["companyname"];
+            this.premium = data["premium"];
+        }
+    }
+    static fromJS(data) {
+        data = typeof data === 'object' ? data : {};
+        let result = new User();
+        result.init(data);
+        return result;
+    }
+    toJSON(data) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["username"] = this.username;
+        data["email"] = this.email;
+        data["password"] = this.password;
+        data["companyname"] = this.companyname;
+        data["premium"] = this.premium;
+        return data;
+    }
+}
+User.ctorParameters = () => [
+    { type: undefined }
+];
+class ApiException extends Error {
+    constructor(message, status, response, headers, result) {
+        super();
+        this.isApiException = true;
+        this.message = message;
+        this.status = status;
+        this.response = response;
+        this.headers = headers;
+        this.result = result;
+    }
+    static isApiException(obj) {
+        return obj.isApiException === true;
+    }
+}
+ApiException.ctorParameters = () => [
+    { type: String },
+    { type: Number },
+    { type: String },
+    { type: undefined },
+    { type: undefined }
+];
+function throwException(message, status, response, headers, result) {
+    if (result !== null && result !== undefined)
+        return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(result);
+    else
+        return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(new ApiException(message, status, response, headers, null));
+}
+function blobToText(blob) {
+    return new rxjs__WEBPACK_IMPORTED_MODULE_2__["Observable"]((observer) => {
+        if (!blob) {
+            observer.next("");
+            observer.complete();
+        }
+        else {
+            let reader = new FileReader();
+            reader.onload = event => {
+                observer.next(event.target.result);
+                observer.complete();
+            };
+            reader.readAsText(blob);
+        }
+    });
+}
+
+
+/***/ }),
+
+/***/ "./src/app/Services/measurement-type.service.ts":
+/*!******************************************************!*\
+  !*** ./src/app/Services/measurement-type.service.ts ***!
+  \******************************************************/
+/*! exports provided: MeasurementTypeService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MeasurementTypeService", function() { return MeasurementTypeService; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony import */ var _pub_sub_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./pub-sub.service */ "./src/app/Services/pub-sub.service.ts");
+
+
+
+let MeasurementTypeService = class MeasurementTypeService {
+    constructor(pubsub) {
+        this.pubsub = pubsub;
+        this.MeasurementTypes = [];
+        this.Testing();
+    }
+    Testing() {
+        var pos = 0;
+        while (pos < 20) {
+            this.MeasurementTypes.push({
+                id: (pos + 1).toString(),
+                measurementName: "Name " + pos,
+                units: "Units " + pos
+            });
+            pos++;
+        }
+    }
+    CreateMeasurementType(newMeasurementType) {
+        newMeasurementType.id = (this.MeasurementTypes.length + 1).toString();
+        this.MeasurementTypes.push(newMeasurementType);
+        this.pubsub.$pub("MeasurementTypes Updated", this.MeasurementTypes);
+    }
+    UpdateMeasurementType(updatedMeasurementType) {
+        var index = this.MeasurementTypes.findIndex(m => m.id == updatedMeasurementType.id);
+        this.MeasurementTypes[index] = updatedMeasurementType;
+        this.pubsub.$pub("MeasurementTypes Updated", this.MeasurementTypes);
+    }
+};
+MeasurementTypeService.ctorParameters = () => [
+    { type: _pub_sub_service__WEBPACK_IMPORTED_MODULE_2__["PubSubService"] }
+];
+MeasurementTypeService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
+        providedIn: 'root'
+    }),
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_pub_sub_service__WEBPACK_IMPORTED_MODULE_2__["PubSubService"]])
+], MeasurementTypeService);
+
+
+
+/***/ }),
+
+/***/ "./src/app/Services/measurement.service.ts":
+/*!*************************************************!*\
+  !*** ./src/app/Services/measurement.service.ts ***!
+  \*************************************************/
+/*! exports provided: MeasurementService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MeasurementService", function() { return MeasurementService; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony import */ var _connection_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./connection.service */ "./src/app/Services/connection.service.ts");
+
+
+
+let MeasurementService = class MeasurementService {
+    constructor(connectionService) {
+        this.connectionService = connectionService;
+    }
+    Get(areaId, measurementTypeId) {
+        var lst = this.Testing(areaId, measurementTypeId);
+        return lst;
+    }
+    Testing(areaId, measurementTypeId) {
+        var lst = [];
+        var pos = 0;
+        while (pos < 20) {
+            lst.push({
+                id: (pos + 1).toString(),
+                areaId: areaId,
+                measurementTypeId: measurementTypeId,
+                dateAdded: Date.now(),
+                measurement: pos.toString()
+            });
+            pos++;
+        }
+        return lst;
+    }
+    Add(areaId, measurementTypeId, value) {
+        // var connectionRef = this.connectionService.AddMeasurement({
+        //   id: null,
+        //   areaId: areaId,
+        //   measurementTypeId: measurementTypeId, 
+        //   dateAdded: Date.now(),
+        //   measurement: value
+        // });
+        // connectionRef.subscribe(result => {
+        //   return result;
+        // })
+        //return  of<MeasurementModel | null>(<any>null);
+        return this.connectionService.AddMeasurement({
+            id: null,
+            areaId: areaId,
+            measurementTypeId: measurementTypeId,
+            dateAdded: Date.now(),
+            measurement: value
+        });
+    }
+};
+MeasurementService.ctorParameters = () => [
+    { type: _connection_service__WEBPACK_IMPORTED_MODULE_2__["ConnectionService"] }
+];
+MeasurementService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
+        providedIn: 'root'
+    }),
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_connection_service__WEBPACK_IMPORTED_MODULE_2__["ConnectionService"]])
+], MeasurementService);
+
+
+
+/***/ }),
+
 /***/ "./src/app/Services/navigation.service.ts":
 /*!************************************************!*\
   !*** ./src/app/Services/navigation.service.ts ***!
@@ -502,15 +2436,21 @@ let NavigationService = class NavigationService {
         this.pages = [];
         //this.router.events.subscribe(this.RouterEvents);
     }
-    Push(page) {
+    Push(page, param = null) {
         console.log("page pushed: " + page);
+        this.CurrentPage = page.replace(/([A-Z])/g, ' $1').trim();
         if (this.pages.length == 0) {
             this.pages = [page];
         }
         else {
             this.pages.push(page);
         }
-        this.router.navigateByUrl("/" + page);
+        if (param !== null) {
+            this.router.navigate(["/" + page, param]);
+        }
+        else {
+            this.router.navigateByUrl("/" + page);
+        }
     }
     Pop() {
         if (this.pages.length > 0) {
@@ -596,6 +2536,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Pages_login_login_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Pages/login/login.component */ "./src/app/Pages/login/login.component.ts");
 /* harmony import */ var _Pages_areas_areas_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Pages/areas/areas.component */ "./src/app/Pages/areas/areas.component.ts");
 /* harmony import */ var _Pages_add_area_add_area_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Pages/add-area/add-area.component */ "./src/app/Pages/add-area/add-area.component.ts");
+/* harmony import */ var _Pages_measurement_types_measurement_types_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Pages/measurement-types/measurement-types.component */ "./src/app/Pages/measurement-types/measurement-types.component.ts");
+/* harmony import */ var _Pages_area_measurements_area_measurements_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Pages/area-measurements/area-measurements.component */ "./src/app/Pages/area-measurements/area-measurements.component.ts");
+/* harmony import */ var _Pages_area_map_area_map_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Pages/area-map/area-map.component */ "./src/app/Pages/area-map/area-map.component.ts");
+
+
+
 
 
 
@@ -606,11 +2552,15 @@ __webpack_require__.r(__webpack_exports__);
 const routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
     { path: 'home', component: _Pages_home_home_component__WEBPACK_IMPORTED_MODULE_3__["HomeComponent"] },
+    { path: 'Home', component: _Pages_home_home_component__WEBPACK_IMPORTED_MODULE_3__["HomeComponent"] },
     { path: 'login', component: _Pages_login_login_component__WEBPACK_IMPORTED_MODULE_4__["LoginComponent"] },
     { path: 'Areas', component: _Pages_areas_areas_component__WEBPACK_IMPORTED_MODULE_5__["AreasComponent"] },
     { path: 'areas', component: _Pages_areas_areas_component__WEBPACK_IMPORTED_MODULE_5__["AreasComponent"] },
     { path: "AddArea", component: _Pages_add_area_add_area_component__WEBPACK_IMPORTED_MODULE_6__["AddAreaComponent"] },
-    { path: "addarea", component: _Pages_add_area_add_area_component__WEBPACK_IMPORTED_MODULE_6__["AddAreaComponent"] }
+    { path: "addarea", component: _Pages_add_area_add_area_component__WEBPACK_IMPORTED_MODULE_6__["AddAreaComponent"] },
+    { path: "AddMeasurementTypes", component: _Pages_measurement_types_measurement_types_component__WEBPACK_IMPORTED_MODULE_7__["MeasurementTypesComponent"] },
+    { path: "AreaMeasurements/:id", component: _Pages_area_measurements_area_measurements_component__WEBPACK_IMPORTED_MODULE_8__["AreaMeasurementsComponent"] },
+    { path: "AreaMap/:id", component: _Pages_area_map_area_map_component__WEBPACK_IMPORTED_MODULE_9__["AreaMapComponent"] }
 ];
 let AppRoutingModule = class AppRoutingModule {
 };
@@ -632,7 +2582,7 @@ AppRoutingModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "app-add-area {\n  top: 0;\n  position: fixed;\n  width: 100vw;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvQzpcXFVzZXJzXFxjemFyYW1vXFxQcm9qZWN0c1xcTWFwc3Rlci9zcmNcXGFwcFxcYXBwLmNvbXBvbmVudC5zY3NzIiwic3JjL2FwcC9hcHAuY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDSSxNQUFBO0VBQ0EsZUFBQTtFQUNBLFlBQUE7QUNDSiIsImZpbGUiOiJzcmMvYXBwL2FwcC5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbImFwcC1hZGQtYXJlYSB7XHJcbiAgICB0b3A6MDtcclxuICAgIHBvc2l0aW9uOiBmaXhlZDtcclxuICAgIHdpZHRoOiAxMDB2dztcclxufSIsImFwcC1hZGQtYXJlYSB7XG4gIHRvcDogMDtcbiAgcG9zaXRpb246IGZpeGVkO1xuICB3aWR0aDogMTAwdnc7XG59Il19 */"
+module.exports = "app-add-area {\n  top: 0;\n  position: fixed;\n  width: 100vw;\n}\n\n#nvbar {\n  position: fixed;\n  width: 100vw;\n  z-index: 1000;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvQzpcXFVzZXJzXFxjemFyYW1vXFxQcm9qZWN0c1xcTWFwc3Rlci9zcmNcXGFwcFxcYXBwLmNvbXBvbmVudC5zY3NzIiwic3JjL2FwcC9hcHAuY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDSSxNQUFBO0VBQ0EsZUFBQTtFQUNBLFlBQUE7QUNDSjs7QURDQTtFQUNJLGVBQUE7RUFDQSxZQUFBO0VBQ0EsYUFBQTtBQ0VKIiwiZmlsZSI6InNyYy9hcHAvYXBwLmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiYXBwLWFkZC1hcmVhIHtcclxuICAgIHRvcDowO1xyXG4gICAgcG9zaXRpb246IGZpeGVkO1xyXG4gICAgd2lkdGg6IDEwMHZ3O1xyXG59XHJcbiNudmJhcntcclxuICAgIHBvc2l0aW9uOiBmaXhlZDtcclxuICAgIHdpZHRoOjEwMHZ3O1xyXG4gICAgei1pbmRleDogMTAwMDtcclxufSIsImFwcC1hZGQtYXJlYSB7XG4gIHRvcDogMDtcbiAgcG9zaXRpb246IGZpeGVkO1xuICB3aWR0aDogMTAwdnc7XG59XG5cbiNudmJhciB7XG4gIHBvc2l0aW9uOiBmaXhlZDtcbiAgd2lkdGg6IDEwMHZ3O1xuICB6LWluZGV4OiAxMDAwO1xufSJdfQ== */"
 
 /***/ }),
 
@@ -713,6 +2663,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Pages_areas_areas_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./Pages/areas/areas.component */ "./src/app/Pages/areas/areas.component.ts");
 /* harmony import */ var _Pages_add_area_add_area_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./Pages/add-area/add-area.component */ "./src/app/Pages/add-area/add-area.component.ts");
 /* harmony import */ var _agm_core__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @agm/core */ "./node_modules/@agm/core/index.js");
+/* harmony import */ var _Popups_entry_dialog_entry_dialog_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./Popups/entry-dialog/entry-dialog.component */ "./src/app/Popups/entry-dialog/entry-dialog.component.ts");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm2015/forms.js");
+/* harmony import */ var _Pages_measurement_types_measurement_types_component__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./Pages/measurement-types/measurement-types.component */ "./src/app/Pages/measurement-types/measurement-types.component.ts");
+/* harmony import */ var _Popups_add_edit_measurement_type_dialog_add_edit_measurement_type_dialog_component__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./Popups/add-edit-measurement-type-dialog/add-edit-measurement-type-dialog.component */ "./src/app/Popups/add-edit-measurement-type-dialog/add-edit-measurement-type-dialog.component.ts");
+/* harmony import */ var _Popups_selection_dialog_selection_dialog_component__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./Popups/selection-dialog/selection-dialog.component */ "./src/app/Popups/selection-dialog/selection-dialog.component.ts");
+/* harmony import */ var _Pages_area_measurements_area_measurements_component__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./Pages/area-measurements/area-measurements.component */ "./src/app/Pages/area-measurements/area-measurements.component.ts");
+/* harmony import */ var _Pages_area_map_area_map_component__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./Pages/area-map/area-map.component */ "./src/app/Pages/area-map/area-map.component.ts");
+/* harmony import */ var _Services_mapster_client__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./Services/mapster.client */ "./src/app/Services/mapster.client.ts");
+
+
+
+
+
+
+
+
 
 
 
@@ -740,7 +2706,13 @@ AppModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
             _Pages_login_login_component__WEBPACK_IMPORTED_MODULE_9__["LoginComponent"],
             _Pages_home_home_component__WEBPACK_IMPORTED_MODULE_10__["HomeComponent"],
             _Pages_areas_areas_component__WEBPACK_IMPORTED_MODULE_14__["AreasComponent"],
-            _Pages_add_area_add_area_component__WEBPACK_IMPORTED_MODULE_15__["AddAreaComponent"]
+            _Pages_add_area_add_area_component__WEBPACK_IMPORTED_MODULE_15__["AddAreaComponent"],
+            _Popups_entry_dialog_entry_dialog_component__WEBPACK_IMPORTED_MODULE_17__["EntryDialogComponent"],
+            _Pages_measurement_types_measurement_types_component__WEBPACK_IMPORTED_MODULE_19__["MeasurementTypesComponent"],
+            _Popups_add_edit_measurement_type_dialog_add_edit_measurement_type_dialog_component__WEBPACK_IMPORTED_MODULE_20__["AddEditMeasurementTypeDialogComponent"],
+            _Popups_selection_dialog_selection_dialog_component__WEBPACK_IMPORTED_MODULE_21__["SelectionDialogComponent"],
+            _Pages_area_measurements_area_measurements_component__WEBPACK_IMPORTED_MODULE_22__["AreaMeasurementsComponent"],
+            _Pages_area_map_area_map_component__WEBPACK_IMPORTED_MODULE_23__["AreaMapComponent"]
         ],
         imports: [
             _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
@@ -748,6 +2720,9 @@ AppModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
             _angular_material_dialog__WEBPACK_IMPORTED_MODULE_11__["MatDialogModule"],
             _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_13__["BrowserAnimationsModule"],
             _angular_material__WEBPACK_IMPORTED_MODULE_12__["MatCardModule"],
+            _angular_material__WEBPACK_IMPORTED_MODULE_12__["MatFormFieldModule"],
+            _angular_material__WEBPACK_IMPORTED_MODULE_12__["MatInputModule"],
+            _angular_forms__WEBPACK_IMPORTED_MODULE_18__["FormsModule"],
             _agm_core__WEBPACK_IMPORTED_MODULE_16__["AgmCoreModule"].forRoot({
                 apiKey: 'AIzaSyCU2867Rocotglq5fwvzEQnOJI6GqXCmSU',
                 libraries: ['places', 'drawing', 'geometry']
@@ -756,11 +2731,16 @@ AppModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         providers: [
             _Services_authentication_service__WEBPACK_IMPORTED_MODULE_6__["AuthenticationService"],
             _Services_pub_sub_service__WEBPACK_IMPORTED_MODULE_7__["PubSubService"],
+            _Services_mapster_client__WEBPACK_IMPORTED_MODULE_24__["Client"],
+            { provide: _Services_mapster_client__WEBPACK_IMPORTED_MODULE_24__["API_BASE_URL"], useValue: "https://localhost:44325" },
             _http_intercept__WEBPACK_IMPORTED_MODULE_8__["HttpIntercept"]
         ],
         bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_4__["AppComponent"]],
         entryComponents: [
-            _Pages_login_login_component__WEBPACK_IMPORTED_MODULE_9__["LoginComponent"]
+            _Pages_login_login_component__WEBPACK_IMPORTED_MODULE_9__["LoginComponent"],
+            _Popups_entry_dialog_entry_dialog_component__WEBPACK_IMPORTED_MODULE_17__["EntryDialogComponent"],
+            _Popups_add_edit_measurement_type_dialog_add_edit_measurement_type_dialog_component__WEBPACK_IMPORTED_MODULE_20__["AddEditMeasurementTypeDialogComponent"],
+            _Popups_selection_dialog_selection_dialog_component__WEBPACK_IMPORTED_MODULE_21__["SelectionDialogComponent"]
         ]
     })
 ], AppModule);
@@ -1035,34 +3015,6 @@ NavBarComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
 
 /***/ }),
 
-/***/ "./src/environments/environment.ts":
-/*!*****************************************!*\
-  !*** ./src/environments/environment.ts ***!
-  \*****************************************/
-/*! exports provided: environment */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "environment", function() { return environment; });
-// This file can be replaced during build by using the `fileReplacements` array.
-// `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
-// The list of file replacements can be found in `angular.json`.
-const environment = {
-    production: false
-};
-/*
- * For easier debugging in development mode, you can import the following file
- * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
- *
- * This import should be commented out in production mode because it will have a negative impact
- * on performance if an error is thrown.
- */
-// import 'zone.js/dist/zone-error';  // Included with Angular CLI.
-
-
-/***/ }),
-
 /***/ "./src/main.ts":
 /*!*********************!*\
   !*** ./src/main.ts ***!
@@ -1072,19 +3024,13 @@ const environment = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
-/* harmony import */ var _angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/platform-browser-dynamic */ "./node_modules/@angular/platform-browser-dynamic/fesm2015/platform-browser-dynamic.js");
-/* harmony import */ var _app_app_module__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./app/app.module */ "./src/app/app.module.ts");
-/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./environments/environment */ "./src/environments/environment.ts");
+/* harmony import */ var _angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/platform-browser-dynamic */ "./node_modules/@angular/platform-browser-dynamic/fesm2015/platform-browser-dynamic.js");
+/* harmony import */ var _app_app_module__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./app/app.module */ "./src/app/app.module.ts");
 
 
-
-
-if (_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].production) {
-    Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["enableProdMode"])();
-}
-Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformBrowserDynamic"])().bootstrapModule(_app_app_module__WEBPACK_IMPORTED_MODULE_2__["AppModule"])
-    .catch(err => console.error(err));
+document.addEventListener("deviceready", () => Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_0__["platformBrowserDynamic"])().bootstrapModule(_app_app_module__WEBPACK_IMPORTED_MODULE_1__["AppModule"]), false);
+// platformBrowserDynamic().bootstrapModule(AppModule)
+//   .catch(err => console.error(err));
 
 
 /***/ }),

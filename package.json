@@ -9,7 +9,8 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "copy-cordova": "copyfiles index.html www/index.html"
   },
   "keywords": [
     "ecosystem:cordova"
@@ -48,6 +49,7 @@
   },
   "private": true,
   "devDependencies": {
+    "copyfiles": "2.1.1",
     "@angular-devkit/build-angular": "~0.801.1",
     "@angular/cli": "~8.1.1",
     "@angular/compiler-cli": "~8.1.1",

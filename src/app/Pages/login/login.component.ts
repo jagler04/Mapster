@@ -1,21 +1,25 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
-import * as M from "../../../assets/js/materialize.min";
+import { AuthenticationService } from 'src/app/Services/authentication.service';
 
 @Component({
   selector: 'login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit, AfterViewInit {
+export class LoginComponent implements OnInit {
+  email: string;
+  password: string;
 
-  @ViewChild('loginDialog', {static: false})
-  dialog: ElementRef;
-  constructor() { }
+  constructor(public authService: AuthenticationService) { }
 
   ngOnInit() {
+
   }
-  ngAfterViewInit() {
-}
+
+  login() {
+    console.log('at least made it here')
+    this.authService.login(this.email, this.password);
+  }
+
 
 }

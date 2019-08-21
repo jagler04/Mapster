@@ -9,9 +9,8 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e",
-    "copy-cordova": "copyfiles index.html www/index.html"
-  },
+    "e2e": "ng e2e"
+    },
   "keywords": [
     "ecosystem:cordova"
   ],

@@ -1,17 +1,20 @@
-<nav class="navbar navbar-solid-transition" *ngIf="IsAuthenticated" >
+<nav class="navbar navbar-solid-transition" *ngIf="IsAuthenticated">
   <div class="nav-wrapper">
     <a href="horizontal-half.html" class="brand-logo"><i class="icon-diamond"></i></a>
     <ul id="nav-mobile" class="left hide-on-med-and-down">
-        <li><a (click)="GoToPage('Home')" >Home</a></li>
-        <li><a (click)="GoToPage('Areas')" >Areas</a></li>
-      <li><a (click)="GoToPage('AddMeasurementTypes')" >Measurement Types</a></li>
+      <li><a (click)="GoToPage('Login')">Login</a></li>
+      <li><a (click)="GoToPage('Home')">Home</a></li>
+      <li><a (click)="GoToPage('Areas')">Areas</a></li>
+      <li><a (click)="GoToPage('AddMeasurementTypes')">Measurement Types</a></li>
     </ul>
-    <a href="#" data-target="slide-out" class="sidenav-trigger button-collapse left"><i class="material-icons white-text">menu</i></a>
+    <a href="#" data-target="slide-out" class="sidenav-trigger button-collapse left"><i
+        class="material-icons white-text">menu</i></a>
     <a class="brand-logoe center">{{nav.CurrentPage}}</a>
   </div>
 </nav>
 <ul id="slide-out" class="sidenav" *ngIf="IsAuthenticated">
-    <li><a class="waves-effect waves-green" (click)="GoToPage('Home')">Home</a></li>
-    <li><a class="waves-effect waves-green" (click)="GoToPage('Areas')">Areas</a></li>
+  <li><a (click)="GoToPage('Login')">Login</a></li>
+  <li><a class="waves-effect waves-green" (click)="GoToPage('Home')">Home</a></li>
+  <li><a class="waves-effect waves-green" (click)="GoToPage('Areas')">Areas</a></li>
   <li><a class="waves-effect waves-green" (click)="GoToPage('AddMeasurementTypes')">Measurement Types</a></li>
 </ul>

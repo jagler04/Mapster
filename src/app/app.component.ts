@@ -12,7 +12,6 @@ export class AppComponent implements OnInit {
   title = 'Saperr';
   ngOnInit() {
     document.addEventListener("deviceready", function () {
-      alert(device.platform);
     }, false);
   }
 

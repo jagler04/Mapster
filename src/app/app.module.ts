@@ -60,7 +60,7 @@ import { HttpClientModule } from '@angular/common/http';
     AuthenticationService,
     PubSubService,
     Client,
-    { provide: API_BASE_URL, useValue: "https://localhost:44325" },
+    { provide: API_BASE_URL, useValue: "http://saperr.com/" },
     HttpIntercept,
     
   ],

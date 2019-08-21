@@ -24,7 +24,7 @@ import { AreaMeasurementsComponent } from './Pages/area-measurements/area-measur
 import { AreaMapComponent } from './Pages/area-map/area-map.component';
 import { Client, API_BASE_URL } from './Services/mapster.client'
 
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -50,6 +50,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
+    HttpClientModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyCU2867Rocotglq5fwvzEQnOJI6GqXCmSU',
       libraries: ['places', 'drawing', 'geometry']
@@ -60,7 +61,8 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
     PubSubService,
     Client,
     { provide: API_BASE_URL, useValue: "https://localhost:44325" },
-    HttpIntercept
+    HttpIntercept,
+    
   ],
   bootstrap: [AppComponent],
   entryComponents: [

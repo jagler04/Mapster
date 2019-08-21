@@ -2608,7 +2608,7 @@ let AppComponent = class AppComponent {
     constructor(pubsub, nav) {
         this.pubsub = pubsub;
         this.nav = nav;
-        this.title = 'Mapster';
+        this.title = 'Saperr';
         pubsub.$sub("Add Area Page Active").subscribe(data => {
             var navbr = document.getElementById("nvbar");
             navbr.style.display = 'none';
@@ -2617,6 +2617,11 @@ let AppComponent = class AppComponent {
             var navbr = document.getElementById("nvbar");
             navbr.style.display = 'block';
         });
+    }
+    ngOnInit() {
+        document.addEventListener("deviceready", function () {
+            alert(device.platform);
+        }, false);
     }
 };
 AppComponent.ctorParameters = () => [
@@ -2671,6 +2676,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Pages_area_measurements_area_measurements_component__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./Pages/area-measurements/area-measurements.component */ "./src/app/Pages/area-measurements/area-measurements.component.ts");
 /* harmony import */ var _Pages_area_map_area_map_component__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./Pages/area-map/area-map.component */ "./src/app/Pages/area-map/area-map.component.ts");
 /* harmony import */ var _Services_mapster_client__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./Services/mapster.client */ "./src/app/Services/mapster.client.ts");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm2015/http.js");
+
 
 
 
@@ -2723,6 +2730,7 @@ AppModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
             _angular_material__WEBPACK_IMPORTED_MODULE_12__["MatFormFieldModule"],
             _angular_material__WEBPACK_IMPORTED_MODULE_12__["MatInputModule"],
             _angular_forms__WEBPACK_IMPORTED_MODULE_18__["FormsModule"],
+            _angular_common_http__WEBPACK_IMPORTED_MODULE_25__["HttpClientModule"],
             _agm_core__WEBPACK_IMPORTED_MODULE_16__["AgmCoreModule"].forRoot({
                 apiKey: 'AIzaSyCU2867Rocotglq5fwvzEQnOJI6GqXCmSU',
                 libraries: ['places', 'drawing', 'geometry']
@@ -2733,7 +2741,7 @@ AppModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
             _Services_pub_sub_service__WEBPACK_IMPORTED_MODULE_7__["PubSubService"],
             _Services_mapster_client__WEBPACK_IMPORTED_MODULE_24__["Client"],
             { provide: _Services_mapster_client__WEBPACK_IMPORTED_MODULE_24__["API_BASE_URL"], useValue: "https://localhost:44325" },
-            _http_intercept__WEBPACK_IMPORTED_MODULE_8__["HttpIntercept"]
+            _http_intercept__WEBPACK_IMPORTED_MODULE_8__["HttpIntercept"],
         ],
         bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_4__["AppComponent"]],
         entryComponents: [
@@ -3028,9 +3036,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app_app_module__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./app/app.module */ "./src/app/app.module.ts");
 
 
-document.addEventListener("deviceready", () => Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_0__["platformBrowserDynamic"])().bootstrapModule(_app_app_module__WEBPACK_IMPORTED_MODULE_1__["AppModule"]), false);
-// platformBrowserDynamic().bootstrapModule(AppModule)
-//   .catch(err => console.error(err));
+// let onDeviceReady = () => {
+//   platformBrowserDynamic().bootstrapModule(AppModule);
+// };
+// document.addEventListener('deviceready', onDeviceReady, false);
+Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_0__["platformBrowserDynamic"])().bootstrapModule(_app_app_module__WEBPACK_IMPORTED_MODULE_1__["AppModule"])
+    .catch(err => console.error(err));
 
 
 /***/ }),

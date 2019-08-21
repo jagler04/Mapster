@@ -6,7 +6,10 @@
 /out-tsc
 **/obj
 **/bin
-/platforms
+**/platforms
+**/android
+**/broswer
+**/ios
 # dependencies
 /node_modules
 

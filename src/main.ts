@@ -5,10 +5,12 @@ import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 
 
-document.addEventListener("deviceready", () => 
-  platformBrowserDynamic().bootstrapModule(AppModule), false);
+
+// let onDeviceReady = () => {
+//   platformBrowserDynamic().bootstrapModule(AppModule);
+// };
+// document.addEventListener('deviceready', onDeviceReady, false);
 
 
-
-// platformBrowserDynamic().bootstrapModule(AppModule)
-//   .catch(err => console.error(err));
+platformBrowserDynamic().bootstrapModule(AppModule)
+  .catch(err => console.error(err));

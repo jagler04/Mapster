@@ -14,16 +14,13 @@ export class AuthenticationService {
   public IsAuthenticated: boolean;
   constructor(private pubsub: PubSubService, private dialog: MatDialog, private backendClient: Client) { }
 
-  public login(email: string, password: string) {
+  login(email: string, password: string) {
     let user = new User({
       email: email,
       password: password
     });
 
-    this.backendClient.login(user).subscribe(x => {
-      console.log(x)
-    })
-    this.pubsub.$pub("LoggedIn");
+    return this.backendClient.login(user);
   }
   public Logout() {
     this.pubsub.$pub("LoggedOut");

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Mapster.Models;
 using Mapster.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Mapster.Controllers
@@ -19,6 +20,7 @@ namespace Mapster.Controllers
       _userService = userService;
     }
 
+    [Authorize]
     [HttpGet]
     public ActionResult<List<User>> Get() =>
             _userService.Get();

@@ -26,7 +26,7 @@ namespace Mapster.Controllers
     }
 
     [HttpGet]
-    public ActionResult<List<Area>> Get() =>
+    public ActionResult<List<Area>> GetAll() =>
         _areaService.Get();
 
     [HttpGet("{id:length(24)}", Name = "GetArea")]

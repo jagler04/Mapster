@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { PubSubService } from 'src/app/Services/pub-sub.service';
 import { Router } from '@angular/router';
 import { NavigationService } from 'src/app/Services/navigation.service';
-import { AreaService, AreaModel } from 'src/app/Services/area.service';
+import { AreaService } from 'src/app/Services/area.service';
+import { Area, User, Point, Location, Client } from 'src/app/Services/mapster.client';
+
 import { MatDialog } from '@angular/material';
 import { EntryDialogComponent } from 'src/app/Popups/entry-dialog/entry-dialog.component';
 import { SelectionDialogComponent } from 'src/app/Popups/selection-dialog/selection-dialog.component';
@@ -17,12 +19,13 @@ export class AreasComponent implements OnInit {
   constructor(private nav: NavigationService, public areaService: AreaService, private dialog: MatDialog) { }
 
   ngOnInit() {
+    
   }
   GoToAdd(){
     this.nav.Push("AddArea");
   }
-  ShowEdit(area: AreaModel){
-    var name = area.AreaName;
+  ShowEdit(area: Area){
+    var name = area.areaname;
     var dialogRef = this.dialog.open(EntryDialogComponent, 
       {data: {Text: "Update Area Name", Value: name}
     });
@@ -33,9 +36,9 @@ export class AreasComponent implements OnInit {
     });
   }
 
-  ShowSelect(area: AreaModel){
+  ShowSelect(area: Area){
     var dialogRef = this.dialog.open(SelectionDialogComponent, { data:{
-      Header: area.AreaName,
+      Header: area.areaname,
       Selections: ["View Map","Add Measurement","Edit Area Name"]
     }});
 

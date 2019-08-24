@@ -23,8 +23,8 @@ import { SelectionDialogComponent } from './Popups/selection-dialog/selection-di
 import { AreaMeasurementsComponent } from './Pages/area-measurements/area-measurements.component';
 import { AreaMapComponent } from './Pages/area-map/area-map.component';
 import { Client, API_BASE_URL } from './Services/mapster.client'
-
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptor } from './Services/token.interceptor';
 
 @NgModule({
   declarations: [
@@ -60,9 +60,10 @@ import { HttpClientModule } from '@angular/common/http';
     AuthenticationService,
     PubSubService,
     Client,
-    { provide: API_BASE_URL, useValue: "http://saperr.com/" },
+    { provide: API_BASE_URL, useValue: "https://localhost:44325" },
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
     HttpIntercept,
-    
+
   ],
   bootstrap: [AppComponent],
   entryComponents: [

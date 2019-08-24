@@ -3,7 +3,7 @@
   "defaultVariables": null,
   "swaggerGenerator": {
     "fromSwagger": {
-      "url": "http://saperr.azurewebsites.net/swagger/v1/swagger.json",
+      "url": "https://localhost:44325/swagger/v1/swagger.json",
       "output": null
     }
   },

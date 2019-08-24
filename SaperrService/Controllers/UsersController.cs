@@ -11,6 +11,7 @@ namespace Mapster.Controllers
 {
   [Route("api/[controller]")]
   [ApiController]
+  [Authorize]
   public class UsersController : ControllerBase
   {
     private readonly UserService _userService;
@@ -20,7 +21,6 @@ namespace Mapster.Controllers
       _userService = userService;
     }
 
-    [Authorize]
     [HttpGet]
     public ActionResult<List<User>> Get() =>
             _userService.Get();

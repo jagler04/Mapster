@@ -17,9 +17,9 @@ namespace Mapster.Controllers
     }
 
     [HttpPost]
-    public IActionResult Login([FromBody]User login)
+    public ActionResult<string> Login([FromBody]User login)
     {
-      IActionResult response = Unauthorized();
+      ActionResult response = Unauthorized();
       var user = _authService.AuthenticateUser(login);
 
       if (user != null)

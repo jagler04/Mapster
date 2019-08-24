@@ -52,17 +52,13 @@ namespace Mapster
           });
 
       services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
-      var corsBuilder = new CorsPolicyBuilder();
-      corsBuilder.AllowAnyHeader();
-      corsBuilder.AllowAnyMethod();
-      corsBuilder.AllowAnyOrigin(); // For anyone access.
-      corsBuilder.AllowCredentials();
-
-      services.AddCors(options =>
+      services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
       {
-        options.AddPolicy("SiteCorsPolicy", corsBuilder.Build());
-      });
+        builder.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+      }));
+
       services.AddSwaggerGen(c =>
       {
         c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
@@ -79,6 +75,8 @@ namespace Mapster
       {
         app.UseHsts();
       }
+      app.UseCors("CorsPolicy");
+
       app.UseSwagger();
       app.UseSwaggerUI(c =>
       {
@@ -88,8 +86,6 @@ namespace Mapster
       app.UseHttpsRedirection();
       app.UseAuthentication();
       app.UseMvc();
-      app.UseCors("SiteCorsPolicy");
-
     }
   }
 }

@@ -13,6 +13,10 @@ export class AreaService {
   }
 
   getAreas(){
+    this.backendClient.getAll().subscribe(x => {
+      console.log(x);
+      this.Areas = x;
+    })
   }
 
   public CreateNewArea(path: Array<LatLngLiteral>, areaName: string) {
@@ -34,7 +38,7 @@ export class AreaService {
     }
     //NEED TO PUSH TO DB
     this.Areas.push(newAreaDB);
-    this.backendClient.area(newAreaDB).subscribe(x => {
+    this.backendClient.create(newAreaDB).subscribe(x => {
       this.pubsub.$pub("Areas Updates", this.Areas);
       console.log(x);
       console.log('creation complete!');

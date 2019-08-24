@@ -26,6 +26,7 @@ namespace Mapster.Controllers
     }
 
     [HttpGet]
+    [Route("GetAll")]
     public ActionResult<List<Area>> GetAll() =>
         _areaService.Get();
 
@@ -43,6 +44,7 @@ namespace Mapster.Controllers
     }
 
     [HttpPost]
+    [Route("Create")]
     public ActionResult<Area> Create([FromBody] Area area)
     {
       var owner = _authService.GetIdFromRequest(Request);

@@ -19,7 +19,7 @@ export class AreasComponent implements OnInit {
   constructor(private nav: NavigationService, public areaService: AreaService, private dialog: MatDialog) { }
 
   ngOnInit() {
-    
+    this.areaService.getAreas();
   }
   GoToAdd(){
     this.nav.Push("AddArea");

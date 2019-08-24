@@ -47,8 +47,7 @@ export class AreaService {
 
     let newAreaDB = new Area({
       areaname: areaName,
-      points: [],
-      owner: "5d432f621c9d666b6473ffec"
+      points: []
     })
     var pos = 0;
     while (pos < path.length) {

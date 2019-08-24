@@ -2,6 +2,7 @@ using Mapster.Models;
 using Mapster.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace Mapster.Controllers
 {
@@ -19,6 +20,7 @@ namespace Mapster.Controllers
     [HttpPost]
     public ActionResult<string> Login([FromBody]User login)
     {
+      var id = _authService.GetIdFromRequest(Request);
       ActionResult response = Unauthorized();
       var user = _authService.AuthenticateUser(login);
 

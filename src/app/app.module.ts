@@ -24,7 +24,7 @@ import { AreaMeasurementsComponent } from './Pages/area-measurements/area-measur
 import { AreaMapComponent } from './Pages/area-map/area-map.component';
 import { Client, API_BASE_URL } from './Services/mapster.client'
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { TokenInterceptor } from './Services/token.interceptor';
+import { TokenInterceptor, JwtInterceptor } from './Services/token.interceptor';
 
 @NgModule({
   declarations: [
@@ -62,6 +62,8 @@ import { TokenInterceptor } from './Services/token.interceptor';
     Client,
     { provide: API_BASE_URL, useValue: "https://localhost:44325" },
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+
     HttpIntercept,
 
   ],

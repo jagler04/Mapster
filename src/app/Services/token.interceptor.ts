@@ -8,6 +8,7 @@ import {
     HttpErrorResponse
 } from '@angular/common/http';
 import { AuthenticationService } from './authentication.service';
+import { NavigationService } from './navigation.service';
 import { Observable } from 'rxjs';
 import { tap } from "rxjs/operators";
 
@@ -19,17 +20,21 @@ export class TokenInterceptor implements HttpInterceptor {
     constructor(public auth: AuthenticationService) { }
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-        request = request.clone({
-            setHeaders: {
-                Authorization: `Bearer ${this.auth.getToken()}`
-            }
-        });
+        if (this.auth.isAuthenticated()) {
+            request = request.clone({
+                setHeaders: {
+                    Authorization: `Bearer ${this.auth.getToken()}`
+                }
+            });
+        }
+
         return next.handle(request);
     }
 }
 
+@Injectable()
 export class JwtInterceptor implements HttpInterceptor {
-    constructor(public auth: AuthenticationService) { }
+    constructor(public auth: AuthenticationService, private nav: NavigationService) { }
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
         return next.handle(request).pipe(tap((event: HttpEvent<any>) => {
@@ -39,6 +44,9 @@ export class JwtInterceptor implements HttpInterceptor {
         }, (err: any) => {
             if (err instanceof HttpErrorResponse) {
                 if (err.status === 401) {
+                    console.log('Unauthorized')
+                    this.nav.Push("Login");
+
                     // redirect to the login route
                     // or show a modal
                 }

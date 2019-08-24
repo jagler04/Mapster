@@ -1,4 +1,5 @@
 using Mapster.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -15,6 +16,7 @@ namespace Mapster.Services
   {
     bool IsPasswordValid(string email, string password);
     string GenerateJSONWebToken(User userInfo);
+    string GetIdFromRequest(HttpRequest request);
     User AuthenticateUser(User login);
   }
   public class AuthenticationService : IAuthenticationService
@@ -51,7 +53,7 @@ namespace Mapster.Services
       var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
       var claims = new[] {
-                new Claim(JwtRegisteredClaimNames.Sub, userInfo.username),
+                new Claim(JwtRegisteredClaimNames.Sub, userInfo.Id),
                 new Claim(JwtRegisteredClaimNames.Email, userInfo.email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
@@ -65,5 +67,19 @@ namespace Mapster.Services
       return new JwtSecurityTokenHandler().WriteToken(token);
     }
 
+    public string GetIdFromRequest(HttpRequest request)
+    {
+      try
+      {
+        string jwt = request.Headers["Authorization"].ToString().Split(' ')[1];
+        var handler = new JwtSecurityTokenHandler();
+        var token = handler.ReadJwtToken(jwt);
+        return token.Subject;
+      }
+      catch(Exception e)
+      {
+        return null;
+      }
+    }
   }
 }

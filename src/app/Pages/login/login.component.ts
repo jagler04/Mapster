@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { AuthenticationService } from 'src/app/Services/authentication.service';
+import { NavigationService } from 'src/app/Services/navigation.service';
 
 @Component({
   selector: 'login',
@@ -10,7 +11,7 @@ export class LoginComponent implements OnInit {
   email: string;
   password: string;
 
-  constructor(public authService: AuthenticationService) { }
+  constructor(public authService: AuthenticationService,  private nav: NavigationService) { }
 
   ngOnInit() {
 
@@ -21,10 +22,12 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.email, this.password).subscribe(x => {
       console.log(x["token"])
       this.authService.saveToken(x["token"]);
-    })
+      this.nav.Push("Areas");
+
+    }, error => console.log(error))
   }
 
-  checkAuth(){
+  checkAuth() {
     this.authService.isAuthenticated();
   }
 

@@ -32,7 +32,7 @@ export class AuthenticationService {
   saveToken(token: string) {
     localStorage.setItem('token', token)
   }
-  
+
   getToken(): string {
     return localStorage.getItem('token');
   }
@@ -40,12 +40,18 @@ export class AuthenticationService {
   public isAuthenticated(): boolean {
     // get the token
     const token = this.getToken();
+    if (token == null) {
+      return false
+    }
     return this.tokenNotExpired(token);
   }
 
   tokenNotExpired(token: string): boolean {
     var decoded = jwt_decode(token);
     console.log(decoded);
+    if (Date.now() >= decoded.exp * 1000) {
+      return false;
+    }
     return true;
 
   }

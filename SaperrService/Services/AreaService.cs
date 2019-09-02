@@ -32,5 +32,8 @@ namespace Mapster.Services
       _areas.InsertOne(User);
       return User;
     }
+
+    public void Update(Area areaIn) =>
+        _areas.ReplaceOne(Area => Area.Id == areaIn.Id, areaIn);
   }
 }

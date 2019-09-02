@@ -1,11 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Mapster.Models;
 using Mapster.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace Mapster.Controllers
 {
@@ -25,33 +22,39 @@ namespace Mapster.Controllers
       _authService = authService;
     }
 
-    [HttpGet]
-    [Route("GetAll")]
-    public ActionResult<List<Area>> GetAll() =>
+    [HttpGet(Name = "Get_Areas")]
+    public ActionResult<List<Area>> GetAllAreas() =>
         _areaService.Get();
 
-    [HttpGet("{id:length(24)}", Name = "GetArea")]
-    public ActionResult<Area> Get(string id)
+    [HttpGet("{id:length(24)}", Name = "Get_Area")]
+    public ActionResult<Area> GetArea(string id)
     {
       var area = _areaService.Get(id);
-
-      if (area == null)
+      if (area != null)
       {
-        return NotFound();
+        return Ok(area);
       }
-
-      return area;
+      return BadRequest();
     }
 
-    [HttpPost]
-    [Route("Create")]
-    public ActionResult<Area> Create([FromBody] Area area)
+    [HttpPost(Name = "Create_Area")]
+    public ActionResult<Area> CreateArea([FromBody] Area area)
     {
       var owner = _authService.GetIdFromRequest(Request);
       area.owner = owner;
 
-      _areaService.Create(area);
-      return CreatedAtRoute("GetArea", new { id = area.Id.ToString() }, area);
+      return _areaService.Create(area);
+    }
+
+    [HttpPut(Name = "Update_Area")]
+    public ActionResult<Area> UpdateArea([FromBody]Area area)
+    {
+      var owner = _authService.GetIdFromRequest(Request);
+      if (area.owner != owner)
+        return Unauthorized();
+
+      _areaService.Update(area);
+      return area;
     }
   }
 }

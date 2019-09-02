@@ -23,27 +23,27 @@ export class AreaMapComponent implements OnInit {
         var id = params["id"];
         var area = this.areaService.Areas.find(a => { if(a.id === params["id"]) return true; });
         if(area !== undefined){
-          var maxLat = area.Points[0].Latitude;
-          var minLat = area.Points[0].Latitude;
-          var maxLon = area.Points[0].Longitude;
-          var minLon = area.Points[0].Longitude;
+          var maxLat = area.points[0].loc.latitude
+          var minLat = area.points[0].loc.latitude;
+          var maxLon = area.points[0].loc.longitude;
+          var minLon = area.points[0].loc.longitude;
           var points: Array<LatLngLiteral> = [];
-          area.Points.forEach(p => {
-            if(maxLat < p.Latitude){
-              maxLat = p.Latitude;
+          area.points.forEach(p => {
+            if(maxLat < p.loc.latitude){
+              maxLat = p.loc.latitude;
             }
-            if(minLat > p.Latitude){
-              minLat = p.Latitude;
+            if(minLat > p.loc.latitude){
+              minLat = p.loc.latitude;
             }
-            if(maxLon < p.Longitude){
-              maxLon = p.Longitude;
+            if(maxLon < p.loc.longitude){
+              maxLon = p.loc.longitude;
             }
-            if(minLon > p.Longitude){
-              minLon = p.Longitude;
+            if(minLon > p.loc.longitude){
+              minLon = p.loc.longitude;
             }
             points.push({
-              lat: p.Latitude,
-              lng: p.Longitude
+              lat: p.loc.latitude,
+              lng: p.loc.longitude
             })
           });
           console.log(points);

@@ -23,8 +23,7 @@ namespace Mapster.Models
 
   public class Location
   {
-    public double lat { get; set; }
-    [BsonElement("long")]
+    public double latitude { get; set; }
     public double longitude { get; set; }
   }
 }

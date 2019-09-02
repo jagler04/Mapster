@@ -12,50 +12,46 @@ namespace Mapster.Controllers
   [Route("api/[controller]")]
   [ApiController]
   [Authorize]
-  public class UsersController : ControllerBase
+  public class UserController : ControllerBase
   {
     private readonly UserService _userService;
 
-    public UsersController(UserService userService)
+    public UserController(UserService userService)
     {
       _userService = userService;
     }
 
-    [HttpGet]
-    public ActionResult<List<User>> Get() =>
-            _userService.Get();
-
-    [HttpGet("{id:length(24)}", Name = "GetUser")]
+    [HttpGet("{id:length(24)}", Name = "Get_User")]
     public ActionResult<User> Get(string id)
     {
       var user = _userService.Get(id);
 
       if (user == null)
       {
-        return NotFound();
+        return BadRequest();
       }
 
       return user;
     }
-    // POST api/values
-    [HttpPost]
+
+    [HttpPost(Name ="Create_User")]
     public ActionResult<User> Create([FromBody] User user)
     {
       var hashedPass = PasswordService.GenerateSaltAndHash(user.password);
       user.password = hashedPass;
       user.premium = true;
       var current = _userService.Create(user);
-      return CreatedAtRoute("GetUser", new { id = user.Id.ToString() }, user);
+      return CreatedAtRoute("Get_User", new { id = user.Id.ToString() }, user);
     }
 
     // PUT api/values/5
-    [HttpPut("{id}")]
+    [HttpPut("{id}", Name ="Update_User")]
     public void Put(int id, [FromBody] string value)
     {
     }
 
     // DELETE api/values/5
-    [HttpDelete("{id}")]
+    [HttpDelete("{id}", Name ="Delete_User")]
     public void Delete(int id)
     {
     }

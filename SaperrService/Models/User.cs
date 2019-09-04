@@ -1,7 +1,7 @@
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace Mapster.Models
+namespace Saperr.Models
 {
   public class User
   {

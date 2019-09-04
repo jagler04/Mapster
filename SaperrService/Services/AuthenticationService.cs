@@ -1,24 +1,25 @@
-using Mapster.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Saperr.Models;
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace Mapster.Services
+namespace Saperr.Services
 {
   public interface IAuthenticationService
   {
     bool IsPasswordValid(string email, string password);
+
     string GenerateJSONWebToken(User userInfo);
+
     string GetIdFromRequest(HttpRequest request);
+
     User AuthenticateUser(User login);
   }
+
   public class AuthenticationService : IAuthenticationService
   {
     private readonly UserService _userService;
@@ -32,12 +33,13 @@ namespace Mapster.Services
 
     public User AuthenticateUser(User login)
     {
-      if(!IsPasswordValid(login.email, login.password))
+      if (!IsPasswordValid(login.email, login.password))
       {
         return null;
       }
       return _userService.GetByEmail(login.email);
     }
+
     public bool IsPasswordValid(string email, string password)
     {
       var user = _userService.GetByEmail(email);
@@ -76,7 +78,7 @@ namespace Mapster.Services
         var token = handler.ReadJwtToken(jwt);
         return token.Subject;
       }
-      catch(Exception e)
+      catch (Exception e)
       {
         return null;
       }

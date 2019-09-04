@@ -10,6 +10,7 @@ import { EntryDialogComponent } from 'src/app/Popups/entry-dialog/entry-dialog.c
   templateUrl: './area-measurements.component.html',
   styleUrls: ['./area-measurements.component.scss']
 })
+
 export class AreaMeasurementsComponent implements OnInit {
   areaId: string;
   measurementTypes: Array<MeasurementTypeExtended> = [];

@@ -1,20 +1,17 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
-namespace Mapster.Controllers
+namespace Saperr.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ValuesController : ControllerBase
+  [Route("api/[controller]")]
+  [ApiController]
+  public class ValuesController : ControllerBase
+  {
+    // GET api/values
+    [HttpGet]
+    public ActionResult<IEnumerable<string>> Get()
     {
-        // GET api/values
-        [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
-        {
-            return new string[] { "online" };
-        }
+      return new string[] { "online" };
     }
+  }
 }

@@ -1,8 +1,5 @@
-using Mapster.Models;
-using Mapster.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -10,6 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Saperr.Models;
+using Saperr.Services;
 using System.Text;
 
 namespace Mapster
@@ -35,6 +34,7 @@ namespace Mapster
       services.AddSingleton<UserService>();
       services.AddSingleton<AreaService>();
       services.AddSingleton<IAuthenticationService, AuthenticationService>();
+      services.AddSingleton<MeasurementService>();
 
       services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
           .AddJwtBearer(options =>
@@ -64,6 +64,7 @@ namespace Mapster
         c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
       });
     }
+
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IHostingEnvironment env)
     {

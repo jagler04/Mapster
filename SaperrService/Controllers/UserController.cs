@@ -1,13 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Mapster.Models;
-using Mapster.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Saperr.Models;
+using Saperr.Services;
 
-namespace Mapster.Controllers
+namespace Saperr.Controllers
 {
   [Route("api/[controller]")]
   [ApiController]
@@ -34,7 +30,7 @@ namespace Mapster.Controllers
       return user;
     }
 
-    [HttpPost(Name ="Create_User")]
+    [HttpPost(Name = "Create_User")]
     public ActionResult<User> Create([FromBody] User user)
     {
       var hashedPass = PasswordService.GenerateSaltAndHash(user.password);
@@ -45,13 +41,13 @@ namespace Mapster.Controllers
     }
 
     // PUT api/values/5
-    [HttpPut("{id}", Name ="Update_User")]
+    [HttpPut("{id}", Name = "Update_User")]
     public void Put(int id, [FromBody] string value)
     {
     }
 
     // DELETE api/values/5
-    [HttpDelete("{id}", Name ="Delete_User")]
+    [HttpDelete("{id}", Name = "Delete_User")]
     public void Delete(int id)
     {
     }

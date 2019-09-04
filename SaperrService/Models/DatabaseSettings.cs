@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Mapster.Models
+namespace Saperr.Models
 {
   public class DatabaseSettings : IDatabaseSettings
   {

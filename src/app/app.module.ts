@@ -25,6 +25,8 @@ import { AreaMapComponent } from './Pages/area-map/area-map.component';
 import { Client, API_BASE_URL, UpdateClient, CreateClient, GetClient } from './Services/mapster.client'
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor, JwtInterceptor } from './Services/token.interceptor';
+import { GraphComponent } from './Pages/graph/graph.component';
+import { GraphControlComponent } from './Controls/graph-control/graph-control.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,9 @@ import { TokenInterceptor, JwtInterceptor } from './Services/token.interceptor';
     AddEditMeasurementTypeDialogComponent,
     SelectionDialogComponent,
     AreaMeasurementsComponent,
-    AreaMapComponent
+    AreaMapComponent,
+    GraphComponent,
+    GraphControlComponent
   ],
   imports: [
     BrowserModule,

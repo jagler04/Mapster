@@ -7,6 +7,7 @@ import { AddAreaComponent } from './Pages/add-area/add-area.component';
 import { MeasurementTypesComponent } from './Pages/measurement-types/measurement-types.component';
 import { AreaMeasurementsComponent } from './Pages/area-measurements/area-measurements.component';
 import { AreaMapComponent } from './Pages/area-map/area-map.component';
+import { GraphComponent } from './Pages/graph/graph.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -19,7 +20,9 @@ const routes: Routes = [
   { path: "addarea", component: AddAreaComponent },
   { path: "AddMeasurementTypes", component: MeasurementTypesComponent },
   { path: "AreaMeasurements/:id", component: AreaMeasurementsComponent },
-  { path: "AreaMap/:id", component: AreaMapComponent }
+  { path: "AreaMap/:id", component: AreaMapComponent },
+  { path: "Graphs/:id", component: GraphComponent },
+  { path: "Graphs", component: GraphComponent }
 ];
 
 @NgModule({

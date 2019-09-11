@@ -1,0 +1,8 @@
+<p>graph works!</p>
+<div *ngIf="oneArea === false">
+    <p>Showing multi area content</p>
+</div>
+<div *ngFor="let mt of measurementTypeService.MeasurementTypes">
+    <p>{{mt.id}}</p>
+    <graph-control [MeasurementType]="mt.id"></graph-control>
+</div>

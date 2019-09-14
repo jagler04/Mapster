@@ -1,3 +1,5 @@
+using System;
+using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using Saperr.Models;
 
@@ -14,6 +16,11 @@ namespace Saperr.Services
       var database = client.GetDatabase(settings.DatabaseName);
       _measurements = database.GetCollection<Measurement>("Measurements");
       _measurementTypes = database.GetCollection<MeasurementType>("MeasurementTypes");
+    }
+    public Measurement Create(Measurement measurement)
+    {
+      _measurements.InsertOne(measurement);
+      return measurement;
     }
   }
 }

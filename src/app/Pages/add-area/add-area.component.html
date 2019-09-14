@@ -10,7 +10,7 @@
 </nav>
 
 <div class="map">
-    <agm-map class="gmap" [latitude]="latitude" [longitude]="longitude" [zoom]="zoom" (mapClick)="mapClicked($event)"
+    <!-- <agm-map class="gmap" [latitude]="latitude" [longitude]="longitude" [zoom]="zoom" (mapClick)="mapClicked($event)"
         [clickableIcons]="false" [streetViewControl]="false" [zoomControl]="false">
         <agm-marker [latitude]="latitude" [longitude]="longitude" >
             <agm-info-window>
@@ -29,7 +29,9 @@
         <agm-polygon [paths]="paths" [strokeColor]="'#5DAA68'">
             
         </agm-polygon>
-    </agm-map>
+    </agm-map> -->
+   
+   
     <a class="btn-floating btn-meduim waves-effect waves-light apply" *ngIf="markers !== undefined && markers.length >= 3"
          (click)="SaveDraw()" ><i class="material-icons">check</i></a>
     <a class="btn-floating btn-meduim waves-effect waves-light draw" *ngIf="!drawing" (click)="StartDraw()"><i class="material-icons">edit</i></a>

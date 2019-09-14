@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
@@ -54,7 +54,8 @@ import { GraphControlComponent } from './Controls/graph-control/graph-control.co
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
-    HttpClientModule,
+    HttpClientModule, 
+    LeafletModule.forRoot(),
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyCU2867Rocotglq5fwvzEQnOJI6GqXCmSU',
       libraries: ['places', 'drawing', 'geometry']

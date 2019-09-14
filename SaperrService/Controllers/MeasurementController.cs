@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Saperr.Models;
 using Saperr.Services;
 
 namespace Saperr.Controllers
@@ -16,6 +17,13 @@ namespace Saperr.Controllers
     {
       _authService = authService;
       _measurementService = measurementService;
+    }
+
+    [HttpPost(Name = "Create_Measurement")]
+    public ActionResult<Measurement> CreateArea([FromBody] Measurement measurement)
+    {
+      return _measurementService.Create(measurement);
+      //var measurement = CreatedAtRoute("GetArea", new { id = measurement.Id.ToString() }, measurement);
     }
   }
 }

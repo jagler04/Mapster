@@ -1,6 +1,9 @@
 <div class="map">
-    <agm-map class="gmap" [latitude]="latitude" [longitude]="longitude" [zoom]="zoom"
+    <!-- <agm-map class="gmap" [latitude]="latitude" [longitude]="longitude" [zoom]="zoom"
         [clickableIcons]="false" [streetViewControl]="false" [zoomControl]="false">
         <agm-polygon [paths]="paths" [strokeColor]="'#5DAA68'"></agm-polygon>
-    </agm-map>
+    </agm-map> -->
+
+    <div *ngIf="options != null" style="height: 100%;" leaflet [leafletOptions]="options" [leafletLayers]="layers">
+    </div>
 </div>

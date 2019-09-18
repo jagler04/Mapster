@@ -54,7 +54,7 @@ import { GraphControlComponent } from './Controls/graph-control/graph-control.co
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
-    HttpClientModule, 
+    HttpClientModule,
     LeafletModule.forRoot(),
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyCU2867Rocotglq5fwvzEQnOJI6GqXCmSU',
@@ -68,7 +68,8 @@ import { GraphControlComponent } from './Controls/graph-control/graph-control.co
     UpdateClient,
     CreateClient,
     GetClient,
-    { provide: API_BASE_URL, useValue: "https://localhost:44325" },
+    // { provide: API_BASE_URL, useValue: "https://localhost:44325" },
+    { provide: API_BASE_URL, useValue: "http://saperr.azurewebsites.net" },
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
 

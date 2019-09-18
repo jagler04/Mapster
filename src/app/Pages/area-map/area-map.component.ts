@@ -15,7 +15,7 @@ export class AreaMapComponent implements OnInit {
   latitude: number = 0;
   longitude: number = 0;
   zoom: number = 15;
-  options: any = {};
+  options: any = null;
   layers: any = [];
   constructor(public areaService: AreaService, private route: ActivatedRoute, private mapsAPILoader: MapsAPILoader) { }
 
@@ -63,7 +63,7 @@ export class AreaMapComponent implements OnInit {
             center: latLng(this.latitude, this.longitude)
           };
 
-          this.layers = [polygon(points),]
+          this.layers = [polygon(points)]
 
         }
 

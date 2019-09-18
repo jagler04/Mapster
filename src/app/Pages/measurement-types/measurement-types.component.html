@@ -3,7 +3,7 @@
     <h4>No Measurement Types</h4>
 </div>
 <div *ngFor="let tp of measurementTypeService.MeasurementTypes" class="measurementItem">
-    <span class="name"><b>Name: </b>{{tp.measurementName}}</span>
+    <span class="name"><b>Name: </b>{{tp.measurementname}}</span>
     <span class="units"><b>Units: </b>{{tp.units}}</span>
     <a class="btn-meduim waves-effect waves-light AlignRight" (click)="ShowEdit(tp)"><i class="material-icons">edit</i></a>    
 </div>

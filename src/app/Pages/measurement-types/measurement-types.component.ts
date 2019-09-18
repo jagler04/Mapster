@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { MeasurementTypeService, MeasurementTypeModel } from 'src/app/Services/measurement-type.service';
+import { MeasurementTypeService } from 'src/app/Services/measurement-type.service';
 import { PubSubService } from 'src/app/Services/pub-sub.service';
 import { AddEditMeasurementTypeDialogComponent } from 'src/app/Popups/add-edit-measurement-type-dialog/add-edit-measurement-type-dialog.component';
+import { MeasurementType } from 'src/app/Services/mapster.client';
 
 @Component({
   selector: 'measurement-types',
@@ -16,22 +17,22 @@ export class MeasurementTypesComponent implements OnInit {
   ngOnInit() {
   }
 
-  ShowAdd(){
+  ShowAdd() {
     var dialogRef = this.dialog.open(AddEditMeasurementTypeDialogComponent);
 
-    dialogRef.afterClosed().subscribe((result: MeasurementTypeModel) => {
-      if(result !== undefined){
+    dialogRef.afterClosed().subscribe((result: MeasurementType) => {
+      if (result !== undefined) {
         this.measurementTypeService.CreateMeasurementType(result);
       }
     });
   }
-  ShowEdit(mt: MeasurementTypeModel){
+  ShowEdit(mt: MeasurementType) {
     //Decouple the measurement type from the reference or it would cause the element to be modified
-    var nmt = {id: mt.id, measurementName: mt.measurementName, units: mt.units};
-    var dialogRef = this.dialog.open(AddEditMeasurementTypeDialogComponent, {data: nmt});
+    var nmt = { id: mt.id, measurementname: mt.measurementname, units: mt.units, owner: mt.owner };
+    var dialogRef = this.dialog.open(AddEditMeasurementTypeDialogComponent, { data: nmt });
 
-    dialogRef.afterClosed().subscribe((result: MeasurementTypeModel) => {
-      if(result !== undefined){
+    dialogRef.afterClosed().subscribe((result: MeasurementType) => {
+      if (result !== undefined) {
         this.measurementTypeService.UpdateMeasurementType(result);
       }
     });

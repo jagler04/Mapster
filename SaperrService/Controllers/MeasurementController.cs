@@ -20,10 +20,22 @@ namespace Saperr.Controllers
     }
 
     [HttpPost(Name = "Create_Measurement")]
-    public ActionResult<Measurement> CreateArea([FromBody] Measurement measurement)
+    public ActionResult<Measurement> CreateMeasurement([FromBody] Measurement measurement)
     {
       return _measurementService.Create(measurement);
-      //var measurement = CreatedAtRoute("GetArea", new { id = measurement.Id.ToString() }, measurement);
     }
+
+    [HttpPut(Name = "Update_Measurement")]
+    public ActionResult<MeasurementType> UpdateMeasurement([FromBody]Measurement measurement)
+    {
+      return null;
+      //var owner = _authService.GetIdFromRequest(Request);
+      //if (measurement.owner != owner)
+      //  return Unauthorized();
+
+      //_measurementService.Update(measurement);
+      //return measurement;
+    }
+
   }
 }

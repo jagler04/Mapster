@@ -23,7 +23,8 @@ namespace Saperr.Models
   {
     [BsonRepresentation(BsonType.ObjectId)]
     public string Id { get; set; }
-
+    [BsonRepresentation(BsonType.ObjectId)]
+    public string owner { get; set; }
     public string measurementname { get; set; }
     public string units { get; set; }
   }

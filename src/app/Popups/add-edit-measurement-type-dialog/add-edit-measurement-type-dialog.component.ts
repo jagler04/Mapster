@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MeasurementTypeModel } from 'src/app/Services/measurement-type.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MeasurementType } from 'src/app/Services/mapster.client';
 
 @Component({
   selector: 'add-edit-measurement-type',
@@ -9,15 +9,16 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 })
 export class AddEditMeasurementTypeDialogComponent implements OnInit {
 
-  newMeasurementType: MeasurementTypeModel = {id: "", measurementName: "", units: ""};
+  newMeasurementType: MeasurementType = new MeasurementType();
   passedMeasurementType: boolean = false;
-  constructor(public dialogRef: MatDialogRef<AddEditMeasurementTypeDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: MeasurementTypeModel) {
+  constructor(public dialogRef: MatDialogRef<AddEditMeasurementTypeDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: MeasurementType) {
     if(data !== undefined && data !== null){
+      console.log(data)
       this.newMeasurementType = data;
       this.passedMeasurementType =true;
     }
     else{
-      this.newMeasurementType = {id: "", measurementName: "", units: ""};
+      this.newMeasurementType = new MeasurementType()
     }
     
    }

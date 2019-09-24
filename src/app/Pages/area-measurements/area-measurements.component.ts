@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { MeasurementTypeService, MeasurementTypeModel } from 'src/app/Services/measurement-type.service';
+import { MeasurementTypeService } from 'src/app/Services/measurement-type.service';
 import { MeasurementService, MeasurementModel } from 'src/app/Services/measurement.service';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { EntryDialogComponent } from 'src/app/Popups/entry-dialog/entry-dialog.component';
+import { MeasurementType } from 'src/app/Services/mapster.client';
 
 @Component({
   selector: 'area-measurements',
@@ -24,17 +25,19 @@ export class AreaMeasurementsComponent implements OnInit {
       }
     });
     this.measurementTypeService.MeasurementTypes.forEach(mt =>{
-      this.measurementTypes.push({
+      let newMType = new MeasurementTypeExtended({
         id: mt.id,
-        measurementName: mt.measurementName,
-        units: mt.units,
-        isOpen: false,
-        entries: []
+        measurementname: mt.measurementname,
+        units: mt.units
       });
+      newMType.isOpen = false;
+      newMType.entries = [];
+
+      this.measurementTypes.push();
     })
   }
   ShowAdd(mt: MeasurementTypeExtended){
-    var dialogRef = this.dialog.open(EntryDialogComponent, {data: { Text: "Enter " + mt.measurementName}});
+    var dialogRef = this.dialog.open(EntryDialogComponent, {data: { Text: "Enter " + mt.measurementname}});
 
     dialogRef.afterClosed().subscribe(result => {
       if (result !== undefined){
@@ -76,7 +79,7 @@ export class AreaMeasurementsComponent implements OnInit {
     }
   }
 }
-export interface MeasurementTypeExtended extends MeasurementTypeModel{
+export class MeasurementTypeExtended extends MeasurementType{
   isOpen: boolean;
   entries: Array<MeasurementModel>;
 }

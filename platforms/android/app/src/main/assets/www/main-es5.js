@@ -1,5 +1,16 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([["main"],{
 
+/***/ "./node_modules/raw-loader/index.js!./src/app/Controls/graph-control/graph-control.component.html":
+/*!***********************************************************************************************!*\
+  !*** ./node_modules/raw-loader!./src/app/Controls/graph-control/graph-control.component.html ***!
+  \***********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<p>graph-control works!</p>\r\n"
+
+/***/ }),
+
 /***/ "./node_modules/raw-loader/index.js!./src/app/Pages/add-area/add-area.component.html":
 /*!**********************************************************************************!*\
   !*** ./node_modules/raw-loader!./src/app/Pages/add-area/add-area.component.html ***!
@@ -7,7 +18,7 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<nav>\r\n    <div class=\"nav-wrapper\">\r\n        <a (click)=\"GoBack()\" class=\"button-collapse left inlineBlock\"><i class=\"material-icons white-text\">arrow_back</i></a>\r\n        <div class=\"input-field inlineBlock search\">\r\n            <input id=\"search\" type=\"search\" #search autocorrect=\"off\" autocapitalize=\"off\" spellcheck=\"off\">\r\n            <label class=\"label-icon\" for=\"search\"><i class=\"material-icons\">search</i></label>\r\n            <i class=\"material-icons\">close</i>\r\n        </div>\r\n    </div>\r\n</nav>\r\n\r\n<div class=\"map\">\r\n    <agm-map class=\"gmap\" [latitude]=\"latitude\" [longitude]=\"longitude\" [zoom]=\"zoom\" (mapClick)=\"mapClicked($event)\"\r\n        [clickableIcons]=\"false\" [streetViewControl]=\"false\" [zoomControl]=\"false\">\r\n        <agm-marker [latitude]=\"latitude\" [longitude]=\"longitude\" >\r\n            <agm-info-window>\r\n                <strong>You are here</strong>\r\n              </agm-info-window>\r\n        </agm-marker>\r\n        <agm-marker *ngFor=\"let m of markers; let i = index\" [latitude]=\"m.lat\" [longitude]=\"m.lng\" [label]=\"m.label\" [markerDraggable]=\"true\"\r\n            (dragEnd)=\"markerDragEnd(i, $event)\" [iconUrl]=\"'../../assets/images/green-dot.png'\">\r\n        </agm-marker>\r\n        <agm-polyline [strokeColor]=\"'#5DAA68'\">\r\n            <agm-polyline-point *ngFor=\"let m of markers; let i = index\" [latitude]=\"m.lat\" [longitude]=\"m.lng\">\r\n\r\n            </agm-polyline-point>\r\n        </agm-polyline>\r\n\r\n        <agm-polygon [paths]=\"paths\" [strokeColor]=\"'#5DAA68'\">\r\n            \r\n        </agm-polygon>\r\n    </agm-map>\r\n    <a class=\"btn-floating btn-meduim waves-effect waves-light apply\" *ngIf=\"markers !== undefined && markers.length >= 3\"\r\n         (click)=\"SaveDraw()\" ><i class=\"material-icons\">check</i></a>\r\n    <a class=\"btn-floating btn-meduim waves-effect waves-light draw\" *ngIf=\"!drawing\" (click)=\"StartDraw()\"><i class=\"material-icons\">edit</i></a>\r\n    <a class=\"btn-floating btn-meduim waves-effect waves-light draw\" *ngIf=\"drawing\" (click)=\"CancelDraw()\"><i class=\"material-icons\">close</i></a>\r\n</div>"
+module.exports = "<nav>\r\n    <div class=\"nav-wrapper\">\r\n        <a (click)=\"GoBack()\" class=\"button-collapse left inlineBlock\"><i\r\n                class=\"material-icons white-text\">arrow_back</i></a>\r\n        <div class=\"input-field inlineBlock search\">\r\n            <input id=\"search\" type=\"search\" #search autocorrect=\"off\" autocapitalize=\"off\" spellcheck=\"off\">\r\n            <label class=\"label-icon\" for=\"search\"><i class=\"material-icons\">search</i></label>\r\n            <i class=\"material-icons\">close</i>\r\n        </div>\r\n    </div>\r\n</nav>\r\n\r\n<!-- <div style=\"height: 300px;\"\r\n     leaflet\r\n     *ngIf=\"options != null\"\r\n     [leafletOptions]=\"options\"\r\n     [leafletLayers]=\"layers\">\r\n</div> -->\r\n\r\n<div class=\"map\">\r\n    <!-- <agm-map class=\"gmap\" [latitude]=\"latitude\" [longitude]=\"longitude\" [zoom]=\"zoom\" (mapClick)=\"mapClicked($event)\"\r\n        [clickableIcons]=\"false\" [streetViewControl]=\"false\" [zoomControl]=\"false\">\r\n        <agm-marker [latitude]=\"latitude\" [longitude]=\"longitude\" >\r\n            <agm-info-window>\r\n                <strong>You are here</strong>\r\n              </agm-info-window>\r\n        </agm-marker>\r\n        <agm-marker *ngFor=\"let m of markers; let i = index\" [latitude]=\"m.lat\" [longitude]=\"m.lng\" [label]=\"m.label\" [markerDraggable]=\"true\"\r\n            (dragEnd)=\"markerDragEnd(i, $event)\" [iconUrl]=\"'../../assets/images/green-dot.png'\">\r\n        </agm-marker>\r\n        <agm-polyline [strokeColor]=\"'#5DAA68'\">\r\n            <agm-polyline-point *ngFor=\"let m of markers; let i = index\" [latitude]=\"m.lat\" [longitude]=\"m.lng\">\r\n\r\n            </agm-polyline-point>\r\n        </agm-polyline>\r\n\r\n        <agm-polygon [paths]=\"paths\" [strokeColor]=\"'#5DAA68'\">\r\n            \r\n        </agm-polygon>\r\n    </agm-map> -->\r\n    <div class=\"map\" *ngIf=\"options != null\"  leaflet [leafletOptions]=\"options\"\r\n        (leafletClick)=\"mapClicked($event)\">\r\n        <div *ngFor=\"let l of markerLayers\" [leafletLayer]=\"l\"></div>\r\n        <div [leafletLayer]=\"polygonLayer\"></div>\r\n\r\n    </div>\r\n\r\n    <div class=\"button-wrapper\">\r\n        <a class=\"btn-floating btn-meduim waves-effect waves-light apply float\"\r\n            *ngIf=\"markers !== undefined && markers.length >= 3\" (click)=\"SaveDraw()\"><i\r\n                class=\"material-icons\">check</i></a>\r\n        <a class=\"btn-floating btn-meduim waves-effect waves-light draw float\" *ngIf=\"!drawing\" (click)=\"StartDraw()\"><i\r\n                class=\"material-icons\">edit</i></a>\r\n        <a class=\"btn-floating btn-meduim waves-effect waves-light draw float\" *ngIf=\"drawing\" (click)=\"CancelDraw()\"><i\r\n                class=\"material-icons\">close</i></a>\r\n    </div>\r\n\r\n\r\n\r\n</div>"
 
 /***/ }),
 
@@ -18,7 +29,7 @@ module.exports = "<nav>\r\n    <div class=\"nav-wrapper\">\r\n        <a (click)
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"map\">\r\n    <agm-map class=\"gmap\" [latitude]=\"latitude\" [longitude]=\"longitude\" [zoom]=\"zoom\"\r\n        [clickableIcons]=\"false\" [streetViewControl]=\"false\" [zoomControl]=\"false\">\r\n        <agm-polygon [paths]=\"paths\" [strokeColor]=\"'#5DAA68'\"></agm-polygon>\r\n    </agm-map>\r\n</div>"
+module.exports = "<div class=\"map\">\r\n    <!-- <agm-map class=\"gmap\" [latitude]=\"latitude\" [longitude]=\"longitude\" [zoom]=\"zoom\"\r\n        [clickableIcons]=\"false\" [streetViewControl]=\"false\" [zoomControl]=\"false\">\r\n        <agm-polygon [paths]=\"paths\" [strokeColor]=\"'#5DAA68'\"></agm-polygon>\r\n    </agm-map> -->\r\n\r\n    <div *ngIf=\"options != null\" style=\"height: 100%;\" leaflet [leafletOptions]=\"options\" [leafletLayers]=\"layers\">\r\n    </div>\r\n</div>"
 
 /***/ }),
 
@@ -40,7 +51,18 @@ module.exports = "<div *ngFor=\"let mt of measurementTypes\">\r\n    <div  class
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<a class=\"btn-floating btn-meduim waves-effect waves-light AddButton\" (click)=\"GoToAdd()\"><i class=\"material-icons\">add</i></a>\r\n<div *ngIf=\"areaService.Areas.length == 0\" class=\"noAreas\">\r\n    <h4>No Areas</h4>\r\n</div>\r\n<div *ngFor=\"let a of areaService.Areas; let i = index\" (click)=\"ShowSelect(a)\" class=\"areaItem\">\r\n    <span><b>{{a.AreaName}}</b></span>\r\n</div>"
+module.exports = "<a class=\"btn-floating btn-meduim waves-effect waves-light AddButton\" (click)=\"GoToAdd()\"><i class=\"material-icons\">add</i></a>\r\n<div *ngIf=\"areaService.Areas.length == 0\" class=\"noAreas\">\r\n    <h4>No Areas</h4>\r\n</div>\r\n<div *ngFor=\"let a of areaService.Areas; let i = index\" (click)=\"ShowSelect(a)\" class=\"areaItem\">\r\n    <span><b>{{a.areaname}}</b></span>\r\n</div>"
+
+/***/ }),
+
+/***/ "./node_modules/raw-loader/index.js!./src/app/Pages/graph/graph.component.html":
+/*!****************************************************************************!*\
+  !*** ./node_modules/raw-loader!./src/app/Pages/graph/graph.component.html ***!
+  \****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<p>graph works!</p>\r\n<div *ngIf=\"oneArea === false\">\r\n    <p>Showing multi area content</p>\r\n</div>\r\n<div *ngFor=\"let mt of measurementTypeService.MeasurementTypes\">\r\n    <p>{{mt.id}}</p>\r\n    <graph-control [MeasurementType]=\"mt.id\"></graph-control>\r\n</div>"
 
 /***/ }),
 
@@ -62,7 +84,7 @@ module.exports = "<!-- <div id=\"modal1\" class=\"modal\" #loginDialog>\r\n  <di
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\r\n  <div class=\"card\">\r\n      <div class=\"card-content\">\r\n      <span class=\"card-title\">Login</span>\r\n          <div class=\".input-field\">\r\n            <input matInput type=\"email\" placeholder=\"Email Address\" />\r\n          </div>\r\n          <div class=\".input-field\">\r\n            <input matInput type=\"password\" placeholder=\"Password\" />\r\n          </div>\r\n          <div class=\"section\">\r\n            <a href=\"#\" style=\"color: #3F6844;\">Forgot Password</a>\r\n            <a class=\"waves-effect waves-green btn-small\" style=\"float: right;\">Login</a>\r\n          </div>\r\n            <a class=\"waves-effect waves-green btn-small\">Continue without</a>\r\n          <hr />\r\n          <div style=\"margin-left:auto; margin-right:auto;\">\r\n            <a class=\"waves-effect waves-green btn-small\" ><i class=\"material-icons left\">cloud</i>Facebook</a>\r\n            <a class=\"waves-effect waves-green btn-small\"><i class=\"material-icons left\">cloud</i>Microsoft</a>\r\n          </div>\r\n      </div>\r\n  </div>\r\n\r\n</div>\r\n\r\n<!-- <div id=\"modal1\" class=\"modal\" #loginDialog>\r\n  <div class=\"modal-content\">\r\n    <h4>Modal Header</h4>\r\n    <p>A bunch of text</p>\r\n  </div>\r\n  <div class=\"modal-footer\">\r\n    <a href=\"#!\" class=\"modal-close waves-effect waves-green btn-flat\">Agree</a>\r\n  </div>\r\n</div> -->\r\n"
+module.exports = "<div class=\"container\">\r\n  <div class=\"card\">\r\n      <div class=\"card-content\">\r\n      <div class=\"card-title\">Login</div>\r\n          <div class=\".input-field\">\r\n            <input matInput type=\"email\" [(ngModel)]=\"email\" placeholder=\"Email Address\" />\r\n          </div>\r\n          <div class=\".input-field\">\r\n            <input matInput type=\"password\" [(ngModel)]=\"password\" placeholder=\"Password\" />\r\n          </div>\r\n          <div class=\"section\">\r\n            <a href=\"#\" style=\"color: #3F6844;\">Forgot Password</a>\r\n            <a class=\"waves-effect waves-green btn-small\" (click)=\"login()\" style=\"float: right;\">Login</a>\r\n          </div>\r\n            <a class=\"waves-effect waves-green btn-small\" (click)=\"checkAuth()\">Continue without</a>\r\n            <a class=\"waves-effect waves-green btn-small\">Register</a>\r\n\r\n          <hr />\r\n          <div style=\"margin-left:auto; margin-right:auto;\">\r\n            <a class=\"waves-effect waves-green btn-small\" ><i class=\"material-icons left\">cloud</i>Facebook</a>\r\n            <a class=\"waves-effect waves-green btn-small\"><i class=\"material-icons left\">cloud</i>Microsoft</a>\r\n          </div>\r\n      </div>\r\n  </div>\r\n\r\n</div>\r\n\r\n<!-- <div id=\"modal1\" class=\"modal\" #loginDialog>\r\n  <div class=\"modal-content\">\r\n    <h4>Modal Header</h4>\r\n    <p>A bunch of text</p>\r\n  </div>\r\n  <div class=\"modal-footer\">\r\n    <a href=\"#!\" class=\"modal-close waves-effect waves-green btn-flat\">Agree</a>\r\n  </div>\r\n</div> -->\r\n"
 
 /***/ }),
 
@@ -73,7 +95,7 @@ module.exports = "<div class=\"container\">\r\n  <div class=\"card\">\r\n      <
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<a class=\"btn-floating btn-meduim waves-effect waves-light AddButton\" (click)=\"ShowAdd()\"><i class=\"material-icons\">add</i></a>\r\n<div *ngIf=\"measurementTypeService.MeasurementTypes.length == 0\" class=\"noMeasurementTypes\">\r\n    <h4>No Measurement Types</h4>\r\n</div>\r\n<div *ngFor=\"let tp of measurementTypeService.MeasurementTypes\" class=\"measurementItem\">\r\n    <span class=\"name\"><b>Name: </b>{{tp.measurementName}}</span>\r\n    <span class=\"units\"><b>Units: </b>{{tp.units}}</span>\r\n    <a class=\"btn-meduim waves-effect waves-light AlignRight\" (click)=\"ShowEdit(tp)\"><i class=\"material-icons\">edit</i></a>    \r\n</div>"
+module.exports = "<a class=\"btn-floating btn-meduim waves-effect waves-light AddButton\" (click)=\"ShowAdd()\"><i class=\"material-icons\">add</i></a>\r\n<div *ngIf=\"measurementTypeService.MeasurementTypes.length == 0\" class=\"noMeasurementTypes\">\r\n    <h4>No Measurement Types</h4>\r\n</div>\r\n<div *ngFor=\"let tp of measurementTypeService.MeasurementTypes\" class=\"measurementItem\">\r\n    <span class=\"name\"><b>Name: </b>{{tp.measurementname}}</span>\r\n    <span class=\"units\"><b>Units: </b>{{tp.units}}</span>\r\n    <a class=\"btn-meduim waves-effect waves-light AlignRight\" (click)=\"ShowEdit(tp)\"><i class=\"material-icons\">edit</i></a>    \r\n</div>"
 
 /***/ }),
 
@@ -84,7 +106,7 @@ module.exports = "<a class=\"btn-floating btn-meduim waves-effect waves-light Ad
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h2 mat-dialog-title>Add Type</h2>\r\n<div mat-dialog-content>\r\n    <div>\r\n        <mat-form-field>\r\n            <input matInput placeholder=\"Name\" [(ngModel)]=\"newMeasurementType.measurementName\">\r\n        </mat-form-field>\r\n    </div>\r\n    <div>\r\n        <mat-form-field>\r\n            <input matInput placeholder=\"Units\" [(ngModel)]=\"newMeasurementType.units\">\r\n        </mat-form-field>\r\n    </div>\r\n\r\n</div>\r\n<div mat-dialog-actions>    \r\n    <a class=\"waves-effect waves-green btn-flat\" (click)=\"Cancel()\">Cancel</a>\r\n    <a class=\"waves-effect waves-green btn\" *ngIf=\"newMeasurementType.id !== ''\" (click)=\"Save()\">Update</a>\r\n    <a class=\"waves-effect waves-green btn\" *ngIf=\"newMeasurementType.id === ''\" (click)=\"Save()\">Ok</a>\r\n</div>"
+module.exports = "<h2 mat-dialog-title>Add Type</h2>\r\n<div mat-dialog-content>\r\n    <div>\r\n        <mat-form-field>\r\n            <input matInput placeholder=\"Name\" [(ngModel)]=\"newMeasurementType.measurementname\">\r\n        </mat-form-field>\r\n    </div>\r\n    <div>\r\n        <mat-form-field>\r\n            <input matInput placeholder=\"Units\" [(ngModel)]=\"newMeasurementType.units\">\r\n        </mat-form-field>\r\n    </div>\r\n\r\n</div>\r\n<div mat-dialog-actions>    \r\n    <a class=\"waves-effect waves-green btn-flat\" (click)=\"Cancel()\">Cancel</a>\r\n    <a class=\"waves-effect waves-green btn\" *ngIf=\"newMeasurementType.id !== ''\" (click)=\"Save()\">Update</a>\r\n    <a class=\"waves-effect waves-green btn\" *ngIf=\"newMeasurementType.id === ''\" (click)=\"Save()\">Ok</a>\r\n</div>"
 
 /***/ }),
 
@@ -128,7 +150,7 @@ module.exports = "<nav-bar id=\"nvbar\"></nav-bar>\r\n<router-outlet></router-ou
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-solid-transition\" *ngIf=\"IsAuthenticated\" >\r\n  <div class=\"nav-wrapper\">\r\n    <a href=\"horizontal-half.html\" class=\"brand-logo\"><i class=\"icon-diamond\"></i></a>\r\n    <ul id=\"nav-mobile\" class=\"left hide-on-med-and-down\">\r\n        <li><a (click)=\"GoToPage('Home')\" >Home</a></li>\r\n        <li><a (click)=\"GoToPage('Areas')\" >Areas</a></li>\r\n      <li><a (click)=\"GoToPage('AddMeasurementTypes')\" >Measurement Types</a></li>\r\n    </ul>\r\n    <a href=\"#\" data-target=\"slide-out\" class=\"sidenav-trigger button-collapse left\"><i class=\"material-icons white-text\">menu</i></a>\r\n    <a class=\"brand-logoe center\">{{nav.CurrentPage}}</a>\r\n  </div>\r\n</nav>\r\n<ul id=\"slide-out\" class=\"sidenav\" *ngIf=\"IsAuthenticated\">\r\n    <li><a class=\"waves-effect waves-green\" (click)=\"GoToPage('Home')\">Home</a></li>\r\n    <li><a class=\"waves-effect waves-green\" (click)=\"GoToPage('Areas')\">Areas</a></li>\r\n  <li><a class=\"waves-effect waves-green\" (click)=\"GoToPage('AddMeasurementTypes')\">Measurement Types</a></li>\r\n</ul>\r\n"
+module.exports = "<nav class=\"navbar navbar-solid-transition\" *ngIf=\"IsAuthenticated\">\r\n  <div class=\"nav-wrapper\">\r\n    <a href=\"horizontal-half.html\" class=\"brand-logo\"><i class=\"icon-diamond\"></i></a>\r\n    <ul id=\"nav-mobile\" class=\"left hide-on-med-and-down\">\r\n      <li><a (click)=\"GoToPage('Login')\">Login</a></li>\r\n      <li><a (click)=\"GoToPage('Home')\">Home</a></li>\r\n      <li><a (click)=\"GoToPage('Areas')\">Areas</a></li>\r\n      <li><a (click)=\"GoToPage('AddMeasurementTypes')\">Measurement Types</a></li>\r\n      <li><a class=\"waves-effect waves-green\" (click)=\"GoToPage('Graphs')\">Graphs</a></li>\r\n    </ul>\r\n    <a href=\"#\" data-target=\"slide-out\" class=\"sidenav-trigger button-collapse left\"><i\r\n        class=\"material-icons white-text\">menu</i></a>\r\n    <a class=\"brand-logoe center\">{{nav.CurrentPage}}</a>\r\n  </div>\r\n</nav>\r\n<ul id=\"slide-out\" class=\"sidenav\" *ngIf=\"IsAuthenticated\">\r\n  <li><a (click)=\"GoToPage('Login')\">Login</a></li>\r\n  <li><a class=\"waves-effect waves-green\" (click)=\"GoToPage('Home')\">Home</a></li>\r\n  <li><a class=\"waves-effect waves-green\" (click)=\"GoToPage('Areas')\">Areas</a></li>\r\n  <li><a class=\"waves-effect waves-green\" (click)=\"GoToPage('AddMeasurementTypes')\">Measurement Types</a></li>\r\n  <li><a class=\"waves-effect waves-green\" (click)=\"GoToPage('Graphs')\">Graphs</a></li>\r\n</ul>\r\n"
 
 /***/ }),
 
@@ -155,6 +177,66 @@ webpackEmptyAsyncContext.id = "./src/$$_lazy_route_resource lazy recursive";
 
 /***/ }),
 
+/***/ "./src/app/Controls/graph-control/graph-control.component.scss":
+/*!*********************************************************************!*\
+  !*** ./src/app/Controls/graph-control/graph-control.component.scss ***!
+  \*********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL0NvbnRyb2xzL2dyYXBoLWNvbnRyb2wvZ3JhcGgtY29udHJvbC5jb21wb25lbnQuc2NzcyJ9 */"
+
+/***/ }),
+
+/***/ "./src/app/Controls/graph-control/graph-control.component.ts":
+/*!*******************************************************************!*\
+  !*** ./src/app/Controls/graph-control/graph-control.component.ts ***!
+  \*******************************************************************/
+/*! exports provided: GraphControlComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GraphControlComponent", function() { return GraphControlComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+
+
+var GraphControlComponent = /** @class */ (function () {
+    function GraphControlComponent() {
+    }
+    Object.defineProperty(GraphControlComponent.prototype, "MeasurementType", {
+        get: function () {
+            return this.measurementType;
+        },
+        set: function (value) {
+            this.measurementType = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    GraphControlComponent.prototype.ngOnInit = function () {
+    };
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])(),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", String),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [String])
+    ], GraphControlComponent.prototype, "MeasurementType", null);
+    GraphControlComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'graph-control',
+            template: __webpack_require__(/*! raw-loader!./graph-control.component.html */ "./node_modules/raw-loader/index.js!./src/app/Controls/graph-control/graph-control.component.html"),
+            styles: [__webpack_require__(/*! ./graph-control.component.scss */ "./src/app/Controls/graph-control/graph-control.component.scss")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])
+    ], GraphControlComponent);
+    return GraphControlComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/Pages/add-area/add-area.component.scss":
 /*!********************************************************!*\
   !*** ./src/app/Pages/add-area/add-area.component.scss ***!
@@ -162,7 +244,7 @@ webpackEmptyAsyncContext.id = "./src/$$_lazy_route_resource lazy recursive";
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".gmap {\n  height: -webkit-fill-available;\n}\n\n.map {\n  position: fixed;\n  top: 0;\n  width: 100vw;\n  height: 100vh;\n  z-index: -1;\n}\n\n.search {\n  width: 75vw;\n}\n\n.inlineBlock {\n  display: inline-block;\n}\n\n.button-collapse {\n  margin: 0 18px;\n}\n\ninput#search:focus {\n  color: black;\n}\n\ninput#search {\n  color: #FAF1CF;\n}\n\na.draw {\n  position: fixed;\n  right: 0;\n  top: 15%;\n}\n\na.apply {\n  position: fixed;\n  left: 0;\n  top: 15%;\n}\n\n.drawing {\n  width: 100%;\n  height: -webkit-fill-available;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvUGFnZXMvYWRkLWFyZWEvQzpcXFVzZXJzXFxjemFyYW1vXFxQcm9qZWN0c1xcTWFwc3Rlci9zcmNcXGFwcFxcUGFnZXNcXGFkZC1hcmVhXFxhZGQtYXJlYS5jb21wb25lbnQuc2NzcyIsInNyYy9hcHAvUGFnZXMvYWRkLWFyZWEvYWRkLWFyZWEuY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDSSw4QkFBQTtBQ0NKOztBRENBO0VBQ0ksZUFBQTtFQUNBLE1BQUE7RUFDQSxZQUFBO0VBQ0EsYUFBQTtFQUNBLFdBQUE7QUNFSjs7QURBQTtFQUNJLFdBQUE7QUNHSjs7QUREQTtFQUNJLHFCQUFBO0FDSUo7O0FERkE7RUFDSSxjQUFBO0FDS0o7O0FESEE7RUFDSSxZQUFBO0FDTUo7O0FESkE7RUFDSSxjQUFBO0FDT0o7O0FETEE7RUFDSSxlQUFBO0VBQ0EsUUFBQTtFQUNBLFFBQUE7QUNRSjs7QUROQTtFQUNJLGVBQUE7RUFDQSxPQUFBO0VBQ0EsUUFBQTtBQ1NKOztBRFBBO0VBQ0ksV0FBQTtFQUNBLDhCQUFBO0FDVUoiLCJmaWxlIjoic3JjL2FwcC9QYWdlcy9hZGQtYXJlYS9hZGQtYXJlYS5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi5nbWFwe1xyXG4gICAgaGVpZ2h0OiAtd2Via2l0LWZpbGwtYXZhaWxhYmxlO1xyXG59XHJcbi5tYXB7XHJcbiAgICBwb3NpdGlvbjogZml4ZWQ7XHJcbiAgICB0b3A6IDA7XHJcbiAgICB3aWR0aDogMTAwdnc7XHJcbiAgICBoZWlnaHQ6IDEwMHZoO1xyXG4gICAgei1pbmRleDogLTE7XHJcbn1cclxuLnNlYXJjaCB7XHJcbiAgICB3aWR0aDogNzV2dztcclxufVxyXG4uaW5saW5lQmxvY2t7XHJcbiAgICBkaXNwbGF5OiBpbmxpbmUtYmxvY2s7XHJcbn1cclxuLmJ1dHRvbi1jb2xsYXBzZXtcclxuICAgIG1hcmdpbjowIDE4cHg7XHJcbn1cclxuaW5wdXQjc2VhcmNoOmZvY3Vze1xyXG4gICAgY29sb3I6YmxhY2s7XHJcbn1cclxuaW5wdXQjc2VhcmNoe1xyXG4gICAgY29sb3I6I0ZBRjFDRjtcclxufVxyXG5hLmRyYXd7XHJcbiAgICBwb3NpdGlvbjogZml4ZWQ7XHJcbiAgICByaWdodDowO1xyXG4gICAgdG9wOiAxNSU7XHJcbn1cclxuYS5hcHBseSB7XHJcbiAgICBwb3NpdGlvbjogZml4ZWQ7XHJcbiAgICBsZWZ0OjA7XHJcbiAgICB0b3A6IDE1JTtcclxufVxyXG4uZHJhd2luZ3tcclxuICAgIHdpZHRoOjEwMCU7XHJcbiAgICBoZWlnaHQ6IC13ZWJraXQtZmlsbC1hdmFpbGFibGU7XHJcbn0iLCIuZ21hcCB7XG4gIGhlaWdodDogLXdlYmtpdC1maWxsLWF2YWlsYWJsZTtcbn1cblxuLm1hcCB7XG4gIHBvc2l0aW9uOiBmaXhlZDtcbiAgdG9wOiAwO1xuICB3aWR0aDogMTAwdnc7XG4gIGhlaWdodDogMTAwdmg7XG4gIHotaW5kZXg6IC0xO1xufVxuXG4uc2VhcmNoIHtcbiAgd2lkdGg6IDc1dnc7XG59XG5cbi5pbmxpbmVCbG9jayB7XG4gIGRpc3BsYXk6IGlubGluZS1ibG9jaztcbn1cblxuLmJ1dHRvbi1jb2xsYXBzZSB7XG4gIG1hcmdpbjogMCAxOHB4O1xufVxuXG5pbnB1dCNzZWFyY2g6Zm9jdXMge1xuICBjb2xvcjogYmxhY2s7XG59XG5cbmlucHV0I3NlYXJjaCB7XG4gIGNvbG9yOiAjRkFGMUNGO1xufVxuXG5hLmRyYXcge1xuICBwb3NpdGlvbjogZml4ZWQ7XG4gIHJpZ2h0OiAwO1xuICB0b3A6IDE1JTtcbn1cblxuYS5hcHBseSB7XG4gIHBvc2l0aW9uOiBmaXhlZDtcbiAgbGVmdDogMDtcbiAgdG9wOiAxNSU7XG59XG5cbi5kcmF3aW5nIHtcbiAgd2lkdGg6IDEwMCU7XG4gIGhlaWdodDogLXdlYmtpdC1maWxsLWF2YWlsYWJsZTtcbn0iXX0= */"
+module.exports = ".gmap {\n  height: -webkit-fill-available;\n}\n\n.map {\n  position: fixed;\n  top: 0;\n  width: 100vw;\n  height: 100vh;\n  z-index: -1;\n}\n\n.button-wrapper {\n  position: absolute;\n  bottom: 10px;\n  width: 100%;\n}\n\n.map-wrapper {\n  width: 100%;\n  height: 500px;\n  position: relative;\n}\n\n.search {\n  width: 75vw;\n}\n\n.inlineBlock {\n  display: inline-block;\n}\n\n.button-collapse {\n  margin: 0 18px;\n}\n\ninput#search:focus {\n  color: black;\n}\n\ninput#search {\n  color: #FAF1CF;\n}\n\na.draw {\n  position: fixed;\n  right: 0;\n  top: 15%;\n}\n\na.apply {\n  position: fixed;\n  left: 0;\n  top: 15%;\n}\n\n.drawing {\n  width: 100%;\n  height: -webkit-fill-available;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvUGFnZXMvYWRkLWFyZWEvQzpcXFVzZXJzXFxjemFyYW1vXFxQcm9qZWN0c1xcTWFwc3Rlci9zcmNcXGFwcFxcUGFnZXNcXGFkZC1hcmVhXFxhZGQtYXJlYS5jb21wb25lbnQuc2NzcyIsInNyYy9hcHAvUGFnZXMvYWRkLWFyZWEvYWRkLWFyZWEuY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDSSw4QkFBQTtBQ0NKOztBRENBO0VBQ0ksZUFBQTtFQUNBLE1BQUE7RUFDQSxZQUFBO0VBQ0EsYUFBQTtFQUNBLFdBQUE7QUNFSjs7QURBQTtFQUNJLGtCQUFBO0VBQ0EsWUFBQTtFQUNBLFdBQUE7QUNHSjs7QURBQTtFQUNJLFdBQUE7RUFDQSxhQUFBO0VBQ0Esa0JBQUE7QUNHSjs7QURDQTtFQUNJLFdBQUE7QUNFSjs7QURBQTtFQUNJLHFCQUFBO0FDR0o7O0FEREE7RUFDSSxjQUFBO0FDSUo7O0FERkE7RUFDSSxZQUFBO0FDS0o7O0FESEE7RUFDSSxjQUFBO0FDTUo7O0FESkE7RUFDSSxlQUFBO0VBQ0EsUUFBQTtFQUNBLFFBQUE7QUNPSjs7QURMQTtFQUNJLGVBQUE7RUFDQSxPQUFBO0VBQ0EsUUFBQTtBQ1FKOztBRE5BO0VBQ0ksV0FBQTtFQUNBLDhCQUFBO0FDU0oiLCJmaWxlIjoic3JjL2FwcC9QYWdlcy9hZGQtYXJlYS9hZGQtYXJlYS5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi5nbWFwe1xyXG4gICAgaGVpZ2h0OiAtd2Via2l0LWZpbGwtYXZhaWxhYmxlO1xyXG59XHJcbi5tYXB7XHJcbiAgICBwb3NpdGlvbjogZml4ZWQ7XHJcbiAgICB0b3A6IDA7XHJcbiAgICB3aWR0aDogMTAwdnc7XHJcbiAgICBoZWlnaHQ6IDEwMHZoO1xyXG4gICAgei1pbmRleDogLTE7XHJcbn1cclxuLmJ1dHRvbi13cmFwcGVyIHtcclxuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTtcclxuICAgIGJvdHRvbTogMTBweDtcclxuICAgIHdpZHRoOiAxMDAlO1xyXG59XHJcblxyXG4ubWFwLXdyYXBwZXIge1xyXG4gICAgd2lkdGg6IDEwMCU7XHJcbiAgICBoZWlnaHQ6IDUwMHB4O1xyXG4gICAgcG9zaXRpb246IHJlbGF0aXZlO1xyXG59XHJcblxyXG5cclxuLnNlYXJjaCB7XHJcbiAgICB3aWR0aDogNzV2dztcclxufVxyXG4uaW5saW5lQmxvY2t7XHJcbiAgICBkaXNwbGF5OiBpbmxpbmUtYmxvY2s7XHJcbn1cclxuLmJ1dHRvbi1jb2xsYXBzZXtcclxuICAgIG1hcmdpbjowIDE4cHg7XHJcbn1cclxuaW5wdXQjc2VhcmNoOmZvY3Vze1xyXG4gICAgY29sb3I6YmxhY2s7XHJcbn1cclxuaW5wdXQjc2VhcmNoe1xyXG4gICAgY29sb3I6I0ZBRjFDRjtcclxufVxyXG5hLmRyYXd7XHJcbiAgICBwb3NpdGlvbjogZml4ZWQ7XHJcbiAgICByaWdodDowO1xyXG4gICAgdG9wOiAxNSU7XHJcbn1cclxuYS5hcHBseSB7XHJcbiAgICBwb3NpdGlvbjogZml4ZWQ7XHJcbiAgICBsZWZ0OjA7XHJcbiAgICB0b3A6IDE1JTtcclxufVxyXG4uZHJhd2luZ3tcclxuICAgIHdpZHRoOjEwMCU7XHJcbiAgICBoZWlnaHQ6IC13ZWJraXQtZmlsbC1hdmFpbGFibGU7XHJcbn0iLCIuZ21hcCB7XG4gIGhlaWdodDogLXdlYmtpdC1maWxsLWF2YWlsYWJsZTtcbn1cblxuLm1hcCB7XG4gIHBvc2l0aW9uOiBmaXhlZDtcbiAgdG9wOiAwO1xuICB3aWR0aDogMTAwdnc7XG4gIGhlaWdodDogMTAwdmg7XG4gIHotaW5kZXg6IC0xO1xufVxuXG4uYnV0dG9uLXdyYXBwZXIge1xuICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gIGJvdHRvbTogMTBweDtcbiAgd2lkdGg6IDEwMCU7XG59XG5cbi5tYXAtd3JhcHBlciB7XG4gIHdpZHRoOiAxMDAlO1xuICBoZWlnaHQ6IDUwMHB4O1xuICBwb3NpdGlvbjogcmVsYXRpdmU7XG59XG5cbi5zZWFyY2gge1xuICB3aWR0aDogNzV2dztcbn1cblxuLmlubGluZUJsb2NrIHtcbiAgZGlzcGxheTogaW5saW5lLWJsb2NrO1xufVxuXG4uYnV0dG9uLWNvbGxhcHNlIHtcbiAgbWFyZ2luOiAwIDE4cHg7XG59XG5cbmlucHV0I3NlYXJjaDpmb2N1cyB7XG4gIGNvbG9yOiBibGFjaztcbn1cblxuaW5wdXQjc2VhcmNoIHtcbiAgY29sb3I6ICNGQUYxQ0Y7XG59XG5cbmEuZHJhdyB7XG4gIHBvc2l0aW9uOiBmaXhlZDtcbiAgcmlnaHQ6IDA7XG4gIHRvcDogMTUlO1xufVxuXG5hLmFwcGx5IHtcbiAgcG9zaXRpb246IGZpeGVkO1xuICBsZWZ0OiAwO1xuICB0b3A6IDE1JTtcbn1cblxuLmRyYXdpbmcge1xuICB3aWR0aDogMTAwJTtcbiAgaGVpZ2h0OiAtd2Via2l0LWZpbGwtYXZhaWxhYmxlO1xufSJdfQ== */"
 
 /***/ }),
 
@@ -185,6 +267,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var src_app_Popups_entry_dialog_entry_dialog_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/Popups/entry-dialog/entry-dialog.component */ "./src/app/Popups/entry-dialog/entry-dialog.component.ts");
 /* harmony import */ var src_app_Services_area_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! src/app/Services/area.service */ "./src/app/Services/area.service.ts");
 /* harmony import */ var src_app_Services_measurement_type_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! src/app/Services/measurement-type.service */ "./src/app/Services/measurement-type.service.ts");
+/* harmony import */ var leaflet__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! leaflet */ "./node_modules/leaflet/dist/leaflet-src.js");
+/* harmony import */ var leaflet__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(leaflet__WEBPACK_IMPORTED_MODULE_9__);
+
 
 
 
@@ -210,7 +295,11 @@ var AddAreaComponent = /** @class */ (function () {
         this.drawing = false;
         this.hasPolygon = false;
         this.areaName = "";
+        this.options = null;
+        this.layers = [];
+        this.markerLayers = [];
         this.markers = [];
+        this.polygonLayer = Object(leaflet__WEBPACK_IMPORTED_MODULE_9__["polygon"])(this.markers);
         this.paths = [];
     }
     AddAreaComponent.prototype.ngOnInit = function () {
@@ -247,6 +336,13 @@ var AddAreaComponent = /** @class */ (function () {
                 _this.latitude = position.coords.latitude;
                 _this.longitude = position.coords.longitude;
                 _this.zoom = 15;
+                _this.options = {
+                    layers: [
+                        Object(leaflet__WEBPACK_IMPORTED_MODULE_9__["tileLayer"])('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '...' })
+                    ],
+                    zoom: _this.zoom,
+                    center: Object(leaflet__WEBPACK_IMPORTED_MODULE_9__["latLng"])(_this.latitude, _this.longitude)
+                };
             });
         }
     };
@@ -267,17 +363,21 @@ var AddAreaComponent = /** @class */ (function () {
     AddAreaComponent.prototype.CancelDraw = function () {
         this.drawing = false;
         this.markers = [];
+        this.markerLayers = [];
     };
     AddAreaComponent.prototype.SaveDraw = function () {
         var _this = this;
         this.paths = [];
-        this.markers.forEach(function (m) {
-            _this.paths.push({
-                lat: m.lat,
-                lng: m.lng
+        for (var i = 0; i < this.markers.length; i++) {
+            var location = this.markers[i];
+            this.paths.push({
+                lat: location[0],
+                lng: location[1]
             });
-        });
+        }
+        console.log(this.paths);
         this.markers = [];
+        console.log(this.paths);
         this.drawing = false;
         console.log("Still hitting");
         this.dialogRef = this.dialog.open(src_app_Popups_entry_dialog_entry_dialog_component__WEBPACK_IMPORTED_MODULE_6__["EntryDialogComponent"], {
@@ -307,12 +407,18 @@ var AddAreaComponent = /** @class */ (function () {
         this.nav.Push("Areas");
     };
     AddAreaComponent.prototype.mapClicked = function ($event) {
+        console.log($event);
         if (this.drawing) {
-            this.markers.push({
-                lat: $event.coords.lat,
-                lng: $event.coords.lng,
-                draggable: true
-            });
+            this.markerLayers.push(Object(leaflet__WEBPACK_IMPORTED_MODULE_9__["marker"])([$event.latlng.lat, $event.latlng.lng]));
+            this.markers.push([$event.latlng.lat, $event.latlng.lng]);
+            console.log(this.markerLayers);
+            console.log(this.markers);
+            this.polygonLayer = Object(leaflet__WEBPACK_IMPORTED_MODULE_9__["polygon"])(this.markers);
+            // this.markers.push({
+            //   lat: $event.coords.lat,
+            //   lng: $event.coords.lng,
+            //   draggable: true
+            // });
         }
     };
     AddAreaComponent.prototype.markerDragEnd = function (i, $event) {
@@ -379,6 +485,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var src_app_Services_area_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/Services/area.service */ "./src/app/Services/area.service.ts");
 /* harmony import */ var _agm_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @agm/core */ "./node_modules/@agm/core/index.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var leaflet__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! leaflet */ "./node_modules/leaflet/dist/leaflet-src.js");
+/* harmony import */ var leaflet__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(leaflet__WEBPACK_IMPORTED_MODULE_5__);
+
 
 
 
@@ -393,6 +502,8 @@ var AreaMapComponent = /** @class */ (function () {
         this.latitude = 0;
         this.longitude = 0;
         this.zoom = 15;
+        this.options = null;
+        this.layers = [];
     }
     AreaMapComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -402,27 +513,27 @@ var AreaMapComponent = /** @class */ (function () {
                 var area = _this.areaService.Areas.find(function (a) { if (a.id === params["id"])
                     return true; });
                 if (area !== undefined) {
-                    var maxLat = area.Points[0].Latitude;
-                    var minLat = area.Points[0].Latitude;
-                    var maxLon = area.Points[0].Longitude;
-                    var minLon = area.Points[0].Longitude;
+                    var maxLat = area.points[0].loc.latitude;
+                    var minLat = area.points[0].loc.latitude;
+                    var maxLon = area.points[0].loc.longitude;
+                    var minLon = area.points[0].loc.longitude;
                     var points = [];
-                    area.Points.forEach(function (p) {
-                        if (maxLat < p.Latitude) {
-                            maxLat = p.Latitude;
+                    area.points.forEach(function (p) {
+                        if (maxLat < p.loc.latitude) {
+                            maxLat = p.loc.latitude;
                         }
-                        if (minLat > p.Latitude) {
-                            minLat = p.Latitude;
+                        if (minLat > p.loc.latitude) {
+                            minLat = p.loc.latitude;
                         }
-                        if (maxLon < p.Longitude) {
-                            maxLon = p.Longitude;
+                        if (maxLon < p.loc.longitude) {
+                            maxLon = p.loc.longitude;
                         }
-                        if (minLon > p.Longitude) {
-                            minLon = p.Longitude;
+                        if (minLon > p.loc.longitude) {
+                            minLon = p.loc.longitude;
                         }
                         points.push({
-                            lat: p.Latitude,
-                            lng: p.Longitude
+                            lat: p.loc.latitude,
+                            lng: p.loc.longitude
                         });
                     });
                     console.log(points);
@@ -430,6 +541,15 @@ var AreaMapComponent = /** @class */ (function () {
                     _this.longitude = maxLon - ((maxLon - minLon) / 2);
                     console.log("Latitude: " + _this.latitude + " Longitude: " + _this.longitude);
                     _this.paths = points;
+                    _this.options = {
+                        layers: [
+                            Object(leaflet__WEBPACK_IMPORTED_MODULE_5__["tileLayer"])('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '...' })
+                        ],
+                        zoom: _this.zoom,
+                        // center: latLng(41.1955783/1859713, -81.45993527354125)
+                        center: Object(leaflet__WEBPACK_IMPORTED_MODULE_5__["latLng"])(_this.latitude, _this.longitude)
+                    };
+                    _this.layers = [Object(leaflet__WEBPACK_IMPORTED_MODULE_5__["polygon"])(points)];
                 }
             }
         });
@@ -479,12 +599,13 @@ module.exports = "span.measurement {\n  margin-right: 10px;\n  margin-left: 5vw;
 /*!************************************************************************!*\
   !*** ./src/app/Pages/area-measurements/area-measurements.component.ts ***!
   \************************************************************************/
-/*! exports provided: AreaMeasurementsComponent */
+/*! exports provided: AreaMeasurementsComponent, MeasurementTypeExtended */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AreaMeasurementsComponent", function() { return AreaMeasurementsComponent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MeasurementTypeExtended", function() { return MeasurementTypeExtended; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var src_app_Services_measurement_type_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/Services/measurement-type.service */ "./src/app/Services/measurement-type.service.ts");
@@ -492,6 +613,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
 /* harmony import */ var src_app_Popups_entry_dialog_entry_dialog_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/Popups/entry-dialog/entry-dialog.component */ "./src/app/Popups/entry-dialog/entry-dialog.component.ts");
+/* harmony import */ var src_app_Services_mapster_client__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! src/app/Services/mapster.client */ "./src/app/Services/mapster.client.ts");
+
 
 
 
@@ -515,18 +638,19 @@ var AreaMeasurementsComponent = /** @class */ (function () {
             }
         });
         this.measurementTypeService.MeasurementTypes.forEach(function (mt) {
-            _this.measurementTypes.push({
+            var newMType = new MeasurementTypeExtended({
                 id: mt.id,
-                measurementName: mt.measurementName,
-                units: mt.units,
-                isOpen: false,
-                entries: []
+                measurementname: mt.measurementname,
+                units: mt.units
             });
+            newMType.isOpen = false;
+            newMType.entries = [];
+            _this.measurementTypes.push();
         });
     };
     AreaMeasurementsComponent.prototype.ShowAdd = function (mt) {
         var _this = this;
-        var dialogRef = this.dialog.open(src_app_Popups_entry_dialog_entry_dialog_component__WEBPACK_IMPORTED_MODULE_6__["EntryDialogComponent"], { data: { Text: "Enter " + mt.measurementName } });
+        var dialogRef = this.dialog.open(src_app_Popups_entry_dialog_entry_dialog_component__WEBPACK_IMPORTED_MODULE_6__["EntryDialogComponent"], { data: { Text: "Enter " + mt.measurementname } });
         dialogRef.afterClosed().subscribe(function (result) {
             if (result !== undefined) {
                 var newEntry = _this.measurementService.Add(_this.areaId, mt.id, result);
@@ -582,6 +706,14 @@ var AreaMeasurementsComponent = /** @class */ (function () {
     return AreaMeasurementsComponent;
 }());
 
+var MeasurementTypeExtended = /** @class */ (function (_super) {
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"](MeasurementTypeExtended, _super);
+    function MeasurementTypeExtended() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return MeasurementTypeExtended;
+}(src_app_Services_mapster_client__WEBPACK_IMPORTED_MODULE_7__["MeasurementType"]));
+
 
 
 /***/ }),
@@ -628,13 +760,14 @@ var AreasComponent = /** @class */ (function () {
         this.dialog = dialog;
     }
     AreasComponent.prototype.ngOnInit = function () {
+        this.areaService.getAreas();
     };
     AreasComponent.prototype.GoToAdd = function () {
         this.nav.Push("AddArea");
     };
     AreasComponent.prototype.ShowEdit = function (area) {
         var _this = this;
-        var name = area.AreaName;
+        var name = area.areaname;
         var dialogRef = this.dialog.open(src_app_Popups_entry_dialog_entry_dialog_component__WEBPACK_IMPORTED_MODULE_5__["EntryDialogComponent"], { data: { Text: "Update Area Name", Value: name }
         });
         dialogRef.afterClosed().subscribe(function (result) {
@@ -646,7 +779,7 @@ var AreasComponent = /** @class */ (function () {
     AreasComponent.prototype.ShowSelect = function (area) {
         var _this = this;
         var dialogRef = this.dialog.open(src_app_Popups_selection_dialog_selection_dialog_component__WEBPACK_IMPORTED_MODULE_6__["SelectionDialogComponent"], { data: {
-                Header: area.AreaName,
+                Header: area.areaname,
                 Selections: ["View Map", "Add Measurement", "Edit Area Name"]
             } });
         dialogRef.afterClosed().subscribe(function (result) {
@@ -680,6 +813,69 @@ var AreasComponent = /** @class */ (function () {
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [src_app_Services_navigation_service__WEBPACK_IMPORTED_MODULE_2__["NavigationService"], src_app_Services_area_service__WEBPACK_IMPORTED_MODULE_3__["AreaService"], _angular_material__WEBPACK_IMPORTED_MODULE_4__["MatDialog"]])
     ], AreasComponent);
     return AreasComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/Pages/graph/graph.component.scss":
+/*!**************************************************!*\
+  !*** ./src/app/Pages/graph/graph.component.scss ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL1BhZ2VzL2dyYXBoL2dyYXBoLmNvbXBvbmVudC5zY3NzIn0= */"
+
+/***/ }),
+
+/***/ "./src/app/Pages/graph/graph.component.ts":
+/*!************************************************!*\
+  !*** ./src/app/Pages/graph/graph.component.ts ***!
+  \************************************************/
+/*! exports provided: GraphComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GraphComponent", function() { return GraphComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var src_app_Services_measurement_type_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/Services/measurement-type.service */ "./src/app/Services/measurement-type.service.ts");
+
+
+
+
+var GraphComponent = /** @class */ (function () {
+    function GraphComponent(route, measurementTypeService) {
+        this.route = route;
+        this.measurementTypeService = measurementTypeService;
+        this.oneArea = false;
+        this.MeasurementTypes = [];
+    }
+    GraphComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.route.params.subscribe(function (params) {
+            if (params !== undefined) {
+                _this.oneArea = true;
+            }
+        });
+    };
+    GraphComponent.ctorParameters = function () { return [
+        { type: _angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"] },
+        { type: src_app_Services_measurement_type_service__WEBPACK_IMPORTED_MODULE_3__["MeasurementTypeService"] }
+    ]; };
+    GraphComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-graph',
+            template: __webpack_require__(/*! raw-loader!./graph.component.html */ "./node_modules/raw-loader/index.js!./src/app/Pages/graph/graph.component.html"),
+            styles: [__webpack_require__(/*! ./graph.component.scss */ "./src/app/Pages/graph/graph.component.scss")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"], src_app_Services_measurement_type_service__WEBPACK_IMPORTED_MODULE_3__["MeasurementTypeService"]])
+    ], GraphComponent);
+    return GraphComponent;
 }());
 
 
@@ -776,26 +972,42 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LoginComponent", function() { return LoginComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var src_app_Services_authentication_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/Services/authentication.service */ "./src/app/Services/authentication.service.ts");
+/* harmony import */ var src_app_Services_navigation_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/Services/navigation.service */ "./src/app/Services/navigation.service.ts");
+
+
 
 
 var LoginComponent = /** @class */ (function () {
-    function LoginComponent() {
+    function LoginComponent(authService, nav) {
+        this.authService = authService;
+        this.nav = nav;
     }
     LoginComponent.prototype.ngOnInit = function () {
     };
-    LoginComponent.prototype.ngAfterViewInit = function () {
+    LoginComponent.prototype.login = function () {
+        var _this = this;
+        console.log('at least made it here');
+        this.authService.login(this.email, this.password).subscribe(function (x) {
+            console.log(x["token"]);
+            _this.authService.saveToken(x["token"]);
+            _this.nav.Push("Areas");
+        }, function (error) { return console.log(error); });
     };
-    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('loginDialog', { static: false }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"])
-    ], LoginComponent.prototype, "dialog", void 0);
+    LoginComponent.prototype.checkAuth = function () {
+        this.authService.isAuthenticated();
+    };
+    LoginComponent.ctorParameters = function () { return [
+        { type: src_app_Services_authentication_service__WEBPACK_IMPORTED_MODULE_2__["AuthenticationService"] },
+        { type: src_app_Services_navigation_service__WEBPACK_IMPORTED_MODULE_3__["NavigationService"] }
+    ]; };
     LoginComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
             selector: 'login',
             template: __webpack_require__(/*! raw-loader!./login.component.html */ "./node_modules/raw-loader/index.js!./src/app/Pages/login/login.component.html"),
             styles: [__webpack_require__(/*! ./login.component.scss */ "./src/app/Pages/login/login.component.scss")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [src_app_Services_authentication_service__WEBPACK_IMPORTED_MODULE_2__["AuthenticationService"], src_app_Services_navigation_service__WEBPACK_IMPORTED_MODULE_3__["NavigationService"]])
     ], LoginComponent);
     return LoginComponent;
 }());
@@ -857,7 +1069,7 @@ var MeasurementTypesComponent = /** @class */ (function () {
     MeasurementTypesComponent.prototype.ShowEdit = function (mt) {
         var _this = this;
         //Decouple the measurement type from the reference or it would cause the element to be modified
-        var nmt = { id: mt.id, measurementName: mt.measurementName, units: mt.units };
+        var nmt = { id: mt.id, measurementname: mt.measurementname, units: mt.units, owner: mt.owner };
         var dialogRef = this.dialog.open(src_app_Popups_add_edit_measurement_type_dialog_add_edit_measurement_type_dialog_component__WEBPACK_IMPORTED_MODULE_5__["AddEditMeasurementTypeDialogComponent"], { data: nmt });
         dialogRef.afterClosed().subscribe(function (result) {
             if (result !== undefined) {
@@ -909,6 +1121,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
+/* harmony import */ var src_app_Services_mapster_client__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/Services/mapster.client */ "./src/app/Services/mapster.client.ts");
+
 
 
 
@@ -916,14 +1130,15 @@ var AddEditMeasurementTypeDialogComponent = /** @class */ (function () {
     function AddEditMeasurementTypeDialogComponent(dialogRef, data) {
         this.dialogRef = dialogRef;
         this.data = data;
-        this.newMeasurementType = { id: "", measurementName: "", units: "" };
+        this.newMeasurementType = new src_app_Services_mapster_client__WEBPACK_IMPORTED_MODULE_3__["MeasurementType"]();
         this.passedMeasurementType = false;
         if (data !== undefined && data !== null) {
+            console.log(data);
             this.newMeasurementType = data;
             this.passedMeasurementType = true;
         }
         else {
-            this.newMeasurementType = { id: "", measurementName: "", units: "" };
+            this.newMeasurementType = new src_app_Services_mapster_client__WEBPACK_IMPORTED_MODULE_3__["MeasurementType"]();
         }
     }
     AddEditMeasurementTypeDialogComponent.prototype.ngOnInit = function () {
@@ -936,7 +1151,7 @@ var AddEditMeasurementTypeDialogComponent = /** @class */ (function () {
     };
     AddEditMeasurementTypeDialogComponent.ctorParameters = function () { return [
         { type: _angular_material__WEBPACK_IMPORTED_MODULE_2__["MatDialogRef"] },
-        { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"], args: [_angular_material__WEBPACK_IMPORTED_MODULE_2__["MAT_DIALOG_DATA"],] }] }
+        { type: src_app_Services_mapster_client__WEBPACK_IMPORTED_MODULE_3__["MeasurementType"], decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"], args: [_angular_material__WEBPACK_IMPORTED_MODULE_2__["MAT_DIALOG_DATA"],] }] }
     ]; };
     AddEditMeasurementTypeDialogComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -945,7 +1160,7 @@ var AddEditMeasurementTypeDialogComponent = /** @class */ (function () {
             styles: [__webpack_require__(/*! ./add-edit-measurement-type-dialog.component.scss */ "./src/app/Popups/add-edit-measurement-type-dialog/add-edit-measurement-type-dialog.component.scss")]
         }),
         tslib__WEBPACK_IMPORTED_MODULE_0__["__param"](1, Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"])(_angular_material__WEBPACK_IMPORTED_MODULE_2__["MAT_DIALOG_DATA"])),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_material__WEBPACK_IMPORTED_MODULE_2__["MatDialogRef"], Object])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_material__WEBPACK_IMPORTED_MODULE_2__["MatDialogRef"], src_app_Services_mapster_client__WEBPACK_IMPORTED_MODULE_3__["MeasurementType"]])
     ], AddEditMeasurementTypeDialogComponent);
     return AddEditMeasurementTypeDialogComponent;
 }());
@@ -1100,80 +1315,61 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var AreaService = /** @class */ (function () {
-    function AreaService(pubsub, backendClient) {
+    function AreaService(pubsub, getClient, updateClient, createClient) {
         this.pubsub = pubsub;
-        this.backendClient = backendClient;
+        this.getClient = getClient;
+        this.updateClient = updateClient;
+        this.createClient = createClient;
         this.Areas = [];
-        this.Testing();
     }
-    AreaService.prototype.Testing = function () {
-        var pos = 0;
-        while (pos < 20) {
-            this.Areas.push({
-                id: (pos + 1).toString(),
-                AreaName: "Area " + pos,
-                Points: [
-                    { Position: 0, Latitude: 41.037705631717294, Longitude: -81.47310225399781 },
-                    { Position: 1, Latitude: 41.03051908036947, Longitude: -81.47267310055543 },
-                    { Position: 2, Latitude: 41.030713321802, Longitude: -81.46336047085572 }
-                ]
-            });
-            pos++;
-        }
+    AreaService.prototype.getAreas = function () {
+        var _this = this;
+        this.getClient.areas().subscribe(function (x) {
+            _this.Areas = x;
+        });
     };
     AreaService.prototype.CreateNewArea = function (path, areaName) {
-        var newArea = {
-            id: (this.Areas.length + 1).toString(),
-            AreaName: areaName,
-            Points: []
-        };
-        var pos = 0;
-        while (pos < path.length) {
-            newArea.Points.push({
-                Position: pos,
-                Longitude: path[pos].lng,
-                Latitude: path[pos].lat
-            });
-            pos++;
-        }
+        var _this = this;
         var newAreaDB = new _mapster_client__WEBPACK_IMPORTED_MODULE_3__["Area"]({
             areaname: areaName,
-            points: [],
-            owner: "5d432f621c9d666b6473ffec"
+            points: []
         });
         var pos = 0;
         while (pos < path.length) {
             newAreaDB.points.push(new _mapster_client__WEBPACK_IMPORTED_MODULE_3__["Point"]({
                 position: pos,
                 loc: new _mapster_client__WEBPACK_IMPORTED_MODULE_3__["Location"]({
-                    lat: path[pos].lat,
+                    latitude: path[pos].lat,
                     longitude: path[pos].lng
                 })
             }));
             pos++;
         }
-        //NEED TO PUSH TO DB
-        this.Areas.push(newArea);
-        this.backendClient.area(newAreaDB).subscribe(function (x) {
+        this.Areas.push(newAreaDB);
+        this.createClient.area(newAreaDB).subscribe(function (x) {
+            _this.pubsub.$pub("Areas Updates", _this.Areas);
             console.log(x);
             console.log('creation complete!');
         });
-        this.pubsub.$pub("Areas Updates", this.Areas);
     };
     AreaService.prototype.UpdateAreaName = function (area, newName) {
-        var area = this.Areas.find(function (a) { if (a.id === area.id)
-            return true; });
-        area.AreaName = newName;
+        area.areaname = newName;
+        this.updateClient.area(area).subscribe(function (x) {
+            console.log(x);
+            console.log('update complete!');
+        });
     };
     AreaService.ctorParameters = function () { return [
         { type: _pub_sub_service__WEBPACK_IMPORTED_MODULE_2__["PubSubService"] },
-        { type: _mapster_client__WEBPACK_IMPORTED_MODULE_3__["Client"] }
+        { type: _mapster_client__WEBPACK_IMPORTED_MODULE_3__["GetClient"] },
+        { type: _mapster_client__WEBPACK_IMPORTED_MODULE_3__["UpdateClient"] },
+        { type: _mapster_client__WEBPACK_IMPORTED_MODULE_3__["CreateClient"] }
     ]; };
     AreaService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
             providedIn: 'root'
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_pub_sub_service__WEBPACK_IMPORTED_MODULE_2__["PubSubService"], _mapster_client__WEBPACK_IMPORTED_MODULE_3__["Client"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_pub_sub_service__WEBPACK_IMPORTED_MODULE_2__["PubSubService"], _mapster_client__WEBPACK_IMPORTED_MODULE_3__["GetClient"], _mapster_client__WEBPACK_IMPORTED_MODULE_3__["UpdateClient"], _mapster_client__WEBPACK_IMPORTED_MODULE_3__["CreateClient"]])
     ], AreaService);
     return AreaService;
 }());
@@ -1196,30 +1392,62 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _pub_sub_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./pub-sub.service */ "./src/app/Services/pub-sub.service.ts");
 /* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
+/* harmony import */ var _mapster_client__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./mapster.client */ "./src/app/Services/mapster.client.ts");
+/* harmony import */ var jwt_decode__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! jwt-decode */ "./node_modules/jwt-decode/lib/index.js");
+/* harmony import */ var jwt_decode__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(jwt_decode__WEBPACK_IMPORTED_MODULE_5__);
+
+
 
 
 
 
 var AuthenticationService = /** @class */ (function () {
-    function AuthenticationService(pubsub, dialog) {
+    function AuthenticationService(pubsub, dialog, backendClient) {
         this.pubsub = pubsub;
         this.dialog = dialog;
+        this.backendClient = backendClient;
     }
-    AuthenticationService.prototype.Login = function (email, password) {
-        this.pubsub.$pub("LoggedIn");
+    AuthenticationService.prototype.login = function (email, password) {
+        var user = new _mapster_client__WEBPACK_IMPORTED_MODULE_4__["User"]({
+            email: email,
+            password: password
+        });
+        return this.backendClient.login(user);
     };
     AuthenticationService.prototype.Logout = function () {
         this.pubsub.$pub("LoggedOut");
     };
+    AuthenticationService.prototype.saveToken = function (token) {
+        localStorage.setItem('token', token);
+    };
+    AuthenticationService.prototype.getToken = function () {
+        return localStorage.getItem('token');
+    };
+    AuthenticationService.prototype.isAuthenticated = function () {
+        // get the token
+        var token = this.getToken();
+        if (token == null) {
+            return false;
+        }
+        return this.tokenNotExpired(token);
+    };
+    AuthenticationService.prototype.tokenNotExpired = function (token) {
+        var decoded = jwt_decode__WEBPACK_IMPORTED_MODULE_5__(token);
+        if (Date.now() >= decoded.exp * 1000) {
+            return false;
+        }
+        return true;
+    };
     AuthenticationService.ctorParameters = function () { return [
         { type: _pub_sub_service__WEBPACK_IMPORTED_MODULE_2__["PubSubService"] },
-        { type: _angular_material__WEBPACK_IMPORTED_MODULE_3__["MatDialog"] }
+        { type: _angular_material__WEBPACK_IMPORTED_MODULE_3__["MatDialog"] },
+        { type: _mapster_client__WEBPACK_IMPORTED_MODULE_4__["Client"] }
     ]; };
     AuthenticationService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
             providedIn: 'root'
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_pub_sub_service__WEBPACK_IMPORTED_MODULE_2__["PubSubService"], _angular_material__WEBPACK_IMPORTED_MODULE_3__["MatDialog"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_pub_sub_service__WEBPACK_IMPORTED_MODULE_2__["PubSubService"], _angular_material__WEBPACK_IMPORTED_MODULE_3__["MatDialog"], _mapster_client__WEBPACK_IMPORTED_MODULE_4__["Client"]])
     ], AuthenticationService);
     return AuthenticationService;
 }());
@@ -1347,28 +1575,33 @@ var CordovaService = /** @class */ (function () {
 /*!********************************************!*\
   !*** ./src/app/Services/mapster.client.ts ***!
   \********************************************/
-/*! exports provided: API_BASE_URL, Client, Location, Point, Area, User, ApiException */
+/*! exports provided: API_BASE_URL, GetClient, CreateClient, UpdateClient, Client, DeleteClient, Location, Point, Area, User, Measurement, MeasurementType, SwaggerException */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "API_BASE_URL", function() { return API_BASE_URL; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GetClient", function() { return GetClient; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CreateClient", function() { return CreateClient; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UpdateClient", function() { return UpdateClient; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Client", function() { return Client; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DeleteClient", function() { return DeleteClient; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Location", function() { return Location; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Point", function() { return Point; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Area", function() { return Area; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "User", function() { return User; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ApiException", function() { return ApiException; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Measurement", function() { return Measurement; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MeasurementType", function() { return MeasurementType; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SwaggerException", function() { return SwaggerException; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
 /* tslint:disable */
-/* eslint-disable */
 //----------------------
 // <auto-generated>
-//     Generated using the NSwag toolchain v13.0.4.0 (NJsonSchema v10.0.21.0 (Newtonsoft.Json v11.0.0.0)) (http://NSwag.org)
+//     Generated using the NSwag toolchain v12.0.15.0 (NJsonSchema v9.13.22.0 (Newtonsoft.Json v11.0.0.0)) (http://NSwag.org)
 // </auto-generated>
 //----------------------
 // ReSharper disable InconsistentNaming
@@ -1378,8 +1611,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var API_BASE_URL = new _angular_core__WEBPACK_IMPORTED_MODULE_3__["InjectionToken"]('API_BASE_URL');
-var Client = /** @class */ (function () {
-    function Client(http, baseUrl) {
+var GetClient = /** @class */ (function () {
+    function GetClient(http, baseUrl) {
         this.jsonParseReviver = undefined;
         this.http = http;
         this.baseUrl = baseUrl ? baseUrl : "";
@@ -1387,26 +1620,23 @@ var Client = /** @class */ (function () {
     /**
      * @return Success
      */
-    Client.prototype.getArea = function (id) {
+    GetClient.prototype.areas = function () {
         var _this = this;
-        var url_ = this.baseUrl + "/api/Area/{id}";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        var url_ = this.baseUrl + "/api/Area";
         url_ = url_.replace(/[?&]$/, "");
         var options_ = {
             observe: "response",
             responseType: "blob",
             headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpHeaders"]({
-                "Accept": "text/plain"
+                "Accept": "application/json"
             })
         };
         return this.http.request("get", url_, options_).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(function (response_) {
-            return _this.processGetArea(response_);
+            return _this.processAreas(response_);
         })).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["catchError"])(function (response_) {
             if (response_ instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpResponseBase"]) {
                 try {
-                    return _this.processGetArea(response_);
+                    return _this.processAreas(response_);
                 }
                 catch (e) {
                     return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(e);
@@ -1416,7 +1646,7 @@ var Client = /** @class */ (function () {
                 return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(response_);
         }));
     };
-    Client.prototype.processGetArea = function (response) {
+    GetClient.prototype.processAreas = function (response) {
         var _this = this;
         var e_1, _a;
         var status = response.status;
@@ -1441,9 +1671,25 @@ var Client = /** @class */ (function () {
         ;
         if (status === 200) {
             return blobToText(responseBlob).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(function (_responseText) {
+                var e_2, _a;
                 var result200 = null;
                 var resultData200 = _responseText === "" ? null : JSON.parse(_responseText, _this.jsonParseReviver);
-                result200 = Area.fromJS(resultData200);
+                if (resultData200 && resultData200.constructor === Array) {
+                    result200 = [];
+                    try {
+                        for (var resultData200_1 = tslib__WEBPACK_IMPORTED_MODULE_0__["__values"](resultData200), resultData200_1_1 = resultData200_1.next(); !resultData200_1_1.done; resultData200_1_1 = resultData200_1.next()) {
+                            var item = resultData200_1_1.value;
+                            result200.push(Area.fromJS(item));
+                        }
+                    }
+                    catch (e_2_1) { e_2 = { error: e_2_1 }; }
+                    finally {
+                        try {
+                            if (resultData200_1_1 && !resultData200_1_1.done && (_a = resultData200_1.return)) _a.call(resultData200_1);
+                        }
+                        finally { if (e_2) throw e_2.error; }
+                    }
+                }
                 return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(result200);
             }));
         }
@@ -1455,24 +1701,23 @@ var Client = /** @class */ (function () {
         return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(null);
     };
     /**
-     * @param body (optional)
      * @return Success
      */
-    Client.prototype.area = function (body) {
+    GetClient.prototype.area = function (id) {
         var _this = this;
-        var url_ = this.baseUrl + "/api/Area";
+        var url_ = this.baseUrl + "/api/Area/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
-        var content_ = JSON.stringify(body);
         var options_ = {
-            body: content_,
             observe: "response",
             responseType: "blob",
             headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpHeaders"]({
-                "Content-Type": "application/json-patch+json",
-                "Accept": "text/plain"
+                "Accept": "application/json"
             })
         };
-        return this.http.request("post", url_, options_).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(function (response_) {
+        return this.http.request("get", url_, options_).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(function (response_) {
             return _this.processArea(response_);
         })).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["catchError"])(function (response_) {
             if (response_ instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpResponseBase"]) {
@@ -1487,77 +1732,8 @@ var Client = /** @class */ (function () {
                 return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(response_);
         }));
     };
-    Client.prototype.processArea = function (response) {
+    GetClient.prototype.processArea = function (response) {
         var _this = this;
-        var e_2, _a;
-        var status = response.status;
-        var responseBlob = response instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpResponse"] ? response.body :
-            response.error instanceof Blob ? response.error : undefined;
-        var _headers = {};
-        if (response.headers) {
-            try {
-                for (var _b = tslib__WEBPACK_IMPORTED_MODULE_0__["__values"](response.headers.keys()), _c = _b.next(); !_c.done; _c = _b.next()) {
-                    var key = _c.value;
-                    _headers[key] = response.headers.get(key);
-                }
-            }
-            catch (e_2_1) { e_2 = { error: e_2_1 }; }
-            finally {
-                try {
-                    if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
-                }
-                finally { if (e_2) throw e_2.error; }
-            }
-        }
-        ;
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(function (_responseText) {
-                var result200 = null;
-                var resultData200 = _responseText === "" ? null : JSON.parse(_responseText, _this.jsonParseReviver);
-                result200 = Area.fromJS(resultData200);
-                return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(result200);
-            }));
-        }
-        else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(function (_responseText) {
-                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(null);
-    };
-    /**
-     * @param body (optional)
-     * @return Success
-     */
-    Client.prototype.login = function (body) {
-        var _this = this;
-        var url_ = this.baseUrl + "/api/Login";
-        url_ = url_.replace(/[?&]$/, "");
-        var content_ = JSON.stringify(body);
-        var options_ = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpHeaders"]({
-                "Content-Type": "application/json-patch+json",
-            })
-        };
-        return this.http.request("post", url_, options_).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(function (response_) {
-            return _this.processLogin(response_);
-        })).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["catchError"])(function (response_) {
-            if (response_ instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpResponseBase"]) {
-                try {
-                    return _this.processLogin(response_);
-                }
-                catch (e) {
-                    return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(e);
-                }
-            }
-            else
-                return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(response_);
-        }));
-    };
-    Client.prototype.processLogin = function (response) {
         var e_3, _a;
         var status = response.status;
         var responseBlob = response instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpResponse"] ? response.body :
@@ -1581,7 +1757,10 @@ var Client = /** @class */ (function () {
         ;
         if (status === 200) {
             return blobToText(responseBlob).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(function (_responseText) {
-                return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(null);
+                var result200 = null;
+                var resultData200 = _responseText === "" ? null : JSON.parse(_responseText, _this.jsonParseReviver);
+                result200 = resultData200 ? Area.fromJS(resultData200) : new Area();
+                return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(result200);
             }));
         }
         else if (status !== 200 && status !== 204) {
@@ -1594,23 +1773,23 @@ var Client = /** @class */ (function () {
     /**
      * @return Success
      */
-    Client.prototype.usersAll = function () {
+    GetClient.prototype.measurementTypes = function () {
         var _this = this;
-        var url_ = this.baseUrl + "/api/Users";
+        var url_ = this.baseUrl + "/api/MeasurementType";
         url_ = url_.replace(/[?&]$/, "");
         var options_ = {
             observe: "response",
             responseType: "blob",
             headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpHeaders"]({
-                "Accept": "text/plain"
+                "Accept": "application/json"
             })
         };
         return this.http.request("get", url_, options_).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(function (response_) {
-            return _this.processUsersAll(response_);
+            return _this.processMeasurementTypes(response_);
         })).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["catchError"])(function (response_) {
             if (response_ instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpResponseBase"]) {
                 try {
-                    return _this.processUsersAll(response_);
+                    return _this.processMeasurementTypes(response_);
                 }
                 catch (e) {
                     return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(e);
@@ -1620,7 +1799,7 @@ var Client = /** @class */ (function () {
                 return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(response_);
         }));
     };
-    Client.prototype.processUsersAll = function (response) {
+    GetClient.prototype.processMeasurementTypes = function (response) {
         var _this = this;
         var e_4, _a;
         var status = response.status;
@@ -1648,18 +1827,18 @@ var Client = /** @class */ (function () {
                 var e_5, _a;
                 var result200 = null;
                 var resultData200 = _responseText === "" ? null : JSON.parse(_responseText, _this.jsonParseReviver);
-                if (Array.isArray(resultData200)) {
+                if (resultData200 && resultData200.constructor === Array) {
                     result200 = [];
                     try {
-                        for (var resultData200_1 = tslib__WEBPACK_IMPORTED_MODULE_0__["__values"](resultData200), resultData200_1_1 = resultData200_1.next(); !resultData200_1_1.done; resultData200_1_1 = resultData200_1.next()) {
-                            var item = resultData200_1_1.value;
-                            result200.push(User.fromJS(item));
+                        for (var resultData200_2 = tslib__WEBPACK_IMPORTED_MODULE_0__["__values"](resultData200), resultData200_2_1 = resultData200_2.next(); !resultData200_2_1.done; resultData200_2_1 = resultData200_2.next()) {
+                            var item = resultData200_2_1.value;
+                            result200.push(MeasurementType.fromJS(item));
                         }
                     }
                     catch (e_5_1) { e_5 = { error: e_5_1 }; }
                     finally {
                         try {
-                            if (resultData200_1_1 && !resultData200_1_1.done && (_a = resultData200_1.return)) _a.call(resultData200_1);
+                            if (resultData200_2_1 && !resultData200_2_1.done && (_a = resultData200_2.return)) _a.call(resultData200_2);
                         }
                         finally { if (e_5) throw e_5.error; }
                     }
@@ -1675,29 +1854,28 @@ var Client = /** @class */ (function () {
         return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(null);
     };
     /**
-     * @param body (optional)
      * @return Success
      */
-    Client.prototype.users = function (body) {
+    GetClient.prototype.user = function (id) {
         var _this = this;
-        var url_ = this.baseUrl + "/api/Users";
+        var url_ = this.baseUrl + "/api/User/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
-        var content_ = JSON.stringify(body);
         var options_ = {
-            body: content_,
             observe: "response",
             responseType: "blob",
             headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpHeaders"]({
-                "Content-Type": "application/json-patch+json",
-                "Accept": "text/plain"
+                "Accept": "application/json"
             })
         };
-        return this.http.request("post", url_, options_).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(function (response_) {
-            return _this.processUsers(response_);
+        return this.http.request("get", url_, options_).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(function (response_) {
+            return _this.processUser(response_);
         })).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["catchError"])(function (response_) {
             if (response_ instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpResponseBase"]) {
                 try {
-                    return _this.processUsers(response_);
+                    return _this.processUser(response_);
                 }
                 catch (e) {
                     return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(e);
@@ -1707,7 +1885,7 @@ var Client = /** @class */ (function () {
                 return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(response_);
         }));
     };
-    Client.prototype.processUsers = function (response) {
+    GetClient.prototype.processUser = function (response) {
         var _this = this;
         var e_6, _a;
         var status = response.status;
@@ -1734,7 +1912,7 @@ var Client = /** @class */ (function () {
             return blobToText(responseBlob).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(function (_responseText) {
                 var result200 = null;
                 var resultData200 = _responseText === "" ? null : JSON.parse(_responseText, _this.jsonParseReviver);
-                result200 = User.fromJS(resultData200);
+                result200 = resultData200 ? User.fromJS(resultData200) : new User();
                 return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(result200);
             }));
         }
@@ -1745,29 +1923,48 @@ var Client = /** @class */ (function () {
         }
         return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(null);
     };
+    GetClient.ctorParameters = function () { return [
+        { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpClient"], decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_3__["Inject"], args: [_angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpClient"],] }] },
+        { type: String, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_3__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_3__["Inject"], args: [API_BASE_URL,] }] }
+    ]; };
+    GetClient = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["Injectable"])(),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__param"](0, Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["Inject"])(_angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpClient"])), tslib__WEBPACK_IMPORTED_MODULE_0__["__param"](1, Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["Optional"])()), tslib__WEBPACK_IMPORTED_MODULE_0__["__param"](1, Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["Inject"])(API_BASE_URL)),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpClient"], String])
+    ], GetClient);
+    return GetClient;
+}());
+
+var CreateClient = /** @class */ (function () {
+    function CreateClient(http, baseUrl) {
+        this.jsonParseReviver = undefined;
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
     /**
+     * @param body (optional)
      * @return Success
      */
-    Client.prototype.getUser = function (id) {
+    CreateClient.prototype.area = function (body) {
         var _this = this;
-        var url_ = this.baseUrl + "/api/Users/{id}";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        var url_ = this.baseUrl + "/api/Area";
         url_ = url_.replace(/[?&]$/, "");
+        var content_ = JSON.stringify(body);
         var options_ = {
+            body: content_,
             observe: "response",
             responseType: "blob",
             headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpHeaders"]({
-                "Accept": "text/plain"
+                "Content-Type": "application/json",
+                "Accept": "application/json"
             })
         };
-        return this.http.request("get", url_, options_).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(function (response_) {
-            return _this.processGetUser(response_);
+        return this.http.request("post", url_, options_).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(function (response_) {
+            return _this.processArea(response_);
         })).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["catchError"])(function (response_) {
             if (response_ instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpResponseBase"]) {
                 try {
-                    return _this.processGetUser(response_);
+                    return _this.processArea(response_);
                 }
                 catch (e) {
                     return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(e);
@@ -1777,7 +1974,7 @@ var Client = /** @class */ (function () {
                 return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(response_);
         }));
     };
-    Client.prototype.processGetUser = function (response) {
+    CreateClient.prototype.processArea = function (response) {
         var _this = this;
         var e_7, _a;
         var status = response.status;
@@ -1804,7 +2001,7 @@ var Client = /** @class */ (function () {
             return blobToText(responseBlob).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(function (_responseText) {
                 var result200 = null;
                 var resultData200 = _responseText === "" ? null : JSON.parse(_responseText, _this.jsonParseReviver);
-                result200 = User.fromJS(resultData200);
+                result200 = resultData200 ? Area.fromJS(resultData200) : new Area();
                 return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(result200);
             }));
         }
@@ -1819,12 +2016,9 @@ var Client = /** @class */ (function () {
      * @param body (optional)
      * @return Success
      */
-    Client.prototype.users2 = function (id, body) {
+    CreateClient.prototype.measurement = function (body) {
         var _this = this;
-        var url_ = this.baseUrl + "/api/Users/{id}";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        var url_ = this.baseUrl + "/api/Measurement";
         url_ = url_.replace(/[?&]$/, "");
         var content_ = JSON.stringify(body);
         var options_ = {
@@ -1832,15 +2026,16 @@ var Client = /** @class */ (function () {
             observe: "response",
             responseType: "blob",
             headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpHeaders"]({
-                "Content-Type": "application/json-patch+json",
+                "Content-Type": "application/json",
+                "Accept": "application/json"
             })
         };
-        return this.http.request("put", url_, options_).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(function (response_) {
-            return _this.processUsers2(response_);
+        return this.http.request("post", url_, options_).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(function (response_) {
+            return _this.processMeasurement(response_);
         })).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["catchError"])(function (response_) {
             if (response_ instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpResponseBase"]) {
                 try {
-                    return _this.processUsers2(response_);
+                    return _this.processMeasurement(response_);
                 }
                 catch (e) {
                     return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(e);
@@ -1850,7 +2045,8 @@ var Client = /** @class */ (function () {
                 return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(response_);
         }));
     };
-    Client.prototype.processUsers2 = function (response) {
+    CreateClient.prototype.processMeasurement = function (response) {
+        var _this = this;
         var e_8, _a;
         var status = response.status;
         var responseBlob = response instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpResponse"] ? response.body :
@@ -1874,7 +2070,10 @@ var Client = /** @class */ (function () {
         ;
         if (status === 200) {
             return blobToText(responseBlob).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(function (_responseText) {
-                return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(null);
+                var result200 = null;
+                var resultData200 = _responseText === "" ? null : JSON.parse(_responseText, _this.jsonParseReviver);
+                result200 = resultData200 ? Measurement.fromJS(resultData200) : new Measurement();
+                return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(result200);
             }));
         }
         else if (status !== 200 && status !== 204) {
@@ -1885,26 +2084,29 @@ var Client = /** @class */ (function () {
         return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(null);
     };
     /**
+     * @param body (optional)
      * @return Success
      */
-    Client.prototype.users3 = function (id) {
+    CreateClient.prototype.measurementType = function (body) {
         var _this = this;
-        var url_ = this.baseUrl + "/api/Users/{id}";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        var url_ = this.baseUrl + "/api/MeasurementType";
         url_ = url_.replace(/[?&]$/, "");
+        var content_ = JSON.stringify(body);
         var options_ = {
+            body: content_,
             observe: "response",
             responseType: "blob",
-            headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpHeaders"]({})
+            headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpHeaders"]({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
         };
-        return this.http.request("delete", url_, options_).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(function (response_) {
-            return _this.processUsers3(response_);
+        return this.http.request("post", url_, options_).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(function (response_) {
+            return _this.processMeasurementType(response_);
         })).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["catchError"])(function (response_) {
             if (response_ instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpResponseBase"]) {
                 try {
-                    return _this.processUsers3(response_);
+                    return _this.processMeasurementType(response_);
                 }
                 catch (e) {
                     return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(e);
@@ -1914,7 +2116,8 @@ var Client = /** @class */ (function () {
                 return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(response_);
         }));
     };
-    Client.prototype.processUsers3 = function (response) {
+    CreateClient.prototype.processMeasurementType = function (response) {
+        var _this = this;
         var e_9, _a;
         var status = response.status;
         var responseBlob = response instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpResponse"] ? response.body :
@@ -1938,7 +2141,10 @@ var Client = /** @class */ (function () {
         ;
         if (status === 200) {
             return blobToText(responseBlob).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(function (_responseText) {
-                return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(null);
+                var result200 = null;
+                var resultData200 = _responseText === "" ? null : JSON.parse(_responseText, _this.jsonParseReviver);
+                result200 = resultData200 ? MeasurementType.fromJS(resultData200) : new MeasurementType();
+                return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(result200);
             }));
         }
         else if (status !== 200 && status !== 204) {
@@ -1949,25 +2155,29 @@ var Client = /** @class */ (function () {
         return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(null);
     };
     /**
+     * @param body (optional)
      * @return Success
      */
-    Client.prototype.valuesAll = function () {
+    CreateClient.prototype.user = function (body) {
         var _this = this;
-        var url_ = this.baseUrl + "/api/Values";
+        var url_ = this.baseUrl + "/api/User";
         url_ = url_.replace(/[?&]$/, "");
+        var content_ = JSON.stringify(body);
         var options_ = {
+            body: content_,
             observe: "response",
             responseType: "blob",
             headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpHeaders"]({
-                "Accept": "text/plain"
+                "Content-Type": "application/json",
+                "Accept": "application/json"
             })
         };
-        return this.http.request("get", url_, options_).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(function (response_) {
-            return _this.processValuesAll(response_);
+        return this.http.request("post", url_, options_).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(function (response_) {
+            return _this.processUser(response_);
         })).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["catchError"])(function (response_) {
             if (response_ instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpResponseBase"]) {
                 try {
-                    return _this.processValuesAll(response_);
+                    return _this.processUser(response_);
                 }
                 catch (e) {
                     return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(e);
@@ -1977,7 +2187,7 @@ var Client = /** @class */ (function () {
                 return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(response_);
         }));
     };
-    Client.prototype.processValuesAll = function (response) {
+    CreateClient.prototype.processUser = function (response) {
         var _this = this;
         var e_10, _a;
         var status = response.status;
@@ -2002,25 +2212,98 @@ var Client = /** @class */ (function () {
         ;
         if (status === 200) {
             return blobToText(responseBlob).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(function (_responseText) {
-                var e_11, _a;
                 var result200 = null;
                 var resultData200 = _responseText === "" ? null : JSON.parse(_responseText, _this.jsonParseReviver);
-                if (Array.isArray(resultData200)) {
-                    result200 = [];
-                    try {
-                        for (var resultData200_2 = tslib__WEBPACK_IMPORTED_MODULE_0__["__values"](resultData200), resultData200_2_1 = resultData200_2.next(); !resultData200_2_1.done; resultData200_2_1 = resultData200_2.next()) {
-                            var item = resultData200_2_1.value;
-                            result200.push(item);
-                        }
-                    }
-                    catch (e_11_1) { e_11 = { error: e_11_1 }; }
-                    finally {
-                        try {
-                            if (resultData200_2_1 && !resultData200_2_1.done && (_a = resultData200_2.return)) _a.call(resultData200_2);
-                        }
-                        finally { if (e_11) throw e_11.error; }
-                    }
+                result200 = resultData200 ? User.fromJS(resultData200) : new User();
+                return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(result200);
+            }));
+        }
+        else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(function (_responseText) {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(null);
+    };
+    CreateClient.ctorParameters = function () { return [
+        { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpClient"], decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_3__["Inject"], args: [_angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpClient"],] }] },
+        { type: String, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_3__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_3__["Inject"], args: [API_BASE_URL,] }] }
+    ]; };
+    CreateClient = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["Injectable"])(),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__param"](0, Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["Inject"])(_angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpClient"])), tslib__WEBPACK_IMPORTED_MODULE_0__["__param"](1, Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["Optional"])()), tslib__WEBPACK_IMPORTED_MODULE_0__["__param"](1, Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["Inject"])(API_BASE_URL)),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpClient"], String])
+    ], CreateClient);
+    return CreateClient;
+}());
+
+var UpdateClient = /** @class */ (function () {
+    function UpdateClient(http, baseUrl) {
+        this.jsonParseReviver = undefined;
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+    /**
+     * @param body (optional)
+     * @return Success
+     */
+    UpdateClient.prototype.area = function (body) {
+        var _this = this;
+        var url_ = this.baseUrl + "/api/Area";
+        url_ = url_.replace(/[?&]$/, "");
+        var content_ = JSON.stringify(body);
+        var options_ = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpHeaders"]({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+        return this.http.request("put", url_, options_).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(function (response_) {
+            return _this.processArea(response_);
+        })).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["catchError"])(function (response_) {
+            if (response_ instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpResponseBase"]) {
+                try {
+                    return _this.processArea(response_);
                 }
+                catch (e) {
+                    return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(e);
+                }
+            }
+            else
+                return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(response_);
+        }));
+    };
+    UpdateClient.prototype.processArea = function (response) {
+        var _this = this;
+        var e_11, _a;
+        var status = response.status;
+        var responseBlob = response instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpResponse"] ? response.body :
+            response.error instanceof Blob ? response.error : undefined;
+        var _headers = {};
+        if (response.headers) {
+            try {
+                for (var _b = tslib__WEBPACK_IMPORTED_MODULE_0__["__values"](response.headers.keys()), _c = _b.next(); !_c.done; _c = _b.next()) {
+                    var key = _c.value;
+                    _headers[key] = response.headers.get(key);
+                }
+            }
+            catch (e_11_1) { e_11 = { error: e_11_1 }; }
+            finally {
+                try {
+                    if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+                }
+                finally { if (e_11) throw e_11.error; }
+            }
+        }
+        ;
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(function (_responseText) {
+                var result200 = null;
+                var resultData200 = _responseText === "" ? null : JSON.parse(_responseText, _this.jsonParseReviver);
+                result200 = resultData200 ? Area.fromJS(resultData200) : new Area();
                 return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(result200);
             }));
         }
@@ -2035,9 +2318,9 @@ var Client = /** @class */ (function () {
      * @param body (optional)
      * @return Success
      */
-    Client.prototype.values = function (body) {
+    UpdateClient.prototype.measurement = function (body) {
         var _this = this;
-        var url_ = this.baseUrl + "/api/Values";
+        var url_ = this.baseUrl + "/api/Measurement";
         url_ = url_.replace(/[?&]$/, "");
         var content_ = JSON.stringify(body);
         var options_ = {
@@ -2045,15 +2328,16 @@ var Client = /** @class */ (function () {
             observe: "response",
             responseType: "blob",
             headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpHeaders"]({
-                "Content-Type": "application/json-patch+json",
+                "Content-Type": "application/json",
+                "Accept": "application/json"
             })
         };
-        return this.http.request("post", url_, options_).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(function (response_) {
-            return _this.processValues(response_);
+        return this.http.request("put", url_, options_).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(function (response_) {
+            return _this.processMeasurement(response_);
         })).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["catchError"])(function (response_) {
             if (response_ instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpResponseBase"]) {
                 try {
-                    return _this.processValues(response_);
+                    return _this.processMeasurement(response_);
                 }
                 catch (e) {
                     return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(e);
@@ -2063,7 +2347,8 @@ var Client = /** @class */ (function () {
                 return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(response_);
         }));
     };
-    Client.prototype.processValues = function (response) {
+    UpdateClient.prototype.processMeasurement = function (response) {
+        var _this = this;
         var e_12, _a;
         var status = response.status;
         var responseBlob = response instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpResponse"] ? response.body :
@@ -2087,7 +2372,10 @@ var Client = /** @class */ (function () {
         ;
         if (status === 200) {
             return blobToText(responseBlob).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(function (_responseText) {
-                return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(null);
+                var result200 = null;
+                var resultData200 = _responseText === "" ? null : JSON.parse(_responseText, _this.jsonParseReviver);
+                result200 = resultData200 ? MeasurementType.fromJS(resultData200) : new MeasurementType();
+                return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(result200);
             }));
         }
         else if (status !== 200 && status !== 204) {
@@ -2098,28 +2386,29 @@ var Client = /** @class */ (function () {
         return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(null);
     };
     /**
+     * @param body (optional)
      * @return Success
      */
-    Client.prototype.values2 = function (id) {
+    UpdateClient.prototype.measurementType = function (body) {
         var _this = this;
-        var url_ = this.baseUrl + "/api/Values/{id}";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        var url_ = this.baseUrl + "/api/MeasurementType";
         url_ = url_.replace(/[?&]$/, "");
+        var content_ = JSON.stringify(body);
         var options_ = {
+            body: content_,
             observe: "response",
             responseType: "blob",
             headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpHeaders"]({
-                "Accept": "text/plain"
+                "Content-Type": "application/json",
+                "Accept": "application/json"
             })
         };
-        return this.http.request("get", url_, options_).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(function (response_) {
-            return _this.processValues2(response_);
+        return this.http.request("put", url_, options_).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(function (response_) {
+            return _this.processMeasurementType(response_);
         })).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["catchError"])(function (response_) {
             if (response_ instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpResponseBase"]) {
                 try {
-                    return _this.processValues2(response_);
+                    return _this.processMeasurementType(response_);
                 }
                 catch (e) {
                     return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(e);
@@ -2129,7 +2418,7 @@ var Client = /** @class */ (function () {
                 return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(response_);
         }));
     };
-    Client.prototype.processValues2 = function (response) {
+    UpdateClient.prototype.processMeasurementType = function (response) {
         var _this = this;
         var e_13, _a;
         var status = response.status;
@@ -2156,7 +2445,7 @@ var Client = /** @class */ (function () {
             return blobToText(responseBlob).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(function (_responseText) {
                 var result200 = null;
                 var resultData200 = _responseText === "" ? null : JSON.parse(_responseText, _this.jsonParseReviver);
-                result200 = resultData200 !== undefined ? resultData200 : null;
+                result200 = resultData200 ? MeasurementType.fromJS(resultData200) : new MeasurementType();
                 return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(result200);
             }));
         }
@@ -2171,9 +2460,9 @@ var Client = /** @class */ (function () {
      * @param body (optional)
      * @return Success
      */
-    Client.prototype.values3 = function (id, body) {
+    UpdateClient.prototype.user = function (id, body) {
         var _this = this;
-        var url_ = this.baseUrl + "/api/Values/{id}";
+        var url_ = this.baseUrl + "/api/User/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -2184,15 +2473,15 @@ var Client = /** @class */ (function () {
             observe: "response",
             responseType: "blob",
             headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpHeaders"]({
-                "Content-Type": "application/json-patch+json",
+                "Content-Type": "application/json",
             })
         };
         return this.http.request("put", url_, options_).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(function (response_) {
-            return _this.processValues3(response_);
+            return _this.processUser(response_);
         })).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["catchError"])(function (response_) {
             if (response_ instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpResponseBase"]) {
                 try {
-                    return _this.processValues3(response_);
+                    return _this.processUser(response_);
                 }
                 catch (e) {
                     return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(e);
@@ -2202,7 +2491,7 @@ var Client = /** @class */ (function () {
                 return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(response_);
         }));
     };
-    Client.prototype.processValues3 = function (response) {
+    UpdateClient.prototype.processUser = function (response) {
         var e_14, _a;
         var status = response.status;
         var responseBlob = response instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpResponse"] ? response.body :
@@ -2236,27 +2525,48 @@ var Client = /** @class */ (function () {
         }
         return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(null);
     };
+    UpdateClient.ctorParameters = function () { return [
+        { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpClient"], decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_3__["Inject"], args: [_angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpClient"],] }] },
+        { type: String, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_3__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_3__["Inject"], args: [API_BASE_URL,] }] }
+    ]; };
+    UpdateClient = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["Injectable"])(),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__param"](0, Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["Inject"])(_angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpClient"])), tslib__WEBPACK_IMPORTED_MODULE_0__["__param"](1, Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["Optional"])()), tslib__WEBPACK_IMPORTED_MODULE_0__["__param"](1, Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["Inject"])(API_BASE_URL)),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpClient"], String])
+    ], UpdateClient);
+    return UpdateClient;
+}());
+
+var Client = /** @class */ (function () {
+    function Client(http, baseUrl) {
+        this.jsonParseReviver = undefined;
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
     /**
+     * @param body (optional)
      * @return Success
      */
-    Client.prototype.values4 = function (id) {
+    Client.prototype.login = function (body) {
         var _this = this;
-        var url_ = this.baseUrl + "/api/Values/{id}";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        var url_ = this.baseUrl + "/api/Login";
         url_ = url_.replace(/[?&]$/, "");
+        var content_ = JSON.stringify(body);
         var options_ = {
+            body: content_,
             observe: "response",
             responseType: "blob",
-            headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpHeaders"]({})
+            headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpHeaders"]({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
         };
-        return this.http.request("delete", url_, options_).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(function (response_) {
-            return _this.processValues4(response_);
+        return this.http.request("post", url_, options_).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(function (response_) {
+            return _this.processLogin(response_);
         })).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["catchError"])(function (response_) {
             if (response_ instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpResponseBase"]) {
                 try {
-                    return _this.processValues4(response_);
+                    return _this.processLogin(response_);
                 }
                 catch (e) {
                     return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(e);
@@ -2266,7 +2576,8 @@ var Client = /** @class */ (function () {
                 return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(response_);
         }));
     };
-    Client.prototype.processValues4 = function (response) {
+    Client.prototype.processLogin = function (response) {
+        var _this = this;
         var e_15, _a;
         var status = response.status;
         var responseBlob = response instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpResponse"] ? response.body :
@@ -2290,7 +2601,93 @@ var Client = /** @class */ (function () {
         ;
         if (status === 200) {
             return blobToText(responseBlob).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(function (_responseText) {
-                return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(null);
+                var result200 = null;
+                var resultData200 = _responseText === "" ? null : JSON.parse(_responseText, _this.jsonParseReviver);
+                result200 = resultData200 !== undefined ? resultData200 : null;
+                return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(result200);
+            }));
+        }
+        else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(function (_responseText) {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(null);
+    };
+    /**
+     * @return Success
+     */
+    Client.prototype.values = function () {
+        var _this = this;
+        var url_ = this.baseUrl + "/api/Values";
+        url_ = url_.replace(/[?&]$/, "");
+        var options_ = {
+            observe: "response",
+            responseType: "blob",
+            headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpHeaders"]({
+                "Accept": "application/json"
+            })
+        };
+        return this.http.request("get", url_, options_).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(function (response_) {
+            return _this.processValues(response_);
+        })).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["catchError"])(function (response_) {
+            if (response_ instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpResponseBase"]) {
+                try {
+                    return _this.processValues(response_);
+                }
+                catch (e) {
+                    return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(e);
+                }
+            }
+            else
+                return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(response_);
+        }));
+    };
+    Client.prototype.processValues = function (response) {
+        var _this = this;
+        var e_16, _a;
+        var status = response.status;
+        var responseBlob = response instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpResponse"] ? response.body :
+            response.error instanceof Blob ? response.error : undefined;
+        var _headers = {};
+        if (response.headers) {
+            try {
+                for (var _b = tslib__WEBPACK_IMPORTED_MODULE_0__["__values"](response.headers.keys()), _c = _b.next(); !_c.done; _c = _b.next()) {
+                    var key = _c.value;
+                    _headers[key] = response.headers.get(key);
+                }
+            }
+            catch (e_16_1) { e_16 = { error: e_16_1 }; }
+            finally {
+                try {
+                    if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+                }
+                finally { if (e_16) throw e_16.error; }
+            }
+        }
+        ;
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(function (_responseText) {
+                var e_17, _a;
+                var result200 = null;
+                var resultData200 = _responseText === "" ? null : JSON.parse(_responseText, _this.jsonParseReviver);
+                if (resultData200 && resultData200.constructor === Array) {
+                    result200 = [];
+                    try {
+                        for (var resultData200_3 = tslib__WEBPACK_IMPORTED_MODULE_0__["__values"](resultData200), resultData200_3_1 = resultData200_3.next(); !resultData200_3_1.done; resultData200_3_1 = resultData200_3.next()) {
+                            var item = resultData200_3_1.value;
+                            result200.push(item);
+                        }
+                    }
+                    catch (e_17_1) { e_17 = { error: e_17_1 }; }
+                    finally {
+                        try {
+                            if (resultData200_3_1 && !resultData200_3_1.done && (_a = resultData200_3.return)) _a.call(resultData200_3);
+                        }
+                        finally { if (e_17) throw e_17.error; }
+                    }
+                }
+                return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(result200);
             }));
         }
         else if (status !== 200 && status !== 204) {
@@ -2312,6 +2709,88 @@ var Client = /** @class */ (function () {
     return Client;
 }());
 
+var DeleteClient = /** @class */ (function () {
+    function DeleteClient(http, baseUrl) {
+        this.jsonParseReviver = undefined;
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+    /**
+     * @return Success
+     */
+    DeleteClient.prototype.user = function (id) {
+        var _this = this;
+        var url_ = this.baseUrl + "/api/User/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+        var options_ = {
+            observe: "response",
+            responseType: "blob",
+            headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpHeaders"]({})
+        };
+        return this.http.request("delete", url_, options_).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(function (response_) {
+            return _this.processUser(response_);
+        })).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["catchError"])(function (response_) {
+            if (response_ instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpResponseBase"]) {
+                try {
+                    return _this.processUser(response_);
+                }
+                catch (e) {
+                    return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(e);
+                }
+            }
+            else
+                return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(response_);
+        }));
+    };
+    DeleteClient.prototype.processUser = function (response) {
+        var e_18, _a;
+        var status = response.status;
+        var responseBlob = response instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpResponse"] ? response.body :
+            response.error instanceof Blob ? response.error : undefined;
+        var _headers = {};
+        if (response.headers) {
+            try {
+                for (var _b = tslib__WEBPACK_IMPORTED_MODULE_0__["__values"](response.headers.keys()), _c = _b.next(); !_c.done; _c = _b.next()) {
+                    var key = _c.value;
+                    _headers[key] = response.headers.get(key);
+                }
+            }
+            catch (e_18_1) { e_18 = { error: e_18_1 }; }
+            finally {
+                try {
+                    if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+                }
+                finally { if (e_18) throw e_18.error; }
+            }
+        }
+        ;
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(function (_responseText) {
+                return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(null);
+            }));
+        }
+        else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["mergeMap"])(function (_responseText) {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(null);
+    };
+    DeleteClient.ctorParameters = function () { return [
+        { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpClient"], decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_3__["Inject"], args: [_angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpClient"],] }] },
+        { type: String, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_3__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_3__["Inject"], args: [API_BASE_URL,] }] }
+    ]; };
+    DeleteClient = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["Injectable"])(),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__param"](0, Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["Inject"])(_angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpClient"])), tslib__WEBPACK_IMPORTED_MODULE_0__["__param"](1, Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["Optional"])()), tslib__WEBPACK_IMPORTED_MODULE_0__["__param"](1, Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["Inject"])(API_BASE_URL)),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpClient"], String])
+    ], DeleteClient);
+    return DeleteClient;
+}());
+
 var Location = /** @class */ (function () {
     function Location(data) {
         if (data) {
@@ -2323,7 +2802,7 @@ var Location = /** @class */ (function () {
     }
     Location.prototype.init = function (data) {
         if (data) {
-            this.lat = data["lat"];
+            this.latitude = data["latitude"];
             this.longitude = data["longitude"];
         }
     };
@@ -2335,7 +2814,7 @@ var Location = /** @class */ (function () {
     };
     Location.prototype.toJSON = function (data) {
         data = typeof data === 'object' ? data : {};
-        data["lat"] = this.lat;
+        data["latitude"] = this.latitude;
         data["longitude"] = this.longitude;
         return data;
     };
@@ -2388,12 +2867,12 @@ var Area = /** @class */ (function () {
         }
     }
     Area.prototype.init = function (data) {
-        var e_16, _a;
+        var e_19, _a;
         if (data) {
             this.id = data["id"];
             this.owner = data["owner"];
             this.areaname = data["areaname"];
-            if (Array.isArray(data["points"])) {
+            if (data["points"] && data["points"].constructor === Array) {
                 this.points = [];
                 try {
                     for (var _b = tslib__WEBPACK_IMPORTED_MODULE_0__["__values"](data["points"]), _c = _b.next(); !_c.done; _c = _b.next()) {
@@ -2401,12 +2880,12 @@ var Area = /** @class */ (function () {
                         this.points.push(Point.fromJS(item));
                     }
                 }
-                catch (e_16_1) { e_16 = { error: e_16_1 }; }
+                catch (e_19_1) { e_19 = { error: e_19_1 }; }
                 finally {
                     try {
                         if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
                     }
-                    finally { if (e_16) throw e_16.error; }
+                    finally { if (e_19) throw e_19.error; }
                 }
             }
         }
@@ -2418,12 +2897,12 @@ var Area = /** @class */ (function () {
         return result;
     };
     Area.prototype.toJSON = function (data) {
-        var e_17, _a;
+        var e_20, _a;
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["owner"] = this.owner;
         data["areaname"] = this.areaname;
-        if (Array.isArray(this.points)) {
+        if (this.points && this.points.constructor === Array) {
             data["points"] = [];
             try {
                 for (var _b = tslib__WEBPACK_IMPORTED_MODULE_0__["__values"](this.points), _c = _b.next(); !_c.done; _c = _b.next()) {
@@ -2431,12 +2910,12 @@ var Area = /** @class */ (function () {
                     data["points"].push(item.toJSON());
                 }
             }
-            catch (e_17_1) { e_17 = { error: e_17_1 }; }
+            catch (e_20_1) { e_20 = { error: e_20_1 }; }
             finally {
                 try {
                     if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
                 }
-                finally { if (e_17) throw e_17.error; }
+                finally { if (e_20) throw e_20.error; }
             }
         }
         return data;
@@ -2488,11 +2967,87 @@ var User = /** @class */ (function () {
     return User;
 }());
 
-var ApiException = /** @class */ (function (_super) {
-    tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"](ApiException, _super);
-    function ApiException(message, status, response, headers, result) {
+var Measurement = /** @class */ (function () {
+    function Measurement(data) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    this[property] = data[property];
+            }
+        }
+    }
+    Measurement.prototype.init = function (data) {
+        if (data) {
+            this.id = data["id"];
+            this.areaid = data["areaid"];
+            this.measurementtypeid = data["measurementtypeid"];
+            this.dateadded = data["dateadded"] ? new Date(data["dateadded"].toString()) : undefined;
+            this.measurement = data["measurement"];
+        }
+    };
+    Measurement.fromJS = function (data) {
+        data = typeof data === 'object' ? data : {};
+        var result = new Measurement();
+        result.init(data);
+        return result;
+    };
+    Measurement.prototype.toJSON = function (data) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["areaid"] = this.areaid;
+        data["measurementtypeid"] = this.measurementtypeid;
+        data["dateadded"] = this.dateadded ? this.dateadded.toISOString() : undefined;
+        data["measurement"] = this.measurement;
+        return data;
+    };
+    Measurement.ctorParameters = function () { return [
+        { type: undefined }
+    ]; };
+    return Measurement;
+}());
+
+var MeasurementType = /** @class */ (function () {
+    function MeasurementType(data) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    this[property] = data[property];
+            }
+        }
+    }
+    MeasurementType.prototype.init = function (data) {
+        if (data) {
+            this.id = data["id"];
+            this.owner = data["owner"];
+            this.measurementname = data["measurementname"];
+            this.units = data["units"];
+        }
+    };
+    MeasurementType.fromJS = function (data) {
+        data = typeof data === 'object' ? data : {};
+        var result = new MeasurementType();
+        result.init(data);
+        return result;
+    };
+    MeasurementType.prototype.toJSON = function (data) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["owner"] = this.owner;
+        data["measurementname"] = this.measurementname;
+        data["units"] = this.units;
+        return data;
+    };
+    MeasurementType.ctorParameters = function () { return [
+        { type: undefined }
+    ]; };
+    return MeasurementType;
+}());
+
+var SwaggerException = /** @class */ (function (_super) {
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"](SwaggerException, _super);
+    function SwaggerException(message, status, response, headers, result) {
         var _this = _super.call(this) || this;
-        _this.isApiException = true;
+        _this.isSwaggerException = true;
         _this.message = message;
         _this.status = status;
         _this.response = response;
@@ -2500,24 +3055,24 @@ var ApiException = /** @class */ (function (_super) {
         _this.result = result;
         return _this;
     }
-    ApiException.isApiException = function (obj) {
-        return obj.isApiException === true;
+    SwaggerException.isSwaggerException = function (obj) {
+        return obj.isSwaggerException === true;
     };
-    ApiException.ctorParameters = function () { return [
+    SwaggerException.ctorParameters = function () { return [
         { type: String },
         { type: Number },
         { type: String },
         { type: undefined },
         { type: undefined }
     ]; };
-    return ApiException;
+    return SwaggerException;
 }(Error));
 
 function throwException(message, status, response, headers, result) {
     if (result !== null && result !== undefined)
         return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(result);
     else
-        return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(new ApiException(message, status, response, headers, null));
+        return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(new SwaggerException(message, status, response, headers, null));
 }
 function blobToText(blob) {
     return new rxjs__WEBPACK_IMPORTED_MODULE_2__["Observable"](function (observer) {
@@ -2552,44 +3107,64 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _pub_sub_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./pub-sub.service */ "./src/app/Services/pub-sub.service.ts");
+/* harmony import */ var _mapster_client__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./mapster.client */ "./src/app/Services/mapster.client.ts");
+
 
 
 
 var MeasurementTypeService = /** @class */ (function () {
-    function MeasurementTypeService(pubsub) {
+    function MeasurementTypeService(pubsub, createClient, updateClient, getClient) {
         this.pubsub = pubsub;
+        this.createClient = createClient;
+        this.updateClient = updateClient;
+        this.getClient = getClient;
         this.MeasurementTypes = [];
-        this.Testing();
+        this.GetMeasurementTypes();
     }
     MeasurementTypeService.prototype.Testing = function () {
-        var pos = 0;
-        while (pos < 20) {
-            this.MeasurementTypes.push({
-                id: (pos + 1).toString(),
-                measurementName: "Name " + pos,
-                units: "Units " + pos
-            });
-            pos++;
-        }
+        //  var pos = 0;
+        //  while (pos < 20){
+        //   this.MeasurementTypes.push({
+        //     id: (pos + 1).toString(),
+        //     measurementName: "Name " + pos,
+        //     units: "Units " + pos
+        //   });
+        //   pos ++;
+        //  }
+    };
+    MeasurementTypeService.prototype.GetMeasurementTypes = function () {
+        var _this = this;
+        this.getClient.measurementTypes().subscribe(function (result) {
+            _this.MeasurementTypes = result;
+        });
     };
     MeasurementTypeService.prototype.CreateMeasurementType = function (newMeasurementType) {
-        newMeasurementType.id = (this.MeasurementTypes.length + 1).toString();
-        this.MeasurementTypes.push(newMeasurementType);
-        this.pubsub.$pub("MeasurementTypes Updated", this.MeasurementTypes);
+        var _this = this;
+        this.createClient.measurementType(newMeasurementType).subscribe(function (result) {
+            console.log(result);
+            _this.MeasurementTypes.push(newMeasurementType);
+            _this.pubsub.$pub("MeasurementTypes Updated", _this.MeasurementTypes);
+        });
     };
     MeasurementTypeService.prototype.UpdateMeasurementType = function (updatedMeasurementType) {
-        var index = this.MeasurementTypes.findIndex(function (m) { return m.id == updatedMeasurementType.id; });
-        this.MeasurementTypes[index] = updatedMeasurementType;
-        this.pubsub.$pub("MeasurementTypes Updated", this.MeasurementTypes);
+        var _this = this;
+        this.updateClient.measurementType(updatedMeasurementType).subscribe(function (result) {
+            var index = _this.MeasurementTypes.findIndex(function (m) { return m.id == updatedMeasurementType.id; });
+            _this.MeasurementTypes[index] = updatedMeasurementType;
+            _this.pubsub.$pub("MeasurementTypes Updated", _this.MeasurementTypes);
+        });
     };
     MeasurementTypeService.ctorParameters = function () { return [
-        { type: _pub_sub_service__WEBPACK_IMPORTED_MODULE_2__["PubSubService"] }
+        { type: _pub_sub_service__WEBPACK_IMPORTED_MODULE_2__["PubSubService"] },
+        { type: _mapster_client__WEBPACK_IMPORTED_MODULE_3__["CreateClient"] },
+        { type: _mapster_client__WEBPACK_IMPORTED_MODULE_3__["UpdateClient"] },
+        { type: _mapster_client__WEBPACK_IMPORTED_MODULE_3__["GetClient"] }
     ]; };
     MeasurementTypeService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
             providedIn: 'root'
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_pub_sub_service__WEBPACK_IMPORTED_MODULE_2__["PubSubService"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_pub_sub_service__WEBPACK_IMPORTED_MODULE_2__["PubSubService"], _mapster_client__WEBPACK_IMPORTED_MODULE_3__["CreateClient"], _mapster_client__WEBPACK_IMPORTED_MODULE_3__["UpdateClient"], _mapster_client__WEBPACK_IMPORTED_MODULE_3__["GetClient"]])
     ], MeasurementTypeService);
     return MeasurementTypeService;
 }());
@@ -2786,6 +3361,90 @@ var PubSubService = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/Services/token.interceptor.ts":
+/*!***********************************************!*\
+  !*** ./src/app/Services/token.interceptor.ts ***!
+  \***********************************************/
+/*! exports provided: TokenInterceptor, JwtInterceptor */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TokenInterceptor", function() { return TokenInterceptor; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "JwtInterceptor", function() { return JwtInterceptor; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _authentication_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./authentication.service */ "./src/app/Services/authentication.service.ts");
+/* harmony import */ var _navigation_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./navigation.service */ "./src/app/Services/navigation.service.ts");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
+
+
+
+
+
+
+var TokenInterceptor = /** @class */ (function () {
+    function TokenInterceptor(auth) {
+        this.auth = auth;
+    }
+    TokenInterceptor.prototype.intercept = function (request, next) {
+        if (this.auth.isAuthenticated()) {
+            request = request.clone({
+                setHeaders: {
+                    Authorization: "Bearer " + this.auth.getToken()
+                }
+            });
+        }
+        return next.handle(request);
+    };
+    TokenInterceptor.ctorParameters = function () { return [
+        { type: _authentication_service__WEBPACK_IMPORTED_MODULE_3__["AuthenticationService"] }
+    ]; };
+    TokenInterceptor = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])(),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_authentication_service__WEBPACK_IMPORTED_MODULE_3__["AuthenticationService"]])
+    ], TokenInterceptor);
+    return TokenInterceptor;
+}());
+
+var JwtInterceptor = /** @class */ (function () {
+    function JwtInterceptor(auth, nav) {
+        this.auth = auth;
+        this.nav = nav;
+    }
+    JwtInterceptor.prototype.intercept = function (request, next) {
+        var _this = this;
+        return next.handle(request).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["tap"])(function (event) {
+            if (event instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpResponse"]) {
+                // do stuff with response if you want
+            }
+        }, function (err) {
+            if (err instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpErrorResponse"]) {
+                if (err.status === 401) {
+                    console.log('Unauthorized');
+                    _this.nav.Push("Login");
+                    // redirect to the login route
+                    // or show a modal
+                }
+            }
+        }));
+    };
+    JwtInterceptor.ctorParameters = function () { return [
+        { type: _authentication_service__WEBPACK_IMPORTED_MODULE_3__["AuthenticationService"] },
+        { type: _navigation_service__WEBPACK_IMPORTED_MODULE_4__["NavigationService"] }
+    ]; };
+    JwtInterceptor = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])(),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_authentication_service__WEBPACK_IMPORTED_MODULE_3__["AuthenticationService"], _navigation_service__WEBPACK_IMPORTED_MODULE_4__["NavigationService"]])
+    ], JwtInterceptor);
+    return JwtInterceptor;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/app-routing.module.ts":
 /*!***************************************!*\
   !*** ./src/app/app-routing.module.ts ***!
@@ -2806,6 +3465,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Pages_measurement_types_measurement_types_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Pages/measurement-types/measurement-types.component */ "./src/app/Pages/measurement-types/measurement-types.component.ts");
 /* harmony import */ var _Pages_area_measurements_area_measurements_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Pages/area-measurements/area-measurements.component */ "./src/app/Pages/area-measurements/area-measurements.component.ts");
 /* harmony import */ var _Pages_area_map_area_map_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Pages/area-map/area-map.component */ "./src/app/Pages/area-map/area-map.component.ts");
+/* harmony import */ var _Pages_graph_graph_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./Pages/graph/graph.component */ "./src/app/Pages/graph/graph.component.ts");
+
 
 
 
@@ -2820,14 +3481,16 @@ var routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
     { path: 'home', component: _Pages_home_home_component__WEBPACK_IMPORTED_MODULE_3__["HomeComponent"] },
     { path: 'Home', component: _Pages_home_home_component__WEBPACK_IMPORTED_MODULE_3__["HomeComponent"] },
-    { path: 'login', component: _Pages_login_login_component__WEBPACK_IMPORTED_MODULE_4__["LoginComponent"] },
+    { path: 'Login', component: _Pages_login_login_component__WEBPACK_IMPORTED_MODULE_4__["LoginComponent"] },
     { path: 'Areas', component: _Pages_areas_areas_component__WEBPACK_IMPORTED_MODULE_5__["AreasComponent"] },
     { path: 'areas', component: _Pages_areas_areas_component__WEBPACK_IMPORTED_MODULE_5__["AreasComponent"] },
     { path: "AddArea", component: _Pages_add_area_add_area_component__WEBPACK_IMPORTED_MODULE_6__["AddAreaComponent"] },
     { path: "addarea", component: _Pages_add_area_add_area_component__WEBPACK_IMPORTED_MODULE_6__["AddAreaComponent"] },
     { path: "AddMeasurementTypes", component: _Pages_measurement_types_measurement_types_component__WEBPACK_IMPORTED_MODULE_7__["MeasurementTypesComponent"] },
     { path: "AreaMeasurements/:id", component: _Pages_area_measurements_area_measurements_component__WEBPACK_IMPORTED_MODULE_8__["AreaMeasurementsComponent"] },
-    { path: "AreaMap/:id", component: _Pages_area_map_area_map_component__WEBPACK_IMPORTED_MODULE_9__["AreaMapComponent"] }
+    { path: "AreaMap/:id", component: _Pages_area_map_area_map_component__WEBPACK_IMPORTED_MODULE_9__["AreaMapComponent"] },
+    { path: "Graphs/:id", component: _Pages_graph_graph_component__WEBPACK_IMPORTED_MODULE_10__["GraphComponent"] },
+    { path: "Graphs", component: _Pages_graph_graph_component__WEBPACK_IMPORTED_MODULE_10__["GraphComponent"] }
 ];
 var AppRoutingModule = /** @class */ (function () {
     function AppRoutingModule() {
@@ -2890,7 +3553,6 @@ var AppComponent = /** @class */ (function () {
     }
     AppComponent.prototype.ngOnInit = function () {
         document.addEventListener("deviceready", function () {
-            alert(device.platform);
         }, false);
     };
     AppComponent.ctorParameters = function () { return [
@@ -2925,29 +3587,37 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
-/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
-/* harmony import */ var _nav_bar_nav_bar_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./nav-bar/nav-bar.component */ "./src/app/nav-bar/nav-bar.component.ts");
-/* harmony import */ var _Services_authentication_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Services/authentication.service */ "./src/app/Services/authentication.service.ts");
-/* harmony import */ var _Services_pub_sub_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Services/pub-sub.service */ "./src/app/Services/pub-sub.service.ts");
-/* harmony import */ var _http_intercept__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./http-intercept */ "./src/app/http-intercept.ts");
-/* harmony import */ var _Pages_login_login_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Pages/login/login.component */ "./src/app/Pages/login/login.component.ts");
-/* harmony import */ var _Pages_home_home_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./Pages/home/home.component */ "./src/app/Pages/home/home.component.ts");
-/* harmony import */ var _angular_material_dialog__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @angular/material/dialog */ "./node_modules/@angular/material/esm5/dialog.es5.js");
-/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
-/* harmony import */ var _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @angular/platform-browser/animations */ "./node_modules/@angular/platform-browser/fesm5/animations.js");
-/* harmony import */ var _Pages_areas_areas_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./Pages/areas/areas.component */ "./src/app/Pages/areas/areas.component.ts");
-/* harmony import */ var _Pages_add_area_add_area_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./Pages/add-area/add-area.component */ "./src/app/Pages/add-area/add-area.component.ts");
-/* harmony import */ var _agm_core__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @agm/core */ "./node_modules/@agm/core/index.js");
-/* harmony import */ var _Popups_entry_dialog_entry_dialog_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./Popups/entry-dialog/entry-dialog.component */ "./src/app/Popups/entry-dialog/entry-dialog.component.ts");
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
-/* harmony import */ var _Pages_measurement_types_measurement_types_component__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./Pages/measurement-types/measurement-types.component */ "./src/app/Pages/measurement-types/measurement-types.component.ts");
-/* harmony import */ var _Popups_add_edit_measurement_type_dialog_add_edit_measurement_type_dialog_component__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./Popups/add-edit-measurement-type-dialog/add-edit-measurement-type-dialog.component */ "./src/app/Popups/add-edit-measurement-type-dialog/add-edit-measurement-type-dialog.component.ts");
-/* harmony import */ var _Popups_selection_dialog_selection_dialog_component__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./Popups/selection-dialog/selection-dialog.component */ "./src/app/Popups/selection-dialog/selection-dialog.component.ts");
-/* harmony import */ var _Pages_area_measurements_area_measurements_component__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./Pages/area-measurements/area-measurements.component */ "./src/app/Pages/area-measurements/area-measurements.component.ts");
-/* harmony import */ var _Pages_area_map_area_map_component__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./Pages/area-map/area-map.component */ "./src/app/Pages/area-map/area-map.component.ts");
-/* harmony import */ var _Services_mapster_client__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./Services/mapster.client */ "./src/app/Services/mapster.client.ts");
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _asymmetrik_ngx_leaflet__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @asymmetrik/ngx-leaflet */ "./node_modules/@asymmetrik/ngx-leaflet/dist/index.js");
+/* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
+/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
+/* harmony import */ var _nav_bar_nav_bar_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./nav-bar/nav-bar.component */ "./src/app/nav-bar/nav-bar.component.ts");
+/* harmony import */ var _Services_authentication_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Services/authentication.service */ "./src/app/Services/authentication.service.ts");
+/* harmony import */ var _Services_pub_sub_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Services/pub-sub.service */ "./src/app/Services/pub-sub.service.ts");
+/* harmony import */ var _http_intercept__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./http-intercept */ "./src/app/http-intercept.ts");
+/* harmony import */ var _Pages_login_login_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./Pages/login/login.component */ "./src/app/Pages/login/login.component.ts");
+/* harmony import */ var _Pages_home_home_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./Pages/home/home.component */ "./src/app/Pages/home/home.component.ts");
+/* harmony import */ var _angular_material_dialog__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @angular/material/dialog */ "./node_modules/@angular/material/esm5/dialog.es5.js");
+/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
+/* harmony import */ var _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @angular/platform-browser/animations */ "./node_modules/@angular/platform-browser/fesm5/animations.js");
+/* harmony import */ var _Pages_areas_areas_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./Pages/areas/areas.component */ "./src/app/Pages/areas/areas.component.ts");
+/* harmony import */ var _Pages_add_area_add_area_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./Pages/add-area/add-area.component */ "./src/app/Pages/add-area/add-area.component.ts");
+/* harmony import */ var _agm_core__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @agm/core */ "./node_modules/@agm/core/index.js");
+/* harmony import */ var _Popups_entry_dialog_entry_dialog_component__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./Popups/entry-dialog/entry-dialog.component */ "./src/app/Popups/entry-dialog/entry-dialog.component.ts");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _Pages_measurement_types_measurement_types_component__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./Pages/measurement-types/measurement-types.component */ "./src/app/Pages/measurement-types/measurement-types.component.ts");
+/* harmony import */ var _Popups_add_edit_measurement_type_dialog_add_edit_measurement_type_dialog_component__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./Popups/add-edit-measurement-type-dialog/add-edit-measurement-type-dialog.component */ "./src/app/Popups/add-edit-measurement-type-dialog/add-edit-measurement-type-dialog.component.ts");
+/* harmony import */ var _Popups_selection_dialog_selection_dialog_component__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./Popups/selection-dialog/selection-dialog.component */ "./src/app/Popups/selection-dialog/selection-dialog.component.ts");
+/* harmony import */ var _Pages_area_measurements_area_measurements_component__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./Pages/area-measurements/area-measurements.component */ "./src/app/Pages/area-measurements/area-measurements.component.ts");
+/* harmony import */ var _Pages_area_map_area_map_component__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./Pages/area-map/area-map.component */ "./src/app/Pages/area-map/area-map.component.ts");
+/* harmony import */ var _Services_mapster_client__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./Services/mapster.client */ "./src/app/Services/mapster.client.ts");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _Services_token_interceptor__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./Services/token.interceptor */ "./src/app/Services/token.interceptor.ts");
+/* harmony import */ var _Pages_graph_graph_component__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./Pages/graph/graph.component */ "./src/app/Pages/graph/graph.component.ts");
+/* harmony import */ var _Controls_graph_control_graph_control_component__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./Controls/graph-control/graph-control.component */ "./src/app/Controls/graph-control/graph-control.component.ts");
+
+
+
+
 
 
 
@@ -2980,47 +3650,56 @@ var AppModule = /** @class */ (function () {
     AppModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["NgModule"])({
             declarations: [
-                _app_component__WEBPACK_IMPORTED_MODULE_4__["AppComponent"],
-                _nav_bar_nav_bar_component__WEBPACK_IMPORTED_MODULE_5__["NavBarComponent"],
-                _Pages_login_login_component__WEBPACK_IMPORTED_MODULE_9__["LoginComponent"],
-                _Pages_home_home_component__WEBPACK_IMPORTED_MODULE_10__["HomeComponent"],
-                _Pages_areas_areas_component__WEBPACK_IMPORTED_MODULE_14__["AreasComponent"],
-                _Pages_add_area_add_area_component__WEBPACK_IMPORTED_MODULE_15__["AddAreaComponent"],
-                _Popups_entry_dialog_entry_dialog_component__WEBPACK_IMPORTED_MODULE_17__["EntryDialogComponent"],
-                _Pages_measurement_types_measurement_types_component__WEBPACK_IMPORTED_MODULE_19__["MeasurementTypesComponent"],
-                _Popups_add_edit_measurement_type_dialog_add_edit_measurement_type_dialog_component__WEBPACK_IMPORTED_MODULE_20__["AddEditMeasurementTypeDialogComponent"],
-                _Popups_selection_dialog_selection_dialog_component__WEBPACK_IMPORTED_MODULE_21__["SelectionDialogComponent"],
-                _Pages_area_measurements_area_measurements_component__WEBPACK_IMPORTED_MODULE_22__["AreaMeasurementsComponent"],
-                _Pages_area_map_area_map_component__WEBPACK_IMPORTED_MODULE_23__["AreaMapComponent"]
+                _app_component__WEBPACK_IMPORTED_MODULE_5__["AppComponent"],
+                _nav_bar_nav_bar_component__WEBPACK_IMPORTED_MODULE_6__["NavBarComponent"],
+                _Pages_login_login_component__WEBPACK_IMPORTED_MODULE_10__["LoginComponent"],
+                _Pages_home_home_component__WEBPACK_IMPORTED_MODULE_11__["HomeComponent"],
+                _Pages_areas_areas_component__WEBPACK_IMPORTED_MODULE_15__["AreasComponent"],
+                _Pages_add_area_add_area_component__WEBPACK_IMPORTED_MODULE_16__["AddAreaComponent"],
+                _Popups_entry_dialog_entry_dialog_component__WEBPACK_IMPORTED_MODULE_18__["EntryDialogComponent"],
+                _Pages_measurement_types_measurement_types_component__WEBPACK_IMPORTED_MODULE_20__["MeasurementTypesComponent"],
+                _Popups_add_edit_measurement_type_dialog_add_edit_measurement_type_dialog_component__WEBPACK_IMPORTED_MODULE_21__["AddEditMeasurementTypeDialogComponent"],
+                _Popups_selection_dialog_selection_dialog_component__WEBPACK_IMPORTED_MODULE_22__["SelectionDialogComponent"],
+                _Pages_area_measurements_area_measurements_component__WEBPACK_IMPORTED_MODULE_23__["AreaMeasurementsComponent"],
+                _Pages_area_map_area_map_component__WEBPACK_IMPORTED_MODULE_24__["AreaMapComponent"],
+                _Pages_graph_graph_component__WEBPACK_IMPORTED_MODULE_28__["GraphComponent"],
+                _Controls_graph_control_graph_control_component__WEBPACK_IMPORTED_MODULE_29__["GraphControlComponent"]
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
-                _app_routing_module__WEBPACK_IMPORTED_MODULE_3__["AppRoutingModule"],
-                _angular_material_dialog__WEBPACK_IMPORTED_MODULE_11__["MatDialogModule"],
-                _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_13__["BrowserAnimationsModule"],
-                _angular_material__WEBPACK_IMPORTED_MODULE_12__["MatCardModule"],
-                _angular_material__WEBPACK_IMPORTED_MODULE_12__["MatFormFieldModule"],
-                _angular_material__WEBPACK_IMPORTED_MODULE_12__["MatInputModule"],
-                _angular_forms__WEBPACK_IMPORTED_MODULE_18__["FormsModule"],
-                _angular_common_http__WEBPACK_IMPORTED_MODULE_25__["HttpClientModule"],
-                _agm_core__WEBPACK_IMPORTED_MODULE_16__["AgmCoreModule"].forRoot({
+                _app_routing_module__WEBPACK_IMPORTED_MODULE_4__["AppRoutingModule"],
+                _angular_material_dialog__WEBPACK_IMPORTED_MODULE_12__["MatDialogModule"],
+                _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_14__["BrowserAnimationsModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_13__["MatCardModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_13__["MatFormFieldModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_13__["MatInputModule"],
+                _angular_forms__WEBPACK_IMPORTED_MODULE_19__["FormsModule"],
+                _angular_common_http__WEBPACK_IMPORTED_MODULE_26__["HttpClientModule"],
+                _asymmetrik_ngx_leaflet__WEBPACK_IMPORTED_MODULE_3__["LeafletModule"].forRoot(),
+                _agm_core__WEBPACK_IMPORTED_MODULE_17__["AgmCoreModule"].forRoot({
                     apiKey: 'AIzaSyCU2867Rocotglq5fwvzEQnOJI6GqXCmSU',
                     libraries: ['places', 'drawing', 'geometry']
                 })
             ],
             providers: [
-                _Services_authentication_service__WEBPACK_IMPORTED_MODULE_6__["AuthenticationService"],
-                _Services_pub_sub_service__WEBPACK_IMPORTED_MODULE_7__["PubSubService"],
-                _Services_mapster_client__WEBPACK_IMPORTED_MODULE_24__["Client"],
-                { provide: _Services_mapster_client__WEBPACK_IMPORTED_MODULE_24__["API_BASE_URL"], useValue: "https://localhost:44325" },
-                _http_intercept__WEBPACK_IMPORTED_MODULE_8__["HttpIntercept"],
+                _Services_authentication_service__WEBPACK_IMPORTED_MODULE_7__["AuthenticationService"],
+                _Services_pub_sub_service__WEBPACK_IMPORTED_MODULE_8__["PubSubService"],
+                _Services_mapster_client__WEBPACK_IMPORTED_MODULE_25__["Client"],
+                _Services_mapster_client__WEBPACK_IMPORTED_MODULE_25__["UpdateClient"],
+                _Services_mapster_client__WEBPACK_IMPORTED_MODULE_25__["CreateClient"],
+                _Services_mapster_client__WEBPACK_IMPORTED_MODULE_25__["GetClient"],
+                // { provide: API_BASE_URL, useValue: "https://localhost:44325" },
+                { provide: _Services_mapster_client__WEBPACK_IMPORTED_MODULE_25__["API_BASE_URL"], useValue: "http://saperr.azurewebsites.net" },
+                { provide: _angular_common_http__WEBPACK_IMPORTED_MODULE_26__["HTTP_INTERCEPTORS"], useClass: _Services_token_interceptor__WEBPACK_IMPORTED_MODULE_27__["TokenInterceptor"], multi: true },
+                { provide: _angular_common_http__WEBPACK_IMPORTED_MODULE_26__["HTTP_INTERCEPTORS"], useClass: _Services_token_interceptor__WEBPACK_IMPORTED_MODULE_27__["JwtInterceptor"], multi: true },
+                _http_intercept__WEBPACK_IMPORTED_MODULE_9__["HttpIntercept"],
             ],
-            bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_4__["AppComponent"]],
+            bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_5__["AppComponent"]],
             entryComponents: [
-                _Pages_login_login_component__WEBPACK_IMPORTED_MODULE_9__["LoginComponent"],
-                _Popups_entry_dialog_entry_dialog_component__WEBPACK_IMPORTED_MODULE_17__["EntryDialogComponent"],
-                _Popups_add_edit_measurement_type_dialog_add_edit_measurement_type_dialog_component__WEBPACK_IMPORTED_MODULE_20__["AddEditMeasurementTypeDialogComponent"],
-                _Popups_selection_dialog_selection_dialog_component__WEBPACK_IMPORTED_MODULE_21__["SelectionDialogComponent"]
+                _Pages_login_login_component__WEBPACK_IMPORTED_MODULE_10__["LoginComponent"],
+                _Popups_entry_dialog_entry_dialog_component__WEBPACK_IMPORTED_MODULE_18__["EntryDialogComponent"],
+                _Popups_add_edit_measurement_type_dialog_add_edit_measurement_type_dialog_component__WEBPACK_IMPORTED_MODULE_21__["AddEditMeasurementTypeDialogComponent"],
+                _Popups_selection_dialog_selection_dialog_component__WEBPACK_IMPORTED_MODULE_22__["SelectionDialogComponent"]
             ]
         })
     ], AppModule);

@@ -16,14 +16,11 @@ namespace Saperr.Services
       _areas = database.GetCollection<Area>("Areas");
     }
 
-    public List<Area> Get() =>
-           _areas.Find(Area => true).ToList();
+    public List<Area> Get() => _areas.Find(Area => true).ToList();
 
-    public Area Get(string id) =>
-        _areas.Find<Area>(Area => Area.Id == id).FirstOrDefault();
+    public Area Get(string id) =>_areas.Find<Area>(Area => Area.Id == id).FirstOrDefault();
 
-    public List<Area> GetByOwner(string id) =>
-        _areas.Find<Area>(Area => Area.owner == id).ToList();
+    public List<Area> GetByOwner(string id) => _areas.Find<Area>(Area => Area.owner == id).ToList();
 
     public Area Create(Area User)
     {
@@ -31,7 +28,6 @@ namespace Saperr.Services
       return User;
     }
 
-    public void Update(Area areaIn) =>
-        _areas.ReplaceOne(Area => Area.Id == areaIn.Id, areaIn);
+    public void Update(Area areaIn) => _areas.ReplaceOne(Area => Area.Id == areaIn.Id, areaIn);
   }
 }

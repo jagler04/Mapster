@@ -1,6 +1,7 @@
 <nav>
     <div class="nav-wrapper">
-        <a (click)="GoBack()" class="button-collapse left inlineBlock"><i class="material-icons white-text">arrow_back</i></a>
+        <a (click)="GoBack()" class="button-collapse left inlineBlock"><i
+                class="material-icons white-text">arrow_back</i></a>
         <div class="input-field inlineBlock search">
             <input id="search" type="search" #search autocorrect="off" autocapitalize="off" spellcheck="off">
             <label class="label-icon" for="search"><i class="material-icons">search</i></label>
@@ -8,6 +9,13 @@
         </div>
     </div>
 </nav>
+
+<!-- <div style="height: 300px;"
+     leaflet
+     *ngIf="options != null"
+     [leafletOptions]="options"
+     [leafletLayers]="layers">
+</div> -->
 
 <div class="map">
     <!-- <agm-map class="gmap" [latitude]="latitude" [longitude]="longitude" [zoom]="zoom" (mapClick)="mapClicked($event)"
@@ -30,10 +38,23 @@
             
         </agm-polygon>
     </agm-map> -->
-   
-   
-    <a class="btn-floating btn-meduim waves-effect waves-light apply" *ngIf="markers !== undefined && markers.length >= 3"
-         (click)="SaveDraw()" ><i class="material-icons">check</i></a>
-    <a class="btn-floating btn-meduim waves-effect waves-light draw" *ngIf="!drawing" (click)="StartDraw()"><i class="material-icons">edit</i></a>
-    <a class="btn-floating btn-meduim waves-effect waves-light draw" *ngIf="drawing" (click)="CancelDraw()"><i class="material-icons">close</i></a>
+    <div class="map" *ngIf="options != null"  leaflet [leafletOptions]="options"
+        (leafletClick)="mapClicked($event)">
+        <div *ngFor="let l of markerLayers" [leafletLayer]="l"></div>
+        <div [leafletLayer]="polygonLayer"></div>
+
+    </div>
+
+    <div class="button-wrapper">
+        <a class="btn-floating btn-meduim waves-effect waves-light apply float"
+            *ngIf="markers !== undefined && markers.length >= 3" (click)="SaveDraw()"><i
+                class="material-icons">check</i></a>
+        <a class="btn-floating btn-meduim waves-effect waves-light draw float" *ngIf="!drawing" (click)="StartDraw()"><i
+                class="material-icons">edit</i></a>
+        <a class="btn-floating btn-meduim waves-effect waves-light draw float" *ngIf="drawing" (click)="CancelDraw()"><i
+                class="material-icons">close</i></a>
+    </div>
+
+
+
 </div>

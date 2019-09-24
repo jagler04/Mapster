@@ -48,7 +48,6 @@ export class AuthenticationService {
 
   tokenNotExpired(token: string): boolean {
     var decoded = jwt_decode(token);
-    console.log(decoded);
     if (Date.now() >= decoded.exp * 1000) {
       return false;
     }

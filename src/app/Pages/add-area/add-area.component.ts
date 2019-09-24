@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material';
 import { EntryDialogComponent } from 'src/app/Popups/entry-dialog/entry-dialog.component';
 import { AreaService } from 'src/app/Services/area.service';
 import { MeasurementTypeService } from 'src/app/Services/measurement-type.service';
+import { tileLayer, latLng, marker, polygon } from 'leaflet';
 //import { } from '@types/googlemaps';
 
 @Component({
@@ -30,6 +31,12 @@ export class AddAreaComponent implements OnInit {
   public drawnOverlay: any;
   hasPolygon: boolean = false;
   areaName: string = "";
+
+  options: any = null;
+  layers: any = [];
+  markerLayers: any = [];
+  markers: any = [];
+  polygonLayer: any = polygon(this.markers);
 
   constructor(private mapsAPILoader: MapsAPILoader, private ngZone: NgZone, private pubsub: PubSubService,
     private nav: NavigationService, public dialog: MatDialog, private areaService: AreaService,
@@ -63,6 +70,8 @@ export class AddAreaComponent implements OnInit {
           this.zoom = 12;
         });
       });
+
+
     });
 
   }
@@ -73,59 +82,71 @@ export class AddAreaComponent implements OnInit {
         this.latitude = position.coords.latitude;
         this.longitude = position.coords.longitude;
         this.zoom = 15;
+
+        this.options = {
+          layers: [
+            tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '...' })
+          ],
+          zoom: this.zoom,
+          center: latLng(this.latitude, this.longitude)
+        };
       });
     }
   }
 
   StartDraw() {
     this.drawing = true;
-    if(this.paths.length > 0){
+    if (this.paths.length > 0) {
       this.paths.forEach(p => {
         this.markers.push({
           lat: p.lat,
-        lng: p.lng,
-        draggable: true
+          lng: p.lng,
+          draggable: true
         })
       });
       this.paths = [];
     }
   }
 
-  CancelDraw(){
+  CancelDraw() {
     this.drawing = false;
     this.markers = [];
+    this.markerLayers = [];
   }
   private dialogRef;
-  SaveDraw(){
+  SaveDraw() {
     this.paths = [];
-    this.markers.forEach(m =>{
+    for (var i = 0; i < this.markers.length; i++) {
+      var location = this.markers[i];
       this.paths.push({
-        lat: m.lat,
-        lng: m.lng
+        lat: location[0],
+        lng: location[1]
       });
-    });
+    }
+    console.log(this.paths)
     this.markers = [];
+    console.log(this.paths);
     this.drawing = false;
     console.log("Still hitting");
     this.dialogRef = this.dialog.open(EntryDialogComponent, {
-      data: {Text: "Enter an area name"}
+      data: { Text: "Enter an area name" }
     });
 
     this.dialogRef.afterClosed().subscribe(result => {
-      if(result !== undefined){
+      if (result !== undefined) {
         this.areaName = result;
         this.FinalizeArea();
       }
     });
   }
-  FinalizeArea(){
+  FinalizeArea() {
     console.log(this.paths);
     console.log(this.areaName);
     this.areaService.CreateNewArea(this.paths, this.areaName);
-    if(this.measurementTypeService.MeasurementTypes.length > 0){
+    if (this.measurementTypeService.MeasurementTypes.length > 0) {
       this.GoBack();
     }
-    else{
+    else {
       this.pubsub.$pub("Add Area Page Deactivated");
       this.nav.Push("AddMeasurementTypes");
     }
@@ -134,32 +155,39 @@ export class AddAreaComponent implements OnInit {
     this.pubsub.$pub("Add Area Page Deactivated");
     this.nav.Push("Areas");
   }
-  
-  markers: marker[] = [];
+
   paths: Array<LatLngLiteral> = [];
   mapClicked($event: any) {
-    if(this.drawing){
-      this.markers.push({
-        lat: $event.coords.lat,
-        lng: $event.coords.lng,
-        draggable: true
-      });
+    console.log($event)
+
+    if (this.drawing) {
+      this.markerLayers.push(marker([$event.latlng.lat, $event.latlng.lng]))
+      this.markers.push([$event.latlng.lat, $event.latlng.lng])
+      console.log(this.markerLayers)
+      console.log(this.markers)
+      this.polygonLayer = polygon(this.markers);
+
+      // this.markers.push({
+      //   lat: $event.coords.lat,
+      //   lng: $event.coords.lng,
+      //   draggable: true
+      // });
     }
   }
   markerDragEnd(i: number, $event: any) {
     console.log("Marker: " + i + " updated");
-    this.markers[i] =  {
+    this.markers[i] = {
       lat: $event.coords.lat,
       lng: $event.coords.lng,
       draggable: true
     };
-    
+
   }
 }
 
 interface marker {
-	lat: number;
-	lng: number;
-	label?: string;
-	draggable: boolean;
+  lat: number;
+  lng: number;
+  label?: string;
+  draggable: boolean;
 }

@@ -74,7 +74,8 @@ import { StorageModule } from '@ngx-pwa/local-storage';
     UpdateClient,
     CreateClient,
     GetClient,
-    { provide: API_BASE_URL, useValue: "https://localhost:44325" },
+    // { provide: API_BASE_URL, useValue: "https://localhost:44325" },
+    { provide: API_BASE_URL, useValue: "http://saperr.azurewebsites.net" },
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
 

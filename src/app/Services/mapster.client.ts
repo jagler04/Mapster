@@ -136,6 +136,61 @@ export class GetClient {
     /**
      * @return Success
      */
+    measurementTypes(): Observable<MeasurementType[]> {
+        let url_ = this.baseUrl + "/api/MeasurementType";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processMeasurementTypes(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processMeasurementTypes(<any>response_);
+                } catch (e) {
+                    return <Observable<MeasurementType[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<MeasurementType[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processMeasurementTypes(response: HttpResponseBase): Observable<MeasurementType[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(MeasurementType.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<MeasurementType[]>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
     user(id: string): Observable<User> {
         let url_ = this.baseUrl + "/api/User/{id}";
         if (id === undefined || id === null)
@@ -253,6 +308,118 @@ export class CreateClient {
             }));
         }
         return _observableOf<Area>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    measurement(body: Measurement | undefined): Observable<Measurement> {
+        let url_ = this.baseUrl + "/api/Measurement";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processMeasurement(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processMeasurement(<any>response_);
+                } catch (e) {
+                    return <Observable<Measurement>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<Measurement>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processMeasurement(response: HttpResponseBase): Observable<Measurement> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? Measurement.fromJS(resultData200) : new Measurement();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<Measurement>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    measurementType(body: MeasurementType | undefined): Observable<MeasurementType> {
+        let url_ = this.baseUrl + "/api/MeasurementType";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processMeasurementType(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processMeasurementType(<any>response_);
+                } catch (e) {
+                    return <Observable<MeasurementType>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<MeasurementType>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processMeasurementType(response: HttpResponseBase): Observable<MeasurementType> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? MeasurementType.fromJS(resultData200) : new MeasurementType();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<MeasurementType>(<any>null);
     }
 
     /**
@@ -377,6 +544,118 @@ export class UpdateClient {
             }));
         }
         return _observableOf<Area>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    measurement(body: Measurement | undefined): Observable<MeasurementType> {
+        let url_ = this.baseUrl + "/api/Measurement";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processMeasurement(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processMeasurement(<any>response_);
+                } catch (e) {
+                    return <Observable<MeasurementType>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<MeasurementType>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processMeasurement(response: HttpResponseBase): Observable<MeasurementType> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? MeasurementType.fromJS(resultData200) : new MeasurementType();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<MeasurementType>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    measurementType(body: MeasurementType | undefined): Observable<MeasurementType> {
+        let url_ = this.baseUrl + "/api/MeasurementType";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processMeasurementType(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processMeasurementType(<any>response_);
+                } catch (e) {
+                    return <Observable<MeasurementType>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<MeasurementType>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processMeasurementType(response: HttpResponseBase): Observable<MeasurementType> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? MeasurementType.fromJS(resultData200) : new MeasurementType();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<MeasurementType>(<any>null);
     }
 
     /**
@@ -810,6 +1089,106 @@ export interface IUser {
     password?: string;
     companyname?: string;
     premium?: boolean;
+}
+
+export class Measurement implements IMeasurement {
+    id?: string;
+    areaid?: string;
+    measurementtypeid?: string;
+    dateadded?: Date;
+    measurement?: string;
+
+    constructor(data?: IMeasurement) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.areaid = data["areaid"];
+            this.measurementtypeid = data["measurementtypeid"];
+            this.dateadded = data["dateadded"] ? new Date(data["dateadded"].toString()) : <any>undefined;
+            this.measurement = data["measurement"];
+        }
+    }
+
+    static fromJS(data: any): Measurement {
+        data = typeof data === 'object' ? data : {};
+        let result = new Measurement();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["areaid"] = this.areaid;
+        data["measurementtypeid"] = this.measurementtypeid;
+        data["dateadded"] = this.dateadded ? this.dateadded.toISOString() : <any>undefined;
+        data["measurement"] = this.measurement;
+        return data; 
+    }
+}
+
+export interface IMeasurement {
+    id?: string;
+    areaid?: string;
+    measurementtypeid?: string;
+    dateadded?: Date;
+    measurement?: string;
+}
+
+export class MeasurementType implements IMeasurementType {
+    id?: string;
+    owner?: string;
+    measurementname?: string;
+    units?: string;
+
+    constructor(data?: IMeasurementType) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.owner = data["owner"];
+            this.measurementname = data["measurementname"];
+            this.units = data["units"];
+        }
+    }
+
+    static fromJS(data: any): MeasurementType {
+        data = typeof data === 'object' ? data : {};
+        let result = new MeasurementType();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["owner"] = this.owner;
+        data["measurementname"] = this.measurementname;
+        data["units"] = this.units;
+        return data; 
+    }
+}
+
+export interface IMeasurementType {
+    id?: string;
+    owner?: string;
+    measurementname?: string;
+    units?: string;
 }
 
 export class SwaggerException extends Error {

@@ -1,0 +1,16 @@
+$medium-screen-up: 993px !default;
+$large-and-up: "only screen and (min-width : #{$medium-screen-up})" !default;
+.graphControl {
+    margin: 10px 10px 10px 10px;
+    @media #{$large-and-up}{
+        margin: 0 5% 0 5%;
+    }
+}
+h4.card-title{
+    display: inline-block;
+}
+a.icon{
+    cursor: pointer;
+    float: right;
+    margin: 21px;
+}

@@ -27,6 +27,8 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor, JwtInterceptor } from './Services/token.interceptor';
 import { GraphComponent } from './Pages/graph/graph.component';
 import { GraphControlComponent } from './Controls/graph-control/graph-control.component';
+import { ChartsModule } from 'ng2-charts';
+import { StorageModule } from '@ngx-pwa/local-storage';
 
 @NgModule({
   declarations: [
@@ -54,7 +56,11 @@ import { GraphControlComponent } from './Controls/graph-control/graph-control.co
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
-    HttpClientModule, 
+    HttpClientModule,
+    ChartsModule,
+    StorageModule.forRoot({
+      IDBNoWrap: true,
+    }), 
     LeafletModule.forRoot(),
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyCU2867Rocotglq5fwvzEQnOJI6GqXCmSU',

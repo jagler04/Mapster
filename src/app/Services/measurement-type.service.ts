@@ -34,6 +34,9 @@ export class MeasurementTypeService {
 
     this.pubsub.$pub("MeasurementTypes Updated", this.MeasurementTypes);
   }
+  Get(measurementTypeId: string): MeasurementTypeModel{
+    return this.MeasurementTypes.find(m => m.id == measurementTypeId);
+  }
 }
 export interface MeasurementTypeModel{
   id: string;

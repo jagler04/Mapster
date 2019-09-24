@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MeasurementTypeService } from 'src/app/Services/measurement-type.service';
+import { GraphServiceService } from 'src/app/Services/graph-service.service';
 
 @Component({
   selector: 'app-graph',
@@ -11,7 +12,7 @@ export class GraphComponent implements OnInit {
 
   public oneArea: boolean = false;
   public MeasurementTypes: Array<string> = [];
-  constructor(private route: ActivatedRoute, public measurementTypeService: MeasurementTypeService) { }
+  constructor(private route: ActivatedRoute, public measurementTypeService: MeasurementTypeService, public graphService: GraphServiceService) { }
 
   ngOnInit() {
     this.route.params.subscribe(params =>{

@@ -1,1 +1,13 @@
-<p>graph-control works!</p>
+<div *ngIf="graphService.TypeSettings.get(MeasurementTypeId).Visible" class="card graphControl">
+    <h4 class="card-title">{{MeasurementName}}</h4>
+    <a class="icon"><i class="material-icons">settings</i></a>
+    <div style="display: block">
+        <canvas baseChart
+                [datasets]="barChartData"
+                [labels]="barChartLabels"
+                [options]="barChartOptions"
+                [legend]="barChartLegend"
+                [chartType]="graphService.TypeSettings.get(MeasurementTypeId).GraphStyle">
+        </canvas>
+    </div>
+</div>

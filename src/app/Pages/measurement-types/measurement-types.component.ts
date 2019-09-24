@@ -17,7 +17,7 @@ export class MeasurementTypesComponent implements OnInit {
   ngOnInit() {
   }
 
-  ShowAdd() {
+  ShowAdd() { 
     var dialogRef = this.dialog.open(AddEditMeasurementTypeDialogComponent);
 
     dialogRef.afterClosed().subscribe((result: MeasurementType) => {

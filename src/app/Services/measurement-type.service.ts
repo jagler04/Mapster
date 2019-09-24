@@ -44,7 +44,7 @@ export class MeasurementTypeService {
     });
 
   }
-  Get(measurementTypeId: string): MeasurementTypeModel{
+  Get(measurementTypeId: string): MeasurementType {
     return this.MeasurementTypes.find(m => m.id == measurementTypeId);
   }
 }

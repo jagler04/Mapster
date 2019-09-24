@@ -40,7 +40,7 @@ export class GraphControlComponent implements OnInit {
   constructor(public graphService: GraphServiceService, private measurementTypeService: MeasurementTypeService) { }
 
   ngOnInit() {
-    this.MeasurementName = this.measurementTypeService.Get(this.measurementTypeId).measurementName;
+    this.MeasurementName = this.measurementTypeService.Get(this.measurementTypeId).measurementname;
     //console.log("MeasurementType: " + this.MeasurementType);
     //console.log(this.graphService.TypeSettings);
     var graphItem = this.graphService.TypeSettings.get(this.MeasurementTypeId);

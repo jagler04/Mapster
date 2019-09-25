@@ -29,6 +29,7 @@ import { GraphComponent } from './Pages/graph/graph.component';
 import { GraphControlComponent } from './Controls/graph-control/graph-control.component';
 import { ChartsModule } from 'ng2-charts';
 import { StorageModule } from '@ngx-pwa/local-storage';
+import { RegistrationComponent } from './Pages/registration/registration.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { StorageModule } from '@ngx-pwa/local-storage';
     AreaMeasurementsComponent,
     AreaMapComponent,
     GraphComponent,
-    GraphControlComponent
+    GraphControlComponent,
+    RegistrationComponent
   ],
   imports: [
     BrowserModule,
@@ -74,8 +76,8 @@ import { StorageModule } from '@ngx-pwa/local-storage';
     UpdateClient,
     CreateClient,
     GetClient,
-    // { provide: API_BASE_URL, useValue: "https://localhost:44325" },
-    { provide: API_BASE_URL, useValue: "http://saperr.azurewebsites.net" },
+    { provide: API_BASE_URL, useValue: "https://localhost:44325" },
+    // { provide: API_BASE_URL, useValue: "http://saperr.azurewebsites.net" },
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
 

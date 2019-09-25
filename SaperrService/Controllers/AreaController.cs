@@ -23,8 +23,11 @@ namespace Saperr.Controllers
     }
 
     [HttpGet(Name = "Get_Areas")]
-    public ActionResult<List<Area>> GetAllAreas() =>
-        _areaService.Get();
+    public ActionResult<List<Area>> GetAllAreas()
+    {
+      var owner = _authService.GetIdFromRequest(Request);
+      return _areaService.GetByOwner(owner);
+    }
 
     [HttpGet("{id:length(24)}", Name = "Get_Area")]
     public ActionResult<Area> GetArea(string id)

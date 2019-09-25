@@ -7,7 +7,6 @@ namespace Saperr.Controllers
 {
   [Route("api/[controller]")]
   [ApiController]
-  [Authorize]
   public class UserController : ControllerBase
   {
     private readonly UserService _userService;
@@ -17,6 +16,7 @@ namespace Saperr.Controllers
       _userService = userService;
     }
 
+    [Authorize]
     [HttpGet("{id:length(24)}", Name = "Get_User")]
     public ActionResult<User> Get(string id)
     {
@@ -33,19 +33,25 @@ namespace Saperr.Controllers
     [HttpPost(Name = "Create_User")]
     public ActionResult<User> Create([FromBody] User user)
     {
+      if (_userService.GetByEmail(user.email) != null)
+      {
+        return Conflict();
+      }
       var hashedPass = PasswordService.GenerateSaltAndHash(user.password);
       user.password = hashedPass;
       user.premium = true;
       var current = _userService.Create(user);
-      return CreatedAtRoute("Get_User", new { id = user.Id.ToString() }, user);
+      return user;
     }
 
+    [Authorize]
     // PUT api/values/5
     [HttpPut("{id}", Name = "Update_User")]
     public void Put(int id, [FromBody] string value)
     {
     }
 
+    [Authorize]
     // DELETE api/values/5
     [HttpDelete("{id}", Name = "Delete_User")]
     public void Delete(int id)

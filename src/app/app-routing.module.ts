@@ -8,12 +8,14 @@ import { MeasurementTypesComponent } from './Pages/measurement-types/measurement
 import { AreaMeasurementsComponent } from './Pages/area-measurements/area-measurements.component';
 import { AreaMapComponent } from './Pages/area-map/area-map.component';
 import { GraphComponent } from './Pages/graph/graph.component';
+import { RegistrationComponent } from './Pages/registration/registration.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path:'home', component: HomeComponent },
   { path:'Home', component: HomeComponent },
   { path:'Login', component: LoginComponent },
+  { path:'registration', component: RegistrationComponent },
   { path:'Areas', component: AreasComponent },
   { path:'areas', component: AreasComponent },
   { path: "AddArea", component: AddAreaComponent },

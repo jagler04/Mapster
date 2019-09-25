@@ -17,7 +17,7 @@ import { tap } from "rxjs/operators";
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
-    constructor(public auth: AuthenticationService) { }
+    constructor(public auth: AuthenticationService, private nav: NavigationService) { }
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
         if (this.auth.isAuthenticated()) {
@@ -26,6 +26,10 @@ export class TokenInterceptor implements HttpInterceptor {
                     Authorization: `Bearer ${this.auth.getToken()}`
                 }
             });
+        }
+        else{
+            this.nav.Push("Login")
+
         }
 
         return next.handle(request);

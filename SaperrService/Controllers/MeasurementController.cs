@@ -36,6 +36,12 @@ namespace Saperr.Controllers
       //_measurementService.Update(measurement);
       //return measurement;
     }
+    [HttpGet(Name = "Graph_Measurements")]
+    public ActionResult<GraphData> GetGraphMeasurements([FromBody]GraphMeasurementRequest measurement)
+    {
+      return null;
 
+    }
   }
+
 }

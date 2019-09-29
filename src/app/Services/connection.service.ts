@@ -21,12 +21,9 @@ export class ConnectionService {
       console.log(this.cordova.cordova.device.platform);
     }
     else{
-      //GO DIRECTLY TO THE WEB SERVICE SKIP TRYING OT USE LOCAL DB
+      //GO DIRECTLY TO THE WEB SERVICE SKIP TRYING TO USE LOCAL DB
     }
     return newMeasurement;
-
-  }
-  public GetMeasurements(areaId: string, measurementTypeId: string){
 
   }
 }

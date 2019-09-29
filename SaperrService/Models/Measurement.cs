@@ -16,7 +16,7 @@ namespace Saperr.Models
     public string measurementtypeid { get; set; }
 
     public DateTime dateadded { get; set; }
-    public string measurement { get; set; }
+    public double measurement { get; set; }
   }
 
   public class MeasurementType

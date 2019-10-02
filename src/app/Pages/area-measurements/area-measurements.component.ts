@@ -7,7 +7,7 @@ import { EntryDialogComponent } from 'src/app/Popups/entry-dialog/entry-dialog.c
 import { MeasurementType } from 'src/app/Services/mapster.client';
 
 @Component({
-  selector: 'area-measurements',
+  selector: 'app-area-measurements',
   templateUrl: './area-measurements.component.html',
   styleUrls: ['./area-measurements.component.scss']
 })

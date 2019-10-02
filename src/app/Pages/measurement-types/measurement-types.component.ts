@@ -6,7 +6,7 @@ import { AddEditMeasurementTypeDialogComponent } from 'src/app/Popups/add-edit-m
 import { MeasurementType } from 'src/app/Services/mapster.client';
 
 @Component({
-  selector: 'measurement-types',
+  selector: 'app-measurement-types',
   templateUrl: './measurement-types.component.html',
   styleUrls: ['./measurement-types.component.scss']
 })

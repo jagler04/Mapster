@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ToolsService } from 'src/app/Services/tools.service';
 
 @Component({
-  selector: 'login',
+  selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })

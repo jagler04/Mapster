@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { tileLayer, latLng, polygon } from 'leaflet';
 
 @Component({
-  selector: 'area-map',
+  selector: 'app-area-map',
   templateUrl: './area-map.component.html',
   styleUrls: ['./area-map.component.scss']
 })

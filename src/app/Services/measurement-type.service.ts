@@ -3,6 +3,7 @@ import { PubSubService } from './pub-sub.service';
 import { CreateClient, MeasurementType, UpdateClient, GetClient } from './mapster.client';
 import { ToolsService } from './tools.service';
 import { AuthenticationService } from './authentication.service';
+import { StorageMap } from '@ngx-pwa/local-storage';
 
 @Injectable({
   providedIn: 'root'
@@ -10,24 +11,17 @@ import { AuthenticationService } from './authentication.service';
 export class MeasurementTypeService {
 
   public MeasurementTypes: Array<MeasurementType> = [];
-  constructor(private authService: AuthenticationService, private toolsService: ToolsService, private pubsub: PubSubService, private createClient: CreateClient, private updateClient: UpdateClient, private getClient: GetClient) {
+  constructor(private storageService: StorageMap, private authService: AuthenticationService, private toolsService: ToolsService, private pubsub: PubSubService, private createClient: CreateClient, private updateClient: UpdateClient, private getClient: GetClient) {
     this.GetMeasurementTypes()
   }
 
-  Testing() {
-    //  var pos = 0;
-    //  while (pos < 20){
-    //   this.MeasurementTypes.push({
-    //     id: (pos + 1).toString(),
-    //     measurementName: "Name " + pos,
-    //     units: "Units " + pos
-    //   });
-    //   pos ++;
-    //  }
-  }
   GetMeasurementTypes() {
+    console.log(this.authService)
     if (this.authService.LoginSkipped) {
-      console.log('getmeasurementTypes')
+      this.storageService.get('SAPPER-MeasurementTypes').subscribe((result: Array<MeasurementType>) => {
+        console.log(result);
+        this.MeasurementTypes = result
+      })
     }
     else {
       this.getClient.measurementTypes().subscribe(result => {
@@ -36,23 +30,43 @@ export class MeasurementTypeService {
     }
   }
   CreateMeasurementType(newMeasurementType: MeasurementType) {
-    this.createClient.measurementType(newMeasurementType).subscribe(result => {
-      console.log(result)
-      this.MeasurementTypes.push(newMeasurementType);
-      this.pubsub.$pub("MeasurementTypes Updated", this.MeasurementTypes);
-    })
 
+    if (this.authService.LoginSkipped) {
+      newMeasurementType.id = this.toolsService.uuidv4();
+      this.MeasurementTypes.push(newMeasurementType);
+      this.storageService.set('SAPPER-MeasurementTypes', this.MeasurementTypes).subscribe(result => {
+        console.log(result)
+        this.pubsub.$pub("MeasurementTypes Updated", this.MeasurementTypes);
+      })
+    }
+    else {
+      this.createClient.measurementType(newMeasurementType).subscribe(result => {
+        this.MeasurementTypes.push(newMeasurementType);
+        this.pubsub.$pub("MeasurementTypes Updated", this.MeasurementTypes);
+      })
+    }
   }
   UpdateMeasurementType(updatedMeasurementType: MeasurementType) {
-    this.updateClient.measurementType(updatedMeasurementType).subscribe(result => {
+    if (this.authService.LoginSkipped) {
       var index = this.MeasurementTypes.findIndex(m => m.id == updatedMeasurementType.id);
       this.MeasurementTypes[index] = updatedMeasurementType;
-      this.pubsub.$pub("MeasurementTypes Updated", this.MeasurementTypes);
-    });
-
+      this.storageService.set('SAPPER-MeasurementTypes', this.MeasurementTypes).subscribe(result => {
+        console.log(result)
+        this.pubsub.$pub("MeasurementTypes Updated", this.MeasurementTypes);
+      })
+    }
+    else {
+      this.updateClient.measurementType(updatedMeasurementType).subscribe(result => {
+        var index = this.MeasurementTypes.findIndex(m => m.id == updatedMeasurementType.id);
+        this.MeasurementTypes[index] = updatedMeasurementType;
+        this.pubsub.$pub("MeasurementTypes Updated", this.MeasurementTypes);
+      });
+    }
   }
   Get(measurementTypeId: string): MeasurementType {
     return this.MeasurementTypes.find(m => m.id == measurementTypeId);
   }
+
+
 }
 

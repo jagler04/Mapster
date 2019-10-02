@@ -20,9 +20,7 @@ export class AreaService {
   getAreas() {
 
     if (this.authService.LoginSkipped) {
-  
       this.storageService.get('SAPPER-Areas').subscribe((result: Area[]) => {
-        console.log(result)
         this.Areas = result
       })
     }
@@ -51,18 +49,20 @@ export class AreaService {
       }));
       pos++;
     }
-    if(this.authService.LoginSkipped){
-      newAreaDB.id = this.toolsService.uuidv4();
-    }
-    console.log(this.authService.LoginSkipped)
-    this.Areas.push(newAreaDB);
-    this.storageService.set('SAPPER-Areas', this.Areas).subscribe(result => { console.log(result) })
-    console.log(this.Areas)
 
-    if (!this.authService.LoginSkipped) {
+    if (this.authService.LoginSkipped) {
+      newAreaDB.id = this.toolsService.uuidv4();
+      this.Areas.push(newAreaDB);
+
+      this.storageService.set('SAPPER-Areas', this.Areas).subscribe(result => {
+        this.pubsub.$pub("Areas Updates", this.Areas);
+        console.log('creation complete!');
+      })
+    }
+    else {
+      this.Areas.push(newAreaDB);
       this.createClient.area(newAreaDB).subscribe(x => {
         this.pubsub.$pub("Areas Updates", this.Areas);
-        console.log(x);
         console.log('creation complete!');
       });
     }
@@ -70,9 +70,13 @@ export class AreaService {
 
   public UpdateAreaName(area: Area, newName: string) {
     area.areaname = newName;
-    this.updateClient.area(area).subscribe(x => {
-      console.log(x);
-      console.log('update complete!')
-    })
+    if (this.authService.LoginSkipped) {
+      this.storageService.set('SAPPER-Areas', this.Areas).subscribe(result => { console.log('update complete!') })
+    }
+    else {
+      this.updateClient.area(area).subscribe(x => {
+        console.log('update complete!')
+      })
+    }
   }
 }

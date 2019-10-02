@@ -123,11 +123,8 @@ export class AddAreaComponent implements OnInit {
         lng: location[1]
       });
     }
-    console.log(this.paths)
     this.markers = [];
-    console.log(this.paths);
     this.drawing = false;
-    console.log("Still hitting");
     this.dialogRef = this.dialog.open(EntryDialogComponent, {
       data: { Text: "Enter an area name" }
     });
@@ -140,8 +137,7 @@ export class AddAreaComponent implements OnInit {
     });
   }
   FinalizeArea() {
-    console.log(this.paths);
-    console.log(this.areaName);
+
     this.areaService.CreateNewArea(this.paths, this.areaName);
     if (this.measurementTypeService.MeasurementTypes.length > 0) {
       this.GoBack();

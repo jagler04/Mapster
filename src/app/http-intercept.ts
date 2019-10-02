@@ -14,10 +14,11 @@ import {
   HttpErrorResponse
 }
   from '@angular/common/http';
+import { NavigationService } from './Services/navigation.service';
 
 @Injectable()
 export class HttpIntercept implements HttpInterceptor {
-  constructor(private loadingService: LoadingService, private router: Router, private localStorage: LocalStorage) {
+  constructor(private loadingService: LoadingService, private router: Router, private localStorage: LocalStorage, private nav: NavigationService) {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -30,6 +31,7 @@ export class HttpIntercept implements HttpInterceptor {
         }
       });
     } else {
+      // this.nav.Push('login')
       //console.log("auth Token Null");
     }
     this.loadingService.begin(req.url);

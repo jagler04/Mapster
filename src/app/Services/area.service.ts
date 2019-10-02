@@ -2,20 +2,34 @@ import { Injectable } from '@angular/core';
 import { LatLngLiteral } from '@agm/core';
 import { PubSubService } from './pub-sub.service';
 import { Area, User, Point, Location, GetClient, UpdateClient, CreateClient } from './mapster.client';
+import { AuthenticationService } from './authentication.service';
+import { StorageMap } from '@ngx-pwa/local-storage';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AreaService {
 
-  public Areas: Array<Area> = [];
-  constructor(public pubsub: PubSubService, private getClient: GetClient, private updateClient: UpdateClient, private createClient: CreateClient) {
+  public Areas: Area[] = [];
+  constructor(public pubsub: PubSubService, private getClient: GetClient, private updateClient: UpdateClient, private createClient: CreateClient,
+    private authService: AuthenticationService, private storageService: StorageMap) {
+    this.Areas = [];
   }
 
   getAreas() {
-    this.getClient.areas().subscribe(x => {
-      this.Areas = x;
-    })
+
+    if (this.authService.LoginSkipped) {
+  
+      this.storageService.get('SAPPER-Areas').subscribe((result: Area[]) => {
+        console.log(result)
+        this.Areas = result
+      })
+    }
+    else {
+      this.getClient.areas().subscribe(x => {
+        this.Areas = x;
+      })
+    }
   }
 
   public CreateNewArea(path: Array<LatLngLiteral>, areaName: string) {
@@ -36,12 +50,18 @@ export class AreaService {
       }));
       pos++;
     }
+    console.log(this.authService.LoginSkipped)
     this.Areas.push(newAreaDB);
-    this.createClient.area(newAreaDB).subscribe(x => {
-      this.pubsub.$pub("Areas Updates", this.Areas);
-      console.log(x);
-      console.log('creation complete!');
-    });
+    this.storageService.set('SAPPER-Areas', this.Areas).subscribe(result => { console.log(result) })
+    console.log(this.Areas)
+
+    if (!this.authService.LoginSkipped) {
+      this.createClient.area(newAreaDB).subscribe(x => {
+        this.pubsub.$pub("Areas Updates", this.Areas);
+        console.log(x);
+        console.log('creation complete!');
+      });
+    }
   }
 
   public UpdateAreaName(area: Area, newName: string) {

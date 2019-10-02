@@ -16,7 +16,7 @@ export class GraphServiceService {
   constructor(private measurementTypeService: MeasurementTypeService, private areaService: AreaService, private storageService: StorageMap, private graphClient: GraphClient) {
     //MAYBE LOAD FROM Local preferences for graph type? 
     this.measurementTypeService.MeasurementTypes.forEach(mt =>{
-      var gs: GraphSettingsModel = { GraphStyle: 'bar', Visible: true, Measurements: [], Labels: []};
+      var gs: GraphSettingsModel = { GraphStyle: 'bar', Visible: true, Measurements: [], Labels: [], InvisibleAreas: []};
       this.TypeSettings.set(mt.id, gs);
     });
     this.storageService.get("SAPPER-Graph-Settings").subscribe((response: SettingSaveModel[]) => this.SetSettings(response));
@@ -34,7 +34,7 @@ export class GraphServiceService {
     else{
       var settings: SettingSaveModel[] = [];
       this.TypeSettings.forEach((val, key)=> {
-        settings.push({MeasurementTypeId: key, GraphStyle: val.GraphStyle, Visible: val.Visible});
+        settings.push({MeasurementTypeId: key, GraphStyle: val.GraphStyle, Visible: val.Visible, InvisibleAreas: []});
       })
       this.storageService.set("SAPPER-Graph-Settings", settings).subscribe(() => {});
     }

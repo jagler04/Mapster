@@ -22,7 +22,7 @@ import { AddEditMeasurementTypeDialogComponent } from './Popups/add-edit-measure
 import { SelectionDialogComponent } from './Popups/selection-dialog/selection-dialog.component';
 import { AreaMeasurementsComponent } from './Pages/area-measurements/area-measurements.component';
 import { AreaMapComponent } from './Pages/area-map/area-map.component';
-import { Client, API_BASE_URL, UpdateClient, CreateClient, GetClient } from './Services/mapster.client'
+import { Client, API_BASE_URL, UpdateClient, CreateClient, GetClient, GraphClient } from './Services/mapster.client'
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor, JwtInterceptor } from './Services/token.interceptor';
 import { GraphComponent } from './Pages/graph/graph.component';
@@ -75,6 +75,7 @@ import { RegistrationComponent } from './Pages/registration/registration.compone
     Client,
     UpdateClient,
     CreateClient,
+    GraphClient,
     GetClient,
     { provide: API_BASE_URL, useValue: "https://localhost:44325" },
     // { provide: API_BASE_URL, useValue: "http://saperr.azurewebsites.net" },

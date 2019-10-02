@@ -29,10 +29,12 @@ export class LoginComponent implements OnInit {
   }
 
   checkAuth() {
-    this.authService.isAuthenticated();
+    this.authService.IsAuthenticated = true;
+    this.authService.LoginSkipped = true;
+    this.nav.Push("Areas");
   }
 
-  register(){
+  register() {
     this.nav.Push("registration")
   }
 

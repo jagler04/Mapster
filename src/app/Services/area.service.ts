@@ -4,6 +4,7 @@ import { PubSubService } from './pub-sub.service';
 import { Area, User, Point, Location, GetClient, UpdateClient, CreateClient } from './mapster.client';
 import { AuthenticationService } from './authentication.service';
 import { StorageMap } from '@ngx-pwa/local-storage';
+import { ToolsService } from './tools.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ import { StorageMap } from '@ngx-pwa/local-storage';
 export class AreaService {
 
   public Areas: Area[] = [];
-  constructor(public pubsub: PubSubService, private getClient: GetClient, private updateClient: UpdateClient, private createClient: CreateClient,
+  constructor(private toolsService: ToolsService, public pubsub: PubSubService, private getClient: GetClient, private updateClient: UpdateClient, private createClient: CreateClient,
     private authService: AuthenticationService, private storageService: StorageMap) {
     this.Areas = [];
   }
@@ -49,6 +50,9 @@ export class AreaService {
         })
       }));
       pos++;
+    }
+    if(this.authService.LoginSkipped){
+      newAreaDB.id = this.toolsService.uuidv4();
     }
     console.log(this.authService.LoginSkipped)
     this.Areas.push(newAreaDB);

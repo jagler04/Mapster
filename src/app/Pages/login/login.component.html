@@ -1,26 +1,26 @@
 <div class="container">
   <div class="card">
-      <div class="card-content">
+    <div class="card-content">
       <div class="card-title">Login</div>
-          <div class=".input-field">
-            <input matInput type="email" [(ngModel)]="email" placeholder="Email Address" />
-          </div>
-          <div class=".input-field">
-            <input matInput type="password" [(ngModel)]="password" placeholder="Password" />
-          </div>
-          <div class="section">
-            <a href="#" style="color: #3F6844;">Forgot Password</a>
-            <a class="waves-effect waves-green btn-small" (click)="login()" style="float: right;">Login</a>
-          </div>
-            <a class="waves-effect waves-green btn-small" (click)="checkAuth()">Continue without</a>
-            <a class="waves-effect waves-green btn-small" (click)="register()">Register</a>
-
-          <hr />
-          <div style="margin-left:auto; margin-right:auto;">
-            <a class="waves-effect waves-green btn-small" ><i class="material-icons left">cloud</i>Facebook</a>
-            <a class="waves-effect waves-green btn-small"><i class="material-icons left">cloud</i>Microsoft</a>
-          </div>
+      <div class=".input-field">
+        <input matInput type="email" [(ngModel)]="email" placeholder="Email Address" />
       </div>
+      <div class=".input-field">
+        <input matInput type="password" [(ngModel)]="password" placeholder="Password" />
+      </div>
+      <div class="section">
+        <a href="#" style="color: #3F6844;">Forgot Password</a>
+        <a class="waves-effect waves-green btn-small" (click)="login()" style="float: right;">Login</a>
+      </div>
+      <a class="waves-effect waves-green btn-small" (click)="checkAuth()">Continue without</a>
+      <a class="waves-effect waves-green btn-small" (click)="register()">Register</a>
+
+      <hr />
+      <div style="margin-left:auto; margin-right:auto;">
+        <a class="waves-effect waves-green btn-small"><i class="material-icons left">cloud</i>Facebook</a>
+        <a class="waves-effect waves-green btn-small"><i class="material-icons left">cloud</i>Microsoft</a>
+      </div>
+    </div>
   </div>
 
 </div>

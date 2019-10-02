@@ -4,7 +4,7 @@ import { NavigationService } from 'src/app/Services/navigation.service';
 import { AuthenticationService } from 'src/app/Services/authentication.service';
 
 @Component({
-  selector: 'app-registration',
+  selector: 'registration',
   templateUrl: './registration.component.html',
   styleUrls: ['./registration.component.scss']
 })

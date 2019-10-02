@@ -27,11 +27,6 @@ export class TokenInterceptor implements HttpInterceptor {
                 }
             });
         }
-        else{
-            this.nav.Push("Login")
-
-        }
-
         return next.handle(request);
     }
 }
@@ -49,10 +44,7 @@ export class JwtInterceptor implements HttpInterceptor {
             if (err instanceof HttpErrorResponse) {
                 if (err.status === 401) {
                     console.log('Unauthorized')
-                    this.nav.Push("Login");
-
-                    // redirect to the login route
-                    // or show a modal
+                    this.nav.Push("login");
                 }
             }
         }));

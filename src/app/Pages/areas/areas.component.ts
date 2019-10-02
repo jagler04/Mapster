@@ -21,38 +21,43 @@ export class AreasComponent implements OnInit {
   ngOnInit() {
     this.areaService.getAreas();
   }
-  GoToAdd(){
-    this.nav.Push("AddArea");
+  GoToAdd() {
+    console.log(this.nav)
+    this.nav.Push("addArea");
   }
-  ShowEdit(area: Area){
+  ShowEdit(area: Area) {
     var name = area.areaname;
-    var dialogRef = this.dialog.open(EntryDialogComponent, 
-      {data: {Text: "Update Area Name", Value: name}
-    });
+    var dialogRef = this.dialog.open(EntryDialogComponent,
+      {
+        data: { Text: "Update Area Name", Value: name }
+      });
     dialogRef.afterClosed().subscribe(result => {
-      if(result !== undefined){
+      if (result !== undefined) {
         this.areaService.UpdateAreaName(area, result);
       }
     });
   }
 
-  ShowSelect(area: Area){
-    var dialogRef = this.dialog.open(SelectionDialogComponent, { data:{
-      Header: area.areaname,
-      Selections: ["View Map","Add Measurement","Edit Area Name"]
-    }});
+  ShowSelect(area: Area) {
+    var dialogRef = this.dialog.open(SelectionDialogComponent, {
+      data: {
+        Header: area.areaname,
+        Selections: ["View Map", "Add Measurement", "Edit Area Name"]
+      }
+    });
 
-    dialogRef.afterClosed().subscribe(result =>{
-      if(result !== undefined){
+    dialogRef.afterClosed().subscribe(result => {
+      if (result !== undefined) {
         console.log("User selected: " + result);
-        switch(result){
-          case("View Map"):
-            this.nav.Push("AreaMap", area.id);
+        switch (result) {
+          case ("View Map"):
+            console.log(area.id)
+            this.nav.Push("areaMap", area.id);
             break;
-          case("Add Measurement"):
-            this.nav.Push("AreaMeasurements", area.id);
+          case ("Add Measurement"):
+            this.nav.Push("areaMeasurements", area.id);
             break;
-          case("Edit Area Name"):
+          case ("Edit Area Name"):
             this.ShowEdit(area);
             break;
         }

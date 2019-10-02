@@ -13,18 +13,15 @@ import { RegistrationComponent } from './Pages/registration/registration.compone
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path:'home', component: HomeComponent },
-  { path:'Home', component: HomeComponent },
-  { path:'Login', component: LoginComponent },
+  { path:'login', component: LoginComponent },
   { path:'registration', component: RegistrationComponent },
-  { path:'Areas', component: AreasComponent },
   { path:'areas', component: AreasComponent },
-  { path: "AddArea", component: AddAreaComponent },
-  { path: "addarea", component: AddAreaComponent },
-  { path: "AddMeasurementTypes", component: MeasurementTypesComponent },
-  { path: "AreaMeasurements/:id", component: AreaMeasurementsComponent },
-  { path: "AreaMap/:id", component: AreaMapComponent },
-  { path: "Graphs/:id", component: GraphComponent },
-  { path: "Graphs", component: GraphComponent }
+  { path: "addArea", component: AddAreaComponent },
+  { path: "addMeasurementTypes", component: MeasurementTypesComponent },
+  { path: "areaMeasurements/:id", component: AreaMeasurementsComponent },
+  { path: "areaMap/:id", component: AreaMapComponent },
+  { path: "graphs/:id", component: GraphComponent },
+  { path: "graphs", component: GraphComponent }
 ];
 
 @NgModule({

@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { PubSubService } from './pub-sub.service';
 import { CreateClient, MeasurementType, UpdateClient, GetClient } from './mapster.client';
+import { ToolsService } from './tools.service';
+import { AuthenticationService } from './authentication.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +10,7 @@ import { CreateClient, MeasurementType, UpdateClient, GetClient } from './mapste
 export class MeasurementTypeService {
 
   public MeasurementTypes: Array<MeasurementType> = [];
-  constructor(private pubsub: PubSubService, private createClient: CreateClient, private updateClient: UpdateClient, private getClient: GetClient) {
+  constructor(private authService: AuthenticationService, private toolsService: ToolsService, private pubsub: PubSubService, private createClient: CreateClient, private updateClient: UpdateClient, private getClient: GetClient) {
     this.GetMeasurementTypes()
   }
 
@@ -24,9 +26,14 @@ export class MeasurementTypeService {
     //  }
   }
   GetMeasurementTypes() {
-    this.getClient.measurementTypes().subscribe(result => {
-      this.MeasurementTypes = result;
-    })
+    if (this.authService.LoginSkipped) {
+      console.log('getmeasurementTypes')
+    }
+    else {
+      this.getClient.measurementTypes().subscribe(result => {
+        this.MeasurementTypes = result;
+      })
+    }
   }
   CreateMeasurementType(newMeasurementType: MeasurementType) {
     this.createClient.measurementType(newMeasurementType).subscribe(result => {

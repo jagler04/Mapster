@@ -3,10 +3,10 @@
     <a href="horizontal-half.html" class="brand-logo"><i class="icon-diamond"></i></a>
     <ul id="nav-mobile" class="left hide-on-med-and-down">
       <li><a (click)="GoToPage('login')">Login</a></li>
-      <li><a (click)="GoToPage('Home')">Home</a></li>
-      <li><a (click)="GoToPage('Areas')">Areas</a></li>
-      <li><a (click)="GoToPage('AddMeasurementTypes')">Measurement Types</a></li>
-      <li><a class="waves-effect waves-green" (click)="GoToPage('Graphs')">Graphs</a></li>
+      <li><a (click)="GoToPage('home')">Home</a></li>
+      <li><a (click)="GoToPage('areas')">Areas</a></li>
+      <li><a (click)="GoToPage('addMeasurementTypes')">Measurement Types</a></li>
+      <li><a class="waves-effect waves-green" (click)="GoToPage('graphs')">Graphs</a></li>
     </ul>
     <a href="#" data-target="slide-out" class="sidenav-trigger button-collapse left"><i
         class="material-icons white-text">menu</i></a>
@@ -15,8 +15,8 @@
 </nav>
 <ul id="slide-out" class="sidenav" *ngIf="IsAuthenticated">
   <li><a (click)="GoToPage('login')">Login</a></li>
-  <li><a class="waves-effect waves-green" (click)="GoToPage('Home')">Home</a></li>
-  <li><a class="waves-effect waves-green" (click)="GoToPage('Areas')">Areas</a></li>
-  <li><a class="waves-effect waves-green" (click)="GoToPage('AddMeasurementTypes')">Measurement Types</a></li>
-  <li><a class="waves-effect waves-green" (click)="GoToPage('Graphs')">Graphs</a></li>
+  <li><a class="waves-effect waves-green" (click)="GoToPage('home')">Home</a></li>
+  <li><a class="waves-effect waves-green" (click)="GoToPage('areas')">Areas</a></li>
+  <li><a class="waves-effect waves-green" (click)="GoToPage('addMeasurementTypes')">Measurement Types</a></li>
+  <li><a class="waves-effect waves-green" (click)="GoToPage('graphs')">Graphs</a></li>
 </ul>

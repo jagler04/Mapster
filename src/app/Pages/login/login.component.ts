@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angula
 import { AuthenticationService } from 'src/app/Services/authentication.service';
 import { NavigationService } from 'src/app/Services/navigation.service';
 import { ActivatedRoute } from '@angular/router';
+import { ToolsService } from 'src/app/Services/tools.service';
 
 @Component({
   selector: 'login',
@@ -12,7 +13,7 @@ export class LoginComponent implements OnInit {
   email: string;
   password: string;
 
-  constructor(public authService: AuthenticationService, private nav: NavigationService, private route: ActivatedRoute) { }
+  constructor(private toolsService: ToolsService, public authService: AuthenticationService, private nav: NavigationService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
@@ -23,7 +24,7 @@ export class LoginComponent implements OnInit {
   login() {
     this.authService.login(this.email, this.password).subscribe(x => {
       this.authService.saveToken(x["token"]);
-      this.nav.Push("Areas");
+      this.nav.Push("areas");
 
     }, error => console.log(error))
   }
@@ -31,7 +32,7 @@ export class LoginComponent implements OnInit {
   checkAuth() {
     this.authService.IsAuthenticated = true;
     this.authService.LoginSkipped = true;
-    this.nav.Push("Areas");
+    this.nav.Push("areas");
   }
 
   register() {

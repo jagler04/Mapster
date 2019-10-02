@@ -49,7 +49,6 @@ export class AddAreaComponent implements OnInit {
     //load Places Autocomplete
     this.mapsAPILoader.load().then(() => {
       this.setCurrentLocation();
-      this.geoCoder = new google.maps.Geocoder;
 
       let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
         types: ["address"]
@@ -144,12 +143,12 @@ export class AddAreaComponent implements OnInit {
     }
     else {
       this.pubsub.$pub("Add Area Page Deactivated");
-      this.nav.Push("AddMeasurementTypes");
+      this.nav.Push("addMeasurementTypes");
     }
   }
   GoBack() {
     this.pubsub.$pub("Add Area Page Deactivated");
-    this.nav.Push("Areas");
+    this.nav.Push("areas");
   }
 
   paths: Array<LatLngLiteral> = [];

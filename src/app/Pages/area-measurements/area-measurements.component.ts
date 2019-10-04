@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { EntryDialogComponent } from 'src/app/Popups/entry-dialog/entry-dialog.component';
 import { MeasurementType } from 'src/app/Services/mapster.client';
+import { PubSubService } from 'src/app/Services/pub-sub.service';
 
 @Component({
   selector: 'app-area-measurements',
@@ -16,7 +17,7 @@ export class AreaMeasurementsComponent implements OnInit {
   areaId: string;
   measurementTypes: Array<MeasurementTypeExtended> = [];
   constructor(private measurementTypeService: MeasurementTypeService, private measurementService: MeasurementService, 
-    private route: ActivatedRoute, private dialog: MatDialog) { }
+    private route: ActivatedRoute, private dialog: MatDialog, private pubsub: PubSubService) { }
 
   ngOnInit() {
     this.route.params.subscribe(params =>{
@@ -24,17 +25,24 @@ export class AreaMeasurementsComponent implements OnInit {
         this.areaId = params["id"];
       }
     });
-    this.measurementTypeService.MeasurementTypes.forEach(mt =>{
-      let newMType = new MeasurementTypeExtended({
-        id: mt.id,
-        measurementname: mt.measurementname,
-        units: mt.units
+    this.measurementTypeService.GetMeasurementTypes();
+    this.pubsub.$sub("Measuremet type List Updated").subscribe(result => {
+      this.measurementTypes = [];
+      this.measurementTypeService.MeasurementTypes.forEach(mt =>{
+        let newMType = new MeasurementTypeExtended({
+          id: mt.id,
+          measurementname: mt.measurementname,
+          units: mt.units
+        });
+        newMType.isOpen = false;
+        newMType.entries = [];
+  
+        this.measurementTypes.push(newMType);
       });
-      newMType.isOpen = false;
-      newMType.entries = [];
+    });
 
-      this.measurementTypes.push();
-    })
+    // console.log(this.measurementTypeService.MeasurementTypes);
+    // console.log(this.measurementTypes);
   }
   ShowAdd(mt: MeasurementTypeExtended){
     var dialogRef = this.dialog.open(EntryDialogComponent, {data: { Text: "Enter " + mt.measurementname}});

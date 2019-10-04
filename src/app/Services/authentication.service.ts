@@ -13,7 +13,7 @@ export class AuthenticationService {
 
   public AuthToken: string;
   public LoginSkipped: boolean;
-  public IsAuthenticated: boolean;
+  //public IsAuthenticated: boolean;
   constructor(private pubsub: PubSubService, private dialog: MatDialog, private backendClient: Client) { }
 
   login(email: string, password: string) {

@@ -3,6 +3,7 @@ import { AuthenticationService } from 'src/app/Services/authentication.service';
 import { NavigationService } from 'src/app/Services/navigation.service';
 import { ActivatedRoute } from '@angular/router';
 import { ToolsService } from 'src/app/Services/tools.service';
+import { ConnectionService } from 'src/app/Services/connection.service';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,8 @@ export class LoginComponent implements OnInit {
   email: string;
   password: string;
 
-  constructor(private toolsService: ToolsService, public authService: AuthenticationService, private nav: NavigationService, private route: ActivatedRoute) { }
+  constructor(private toolsService: ToolsService, public authService: AuthenticationService,
+    private nav: NavigationService, private route: ActivatedRoute, private connService: ConnectionService) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
@@ -30,9 +32,10 @@ export class LoginComponent implements OnInit {
   }
 
   checkAuth() {
-    //this.authService.IsAuthenticated = true;
-    this.authService.LoginSkipped = true;
-    this.nav.Push("areas");
+    this.connService.hasInternet();
+    // this.authService.IsAuthenticated = true;
+    // this.authService.LoginSkipped = true;
+    // this.nav.Push("areas");
   }
 
   register() {

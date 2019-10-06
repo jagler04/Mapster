@@ -7,19 +7,15 @@
     "files": {}
   },
   "installed_plugins": {
-    "cordova-plugin-whitelist": {
+    "cordova-plugin-device": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
-    "cordova-plugin-device": {
+    "cordova-plugin-network-information": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-whitelist": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     }
   },
-  "dependent_plugins": {
-    "cordova-plugin-cocoapod-support": {
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    },
-    "cordova-plugin-add-swift-support": {
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    }
-  }
+  "dependent_plugins": {}
 }

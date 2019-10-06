@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MeasurementTypeService } from 'src/app/Services/measurement-type.service';
-import { MeasurementService, MeasurementModel } from 'src/app/Services/measurement.service';
+import { MeasurementService } from 'src/app/Services/measurement.service';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { EntryDialogComponent } from 'src/app/Popups/entry-dialog/entry-dialog.component';
-import { MeasurementType } from 'src/app/Services/mapster.client';
+import { MeasurementType, Measurement } from 'src/app/Services/mapster.client';
 import { PubSubService } from 'src/app/Services/pub-sub.service';
 
 @Component({
@@ -16,19 +16,21 @@ import { PubSubService } from 'src/app/Services/pub-sub.service';
 export class AreaMeasurementsComponent implements OnInit {
   areaId: string;
   measurementTypes: Array<MeasurementTypeExtended> = [];
-  constructor(private measurementTypeService: MeasurementTypeService, private measurementService: MeasurementService, 
+  constructor(private measurementTypeService: MeasurementTypeService, private measurementService: MeasurementService,
     private route: ActivatedRoute, private dialog: MatDialog, private pubsub: PubSubService) { }
 
   ngOnInit() {
-    this.route.params.subscribe(params =>{
-      if(params !== undefined){
+    this.route.params.subscribe(params => {
+      if (params !== undefined) {
         this.areaId = params["id"];
       }
     });
     this.measurementTypeService.GetMeasurementTypes();
+
+
     this.pubsub.$sub("Measuremet type List Updated").subscribe(result => {
       this.measurementTypes = [];
-      this.measurementTypeService.MeasurementTypes.forEach(mt =>{
+      this.measurementTypeService.MeasurementTypes.forEach(mt => {
         let newMType = new MeasurementTypeExtended({
           id: mt.id,
           measurementname: mt.measurementname,
@@ -36,7 +38,7 @@ export class AreaMeasurementsComponent implements OnInit {
         });
         newMType.isOpen = false;
         newMType.entries = [];
-  
+
         this.measurementTypes.push(newMType);
       });
     });
@@ -44,22 +46,22 @@ export class AreaMeasurementsComponent implements OnInit {
     // console.log(this.measurementTypeService.MeasurementTypes);
     // console.log(this.measurementTypes);
   }
-  ShowAdd(mt: MeasurementTypeExtended){
-    var dialogRef = this.dialog.open(EntryDialogComponent, {data: { Text: "Enter " + mt.measurementname}});
+  ShowAdd(mt: MeasurementTypeExtended) {
+    var dialogRef = this.dialog.open(EntryDialogComponent, { data: { Text: "Enter " + mt.measurementname } });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result !== undefined){
+      if (result !== undefined) {
         var newEntry = this.measurementService.Add(this.areaId, mt.id, result);
-        var measurementType = this.measurementTypes.find(m => m.id === newEntry.measurementTypeId );
-            if (measurementType !== undefined && (measurementType.isOpen || measurementType.entries.length > 0)){
-              measurementType.entries.unshift({
-                id: newEntry.id,
-                areaId: this.areaId,
-                measurementTypeId: newEntry.measurementTypeId, 
-                dateAdded: Date.now(),
-                measurement: newEntry.measurement
-              });
-            }
+        var measurementType = this.measurementTypes.find(m => m.id === newEntry.measurementtypeid);
+        if (measurementType !== undefined && (measurementType.isOpen || measurementType.entries.length > 0)) {
+          measurementType.entries.unshift(new Measurement({
+            id: newEntry.id,
+            areaid: this.areaId,
+            measurementtypeid: newEntry.measurementtypeid,
+            dateadded: new Date(),
+            measurement: newEntry.measurement
+          }));
+        }
         //var addedRef = this.measurementService.Add(this.areaId, mt.id, result);
 
         // addedRef.subscribe(result => {
@@ -74,20 +76,22 @@ export class AreaMeasurementsComponent implements OnInit {
         //         measurement: result.measurement
         //       });
         //     }
-           }
-        //})
+      }
+      //})
       // }
     });
   }
 
-  ShowHideMeasurements(mt: MeasurementTypeExtended){
+  ShowHideMeasurements(mt: MeasurementTypeExtended) {
     mt.isOpen = !mt.isOpen;
-    if(mt.isOpen && mt.entries.length === 0){
-      mt.entries = this.measurementService.Get(this.areaId, mt.id);
+    if (mt.isOpen && mt.entries.length === 0) {
+      this.measurementService.Get(this.areaId, mt.id).subscribe(result => {
+        mt.entries = result;
+      });
     }
   }
 }
-export class MeasurementTypeExtended extends MeasurementType{
+export class MeasurementTypeExtended extends MeasurementType {
   isOpen: boolean;
-  entries: Array<MeasurementModel>;
+  entries: Array<Measurement>;
 }

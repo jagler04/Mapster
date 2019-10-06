@@ -22,7 +22,10 @@
     <feature name="Device">
         <param name="ios-package" value="CDVDevice" />
     </feature>
-    <name>HelloCordova</name>
+    <feature name="NetworkStatus">
+        <param name="ios-package" value="CDVConnection" />
+    </feature>
+    <name>Saperr</name>
     <description>
         A sample Apache Cordova application that responds to the deviceready event.
     </description>

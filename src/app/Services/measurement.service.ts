@@ -1,38 +1,23 @@
 import { Injectable } from '@angular/core';
 import { Observable, observable, of } from 'rxjs';
 import { ConnectionService } from './connection.service';
+import { Measurement, GetClient, Client } from './mapster.client';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MeasurementService {
 
-  constructor(private connectionService: ConnectionService) { }
+  constructor(private connectionService: ConnectionService, private client: Client) { }
 
-  public Get(areaId: string, measurementTypeId: string): Array<MeasurementModel>{
-    var lst: Array<MeasurementModel> = this.Testing(areaId, measurementTypeId);
-
-    return lst;
+  public Get(areaId: string, measurementTypeId: string) {
+    return this.client.measurement(measurementTypeId,areaId);
   }
 
-  Testing(areaId: string, measurementTypeId: string){
-    var lst: Array<MeasurementModel> = [];
-
-    var pos = 0;
-    while(pos < 20){
-      lst.push({
-        id: (pos + 1).toString(),
-        areaId: areaId,
-        measurementTypeId: measurementTypeId,
-        dateAdded: Date.now(),
-        measurement: pos.toString()
-      });
-      pos ++;
-    }
-    return lst;
+  Testing(areaId: string, measurementTypeId: string) {
   }
 
-  public Add(areaId: string, measurementTypeId: string, value: string): MeasurementModel{
+  public Add(areaId: string, measurementTypeId: string, value: number): Measurement {
     // var connectionRef = this.connectionService.AddMeasurement({
     //   id: null,
     //   areaId: areaId,
@@ -44,19 +29,12 @@ export class MeasurementService {
     //   return result;
     // })
     //return  of<MeasurementModel | null>(<any>null);
-    return this.connectionService.AddMeasurement({
+    return this.connectionService.AddMeasurement(new Measurement({
       id: null,
-      areaId: areaId,
-      measurementTypeId: measurementTypeId, 
-      dateAdded: Date.now(),
+      areaid: areaId,
+      measurementtypeid: measurementTypeId,
+      dateadded: new Date(),
       measurement: value
-    });
+    }));
   }
-}
-export interface MeasurementModel {
-  id: string;
-  areaId: string;
-  measurementTypeId: string;
-  dateAdded: number;
-  measurement: string;
 }

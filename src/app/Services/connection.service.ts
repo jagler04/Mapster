@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { MeasurementModel } from './measurement.service';
 import { CordovaService } from './cordova.service';
+import { Measurement } from './mapster.client';
+declare var device;
+declare var navigator;
 
 @Injectable({
   providedIn: 'root'
@@ -9,21 +10,26 @@ import { CordovaService } from './cordova.service';
 export class ConnectionService {
 
   constructor(private cordova: CordovaService) {
-    
+
   }
 
-  public AddMeasurement(newMeasurement: MeasurementModel): MeasurementModel {
-    newMeasurement.id = "TETSDS";
+  public hasInternet() {
+    console.log(navigator);
+  }
 
-    if(this.cordova.cordova !== undefined && this.cordova.cordova.device.platform === "Android" 
-      || this.cordova.cordova.device.platform === "iOS"){
+  public AddMeasurement(newMeasurement: Measurement): Measurement {
+    return null;
+    // newMeasurement.id = "TETSDS";
 
-      console.log(this.cordova.cordova.device.platform);
-    }
-    else{
-      //GO DIRECTLY TO THE WEB SERVICE SKIP TRYING TO USE LOCAL DB
-    }
-    return newMeasurement;
+    // if(this.cordova.cordova !== undefined && this.cordova.cordova.device.platform === "Android" 
+    //   || this.cordova.cordova.device.platform === "iOS"){
+
+    //   console.log(this.cordova.cordova.device.platform);
+    // }
+    // else{
+    //   //GO DIRECTLY TO THE WEB SERVICE SKIP TRYING TO USE LOCAL DB
+    // }
+    // return newMeasurement;
 
   }
 }

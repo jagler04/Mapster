@@ -1,0 +1,150 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "cordova-mongodb-storage",
+        "scope": null,
+        "escapedName": "cordova-mongodb-storage",
+        "name": "cordova-mongodb-storage",
+        "rawSpec": "",
+        "spec": "latest",
+        "type": "tag"
+      },
+      "C:\\Users\\jagler\\Documents\\GitHub\\Mapster\\Mapster"
+    ]
+  ],
+  "_from": "cordova-mongodb-storage@latest",
+  "_hasShrinkwrap": false,
+  "_id": "cordova-mongodb-storage@0.1.10",
+  "_inCache": true,
+  "_location": "/cordova-mongodb-storage",
+  "_nodeVersion": "10.14.1",
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/cordova-mongodb-storage_0.1.10_1560194139432_0.12672028816229886"
+  },
+  "_npmUser": {
+    "name": "mikakrooswijk",
+    "email": "mikakrooswijk@gmail.com"
+  },
+  "_npmVersion": "6.5.0",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "cordova-mongodb-storage",
+    "scope": null,
+    "escapedName": "cordova-mongodb-storage",
+    "name": "cordova-mongodb-storage",
+    "rawSpec": "",
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/cordova-mongodb-storage/-/cordova-mongodb-storage-0.1.10.tgz",
+  "_shasum": "d0ce2ae83e84d718685fbd2b996bcdffd25f0681",
+  "_shrinkwrap": null,
+  "_spec": "cordova-mongodb-storage",
+  "_where": "C:\\Users\\jagler\\Documents\\GitHub\\Mapster\\Mapster",
+  "author": {
+    "name": "Mika Krooswijk"
+  },
+  "bugs": {
+    "url": "https://github.com/mikakrooswijk/cordova-mongodb-storage/issues"
+  },
+  "cordova": {
+    "id": "cordova-mongodb-storage",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "dependencies": {
+    "lodash": "^4.17.11",
+    "rxjs": "^6.5.2"
+  },
+  "description": "This plugin provides a mongodb local storage option to Cordova based applications.",
+  "devDependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.4",
+    "@babel/plugin-proposal-class-properties": "^7.4.4",
+    "@babel/plugin-proposal-object-rest-spread": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
+    "@babel/preset-typescript": "^7.3.3",
+    "@types/jest": "^24.0.12",
+    "@types/lodash": "^4.14.121",
+    "@types/node": "^10.12.3",
+    "@typescript-eslint/eslint-plugin": "^1.7.0",
+    "@typescript-eslint/parser": "^1.7.0",
+    "babel-plugin-lodash": "^3.3.4",
+    "eslint": "^5.16.0",
+    "eslint-plugin-import": "^2.17.2",
+    "husky": "^2.2.0",
+    "jest": "^24.7.1",
+    "lint-staged": "^8.1.5",
+    "rollup": "^1.10.1",
+    "rollup-plugin-babel": "^4.3.2",
+    "rollup-plugin-cleanup": "^3.1.1",
+    "rollup-plugin-commonjs": "^9.3.4",
+    "rollup-plugin-node-resolve": "^4.2.3",
+    "ts-jest": "^24.0.2",
+    "typescript": "^3.4.5"
+  },
+  "directories": {},
+  "dist": {
+    "integrity": "sha512-ygEqR6xosI/4cpCEvFxAXLDfl50RTpy2bpGfcFWwswKNGZvy/tEDcXaR5xX/EUbYqAa1rwFlKBxYdiiDClJ2SQ==",
+    "shasum": "d0ce2ae83e84d718685fbd2b996bcdffd25f0681",
+    "tarball": "https://registry.npmjs.org/cordova-mongodb-storage/-/cordova-mongodb-storage-0.1.10.tgz",
+    "fileCount": 7,
+    "unpackedSize": 44105,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJc/qxcCRA9TVsSAnZWagAAhGsP/2Eo/PX6Ri9tzAH4Agdt\nxEzr2UC3YnfQdxJpm9hs0lyvW1p2HwyI2nfUkWHfzhtlQNd7M+n12CDi6Des\nmPwNd0oE9AsdqeO3KUb5u5OA9+zVwtJkq7nfZeoeH0pZDvveyJqaiVWFw9F8\nRDKWVSzB4c5MdnS9caE4pHns3gKYmCn4pWm3+PON8lUE1FdY8NvdE2KH/j1f\n0sPR9nX0FizbjzS50+43wBvAIUlZVi6txS7FJD5x0Gb5PVRm/QHCrTFC9sn/\nFjzb3bo5UEHeOCJV1Auj2nLvoauAs3WLtFf+VTJNJrnF6s5/AzqJB7DyAltQ\ngJx99IVGiRR+TXTlu1LfV1DtvpxQRVIHCwds9Cq/vdfGhshQWYlvmupIy+f0\nYZU5JfBiTUFro6g4JZ75xyTuQ5CMLrKo/Z+hZESQc8EvPIjVHFkkkv7fdLXj\nj9zI163dMDzxjbBPnNeGfmNavzbtIlZ0/vpCKma37FsOi63gfT3tPQ+bGrTx\ne08fBle/9KzgVIayH3MtdpmYnKPYMC1QJ3t4E6dOaTT/ZeQwEZ6+EVwGXgny\nBW1ra4vcjMVwAbN8G2/J7O1wZlNA0JPtWHHgVXAA6sCTVtKMnrit01/XasO3\nq5oVpghanyhp2sUbsnGS3XeAoaQL4U13gaAWJL6y5WySuKPLvV05ZeadI1Gi\nBHxK\r\n=eI8f\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "engines": [
+    {
+      "name": "cordova",
+      "version": ">=3.0.0"
+    }
+  ],
+  "gitHead": "75a7268d2f765fc7f96509ea5639f1d74eac7651",
+  "homepage": "https://github.com/mikakrooswijk/cordova-mongodb-storage",
+  "keywords": [
+    "mongodb",
+    "plugin",
+    "stitchSDK",
+    "Mongodb mobile",
+    "cordova",
+    "phonegap",
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios"
+  ],
+  "license": "Apache-2.0",
+  "maintainers": [
+    {
+      "name": "mikakrooswijk",
+      "email": "mikakrooswijk@gmail.com"
+    }
+  ],
+  "name": "cordova-mongodb-storage",
+  "optionalDependencies": {},
+  "publishConfig": {
+    "access": "public"
+  },
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mikakrooswijk/cordova-mongodb-storage.git"
+  },
+  "scripts": {
+    "build": "npm run build:types && npm run build:js",
+    "build:js": "rollup -c",
+    "build:types": "tsc --emitDeclarationOnly",
+    "lint": "eslint typescript/**/*.ts",
+    "lint:fix": "npm run lint -- --fix",
+    "test": "jest",
+    "type-check": "tsc --noEmit",
+    "type-check:watch": "npm run type-check -- --watch"
+  },
+  "version": "0.1.10"
+}

@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Saperr.Models;
 using Saperr.Services;
-using System.Collections.Generic;
 
 namespace Saperr.Controllers
 {
@@ -13,26 +12,11 @@ namespace Saperr.Controllers
   {
     private readonly IAuthenticationService _authService;
     private readonly MeasurementService _measurementService;
-    private readonly AreaService _areaService;
 
-    public MeasurementController(IAuthenticationService authService, MeasurementService measurementService, AreaService areaService)
+    public MeasurementController(IAuthenticationService authService, MeasurementService measurementService)
     {
       _authService = authService;
       _measurementService = measurementService;
-      _areaService = areaService;
-
-    }
-
-    [HttpGet("{measurementTypeId}/{areaId}")]
-    public ActionResult<List<Measurement>> GetMeasurements(string measurementTypeId, string areaId)
-    {
-      var owner = _authService.GetIdFromRequest(Request);
-      var area = _areaService.Get(areaId);
-
-      if (area.owner != owner)
-        return Unauthorized();
-
-      return _measurementService.GetByMeasurementTypeAndArea(measurementTypeId, areaId);
     }
 
     [HttpPost(Name = "Create_Measurement")]

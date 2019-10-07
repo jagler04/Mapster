@@ -5,7 +5,6 @@ import { Area, User, Point, Location, GetClient, UpdateClient, CreateClient } fr
 import { AuthenticationService } from './authentication.service';
 import { StorageMap } from '@ngx-pwa/local-storage';
 import { ToolsService } from './tools.service';
-import { ConnectionService } from './connection.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +13,7 @@ export class AreaService {
 
   public Areas: Area[] = [];
   constructor(private toolsService: ToolsService, public pubsub: PubSubService, private getClient: GetClient, private updateClient: UpdateClient, private createClient: CreateClient,
-    private authService: AuthenticationService, private storageService: StorageMap, private connectionService: ConnectionService) {
+    private authService: AuthenticationService, private storageService: StorageMap) {
     this.Areas = [];
   }
 

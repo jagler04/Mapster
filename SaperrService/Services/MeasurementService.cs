@@ -32,7 +32,6 @@ namespace Saperr.Services
       return measurementType;
     }
     public List<MeasurementType> GetByOwner(string id) => _measurementTypes.Find(Mtype => Mtype.owner == id).ToList();
-    public List<Measurement> GetByMeasurementTypeAndArea(string measurementTypeId, string areaId) => _measurements.Find(m => m.areaid == areaId && m.measurementtypeid == measurementTypeId).ToList();
 
     public void Update(MeasurementType measurementType) => _measurementTypes.ReplaceOne(Mtype => Mtype.Id == measurementType.Id, measurementType);
 

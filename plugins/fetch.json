@@ -7,6 +7,14 @@
     "is_top_level": true,
     "variables": {}
   },
+  "cordova-mongodb-storage": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-mongodb-storage@^0.1.10"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
   "cordova-plugin-cocoapod-support": {
     "source": {
       "type": "registry",
@@ -27,14 +35,6 @@
     "source": {
       "type": "registry",
       "id": "cordova-plugin-device@^2.0.3"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
-  "cordova-plugin-network-information": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-network-information"
     },
     "is_top_level": true,
     "variables": {}

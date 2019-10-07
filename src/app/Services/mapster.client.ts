@@ -715,6 +715,74 @@ export class UpdateClient {
 }
 
 @Injectable()
+export class GraphClient {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    measurements(body: GraphMeasurementRequest | undefined): Observable<GraphData> {
+        let url_ = this.baseUrl + "/api/Graph";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processMeasurements(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processMeasurements(<any>response_);
+                } catch (e) {
+                    return <Observable<GraphData>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GraphData>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processMeasurements(response: HttpResponseBase): Observable<GraphData> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GraphData.fromJS(resultData200) : new GraphData();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GraphData>(<any>null);
+    }
+}
+
+@Injectable()
 export class Client {
     private http: HttpClient;
     private baseUrl: string;
@@ -834,74 +902,6 @@ export class Client {
             }));
         }
         return _observableOf<string[]>(<any>null);
-    }
-}
-
-@Injectable()
-export class GraphClient {
-    private http: HttpClient;
-    private baseUrl: string;
-    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
-
-    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
-        this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : "";
-    }
-
-    /**
-     * @param body (optional) 
-     * @return Success
-     */
-    measurements(body: GraphMeasurementRequest | undefined): Observable<GraphData> {
-        let url_ = this.baseUrl + "/api/Measurement";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json", 
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processMeasurements(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processMeasurements(<any>response_);
-                } catch (e) {
-                    return <Observable<GraphData>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<GraphData>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processMeasurements(response: HttpResponseBase): Observable<GraphData> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? GraphData.fromJS(resultData200) : new GraphData();
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<GraphData>(<any>null);
     }
 }
 
@@ -1109,162 +1109,6 @@ export interface IArea {
     points?: Point[];
 }
 
-export class User implements IUser {
-    id?: string;
-    username?: string;
-    email?: string;
-    password?: string;
-    companyname?: string;
-    premium?: boolean;
-
-    constructor(data?: IUser) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.id = data["id"];
-            this.username = data["username"];
-            this.email = data["email"];
-            this.password = data["password"];
-            this.companyname = data["companyname"];
-            this.premium = data["premium"];
-        }
-    }
-
-    static fromJS(data: any): User {
-        data = typeof data === 'object' ? data : {};
-        let result = new User();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["username"] = this.username;
-        data["email"] = this.email;
-        data["password"] = this.password;
-        data["companyname"] = this.companyname;
-        data["premium"] = this.premium;
-        return data; 
-    }
-}
-
-export interface IUser {
-    id?: string;
-    username?: string;
-    email?: string;
-    password?: string;
-    companyname?: string;
-    premium?: boolean;
-}
-
-export class Measurement implements IMeasurement {
-    id?: string;
-    areaid?: string;
-    measurementtypeid?: string;
-    dateadded?: Date;
-    measurement?: number;
-
-    constructor(data?: IMeasurement) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.id = data["id"];
-            this.areaid = data["areaid"];
-            this.measurementtypeid = data["measurementtypeid"];
-            this.dateadded = data["dateadded"] ? new Date(data["dateadded"].toString()) : <any>undefined;
-            this.measurement = data["measurement"];
-        }
-    }
-
-    static fromJS(data: any): Measurement {
-        data = typeof data === 'object' ? data : {};
-        let result = new Measurement();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["areaid"] = this.areaid;
-        data["measurementtypeid"] = this.measurementtypeid;
-        data["dateadded"] = this.dateadded ? this.dateadded.toISOString() : <any>undefined;
-        data["measurement"] = this.measurement;
-        return data; 
-    }
-}
-
-export interface IMeasurement {
-    id?: string;
-    areaid?: string;
-    measurementtypeid?: string;
-    dateadded?: Date;
-    measurement?: number;
-}
-
-export class MeasurementType implements IMeasurementType {
-    id?: string;
-    owner?: string;
-    measurementname?: string;
-    units?: string;
-
-    constructor(data?: IMeasurementType) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.id = data["id"];
-            this.owner = data["owner"];
-            this.measurementname = data["measurementname"];
-            this.units = data["units"];
-        }
-    }
-
-    static fromJS(data: any): MeasurementType {
-        data = typeof data === 'object' ? data : {};
-        let result = new MeasurementType();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["owner"] = this.owner;
-        data["measurementname"] = this.measurementname;
-        data["units"] = this.units;
-        return data; 
-    }
-}
-
-export interface IMeasurementType {
-    id?: string;
-    owner?: string;
-    measurementname?: string;
-    units?: string;
-}
-
 export class GraphMeasurementRequest implements IGraphMeasurementRequest {
     startDate?: Date;
     endDate?: Date;
@@ -1437,6 +1281,162 @@ export class GraphData implements IGraphData {
 export interface IGraphData {
     measurements?: GraphDataObject[];
     labels?: string[];
+}
+
+export class User implements IUser {
+    id?: string;
+    username?: string;
+    email?: string;
+    password?: string;
+    companyname?: string;
+    premium?: boolean;
+
+    constructor(data?: IUser) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.username = data["username"];
+            this.email = data["email"];
+            this.password = data["password"];
+            this.companyname = data["companyname"];
+            this.premium = data["premium"];
+        }
+    }
+
+    static fromJS(data: any): User {
+        data = typeof data === 'object' ? data : {};
+        let result = new User();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["username"] = this.username;
+        data["email"] = this.email;
+        data["password"] = this.password;
+        data["companyname"] = this.companyname;
+        data["premium"] = this.premium;
+        return data; 
+    }
+}
+
+export interface IUser {
+    id?: string;
+    username?: string;
+    email?: string;
+    password?: string;
+    companyname?: string;
+    premium?: boolean;
+}
+
+export class Measurement implements IMeasurement {
+    id?: string;
+    areaid?: string;
+    measurementtypeid?: string;
+    dateadded?: Date;
+    measurement?: number;
+
+    constructor(data?: IMeasurement) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.areaid = data["areaid"];
+            this.measurementtypeid = data["measurementtypeid"];
+            this.dateadded = data["dateadded"] ? new Date(data["dateadded"].toString()) : <any>undefined;
+            this.measurement = data["measurement"];
+        }
+    }
+
+    static fromJS(data: any): Measurement {
+        data = typeof data === 'object' ? data : {};
+        let result = new Measurement();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["areaid"] = this.areaid;
+        data["measurementtypeid"] = this.measurementtypeid;
+        data["dateadded"] = this.dateadded ? this.dateadded.toISOString() : <any>undefined;
+        data["measurement"] = this.measurement;
+        return data; 
+    }
+}
+
+export interface IMeasurement {
+    id?: string;
+    areaid?: string;
+    measurementtypeid?: string;
+    dateadded?: Date;
+    measurement?: number;
+}
+
+export class MeasurementType implements IMeasurementType {
+    id?: string;
+    owner?: string;
+    measurementname?: string;
+    units?: string;
+
+    constructor(data?: IMeasurementType) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.owner = data["owner"];
+            this.measurementname = data["measurementname"];
+            this.units = data["units"];
+        }
+    }
+
+    static fromJS(data: any): MeasurementType {
+        data = typeof data === 'object' ? data : {};
+        let result = new MeasurementType();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["owner"] = this.owner;
+        data["measurementname"] = this.measurementname;
+        data["units"] = this.units;
+        return data; 
+    }
+}
+
+export interface IMeasurementType {
+    id?: string;
+    owner?: string;
+    measurementname?: string;
+    units?: string;
 }
 
 export class SwaggerException extends Error {

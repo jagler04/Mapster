@@ -35,6 +35,7 @@ namespace Mapster
       services.AddSingleton<AreaService>();
       services.AddSingleton<IAuthenticationService, AuthenticationService>();
       services.AddSingleton<MeasurementService>();
+      services.AddSingleton<GraphService>();
 
       services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
           .AddJwtBearer(options =>

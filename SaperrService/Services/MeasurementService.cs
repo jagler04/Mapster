@@ -33,8 +33,11 @@ namespace Saperr.Services
     }
     public List<MeasurementType> GetByOwner(string id) => _measurementTypes.Find(Mtype => Mtype.owner == id).ToList();
 
-    public void Update(MeasurementType measurementType) => _measurementTypes.ReplaceOne(Mtype => Mtype.Id == measurementType.Id, measurementType);
+    public void UpdateMeasurementType(MeasurementType measurementType) => _measurementTypes.ReplaceOne(Mtype => Mtype.Id == measurementType.Id, measurementType);
+    public void UpdateMeasurement(Measurement measurement) => _measurements.ReplaceOne(m => m.Id == measurement.Id, measurement);
+    public void DeleteMeasurement(Measurement measurement) => _measurements.DeleteOne(m => m.Id == measurement.Id);
 
-    
+    public List<Measurement> GetMeasurements(string areaId, string measurementTypeId) => _measurements.Find(m => m.areaid == areaId && m.measurementtypeid == measurementTypeId).ToList();
+
   }
 }

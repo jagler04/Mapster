@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Saperr.Models;
 using Saperr.Services;
+using System.Collections.Generic;
 
 namespace Saperr.Controllers
 {
@@ -19,6 +20,12 @@ namespace Saperr.Controllers
       _measurementService = measurementService;
     }
 
+    [HttpGet(Name = "Get_Measurement")]
+    public ActionResult<List<Measurement>> GetMeasurements(string areaId, string measurementTypeId)
+    {
+      return _measurementService.GetMeasurements(areaId, measurementTypeId);
+    }
+
     [HttpPost(Name = "Create_Measurement")]
     public ActionResult<Measurement> CreateMeasurement([FromBody] Measurement measurement)
     {
@@ -26,15 +33,22 @@ namespace Saperr.Controllers
     }
 
     [HttpPut(Name = "Update_Measurement")]
-    public ActionResult<MeasurementType> UpdateMeasurement([FromBody]Measurement measurement)
+    public ActionResult<Measurement> UpdateMeasurement([FromBody]Measurement measurement)
     {
-      return null;
+      _measurementService.UpdateMeasurement(measurement); 
+      return measurement;
       //var owner = _authService.GetIdFromRequest(Request);
       //if (measurement.owner != owner)
       //  return Unauthorized();
 
       //_measurementService.Update(measurement);
       //return measurement;
+    }
+    [HttpDelete(Name = "Delete_Measurement")]
+    public ActionResult DeleteMeasurement([FromBody] Measurement measurement)
+    {
+      _measurementService.DeleteMeasurement(measurement);
+      return Ok();
     }
 
   }

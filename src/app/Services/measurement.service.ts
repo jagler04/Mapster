@@ -1,62 +1,80 @@
 import { Injectable } from '@angular/core';
 import { Observable, observable, of } from 'rxjs';
-import { ConnectionService } from './connection.service';
+import { AuthenticationService } from './authentication.service';
+import { CreateClient, UpdateClient, GetClient, Measurement } from './mapster.client';
+import { StorageMap } from '@ngx-pwa/local-storage';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MeasurementService {
 
-  constructor(private connectionService: ConnectionService) { }
+  constructor(private authService: AuthenticationService, private createClient:CreateClient, private updateClient: UpdateClient,
+    private getClient: GetClient, private storageService: StorageMap) { }
 
-  public Get(areaId: string, measurementTypeId: string): Array<MeasurementModel>{
-    var lst: Array<MeasurementModel> = this.Testing(areaId, measurementTypeId);
+  public Get(areaId: string, measurementTypeId: string): Observable<Array<Measurement>>{
+    if(this.authService.LoginSkipped){
+      this.storageService.get("SAPPER-Measurements").subscribe((result: Array<Measurement>) => {
+        return of(result);
+      });
+    }
+    else{
+      return this.getClient.measurement(areaId, measurementTypeId);
+    }
 
-    return lst;
   }
 
   Testing(areaId: string, measurementTypeId: string){
-    var lst: Array<MeasurementModel> = [];
+    var lst: Array<Measurement> = [];
 
     var pos = 0;
     while(pos < 20){
-      lst.push({
+      lst.push(new Measurement({
         id: (pos + 1).toString(),
-        areaId: areaId,
-        measurementTypeId: measurementTypeId,
-        dateAdded: Date.now(),
-        measurement: pos.toString()
-      });
+        areaid: areaId,
+        measurementtypeid: measurementTypeId,
+        dateadded: new Date(),
+        measurement: pos
+      }));
       pos ++;
     }
     return lst;
   }
 
-  public Add(areaId: string, measurementTypeId: string, value: string): MeasurementModel{
-    // var connectionRef = this.connectionService.AddMeasurement({
-    //   id: null,
-    //   areaId: areaId,
-    //   measurementTypeId: measurementTypeId, 
-    //   dateAdded: Date.now(),
-    //   measurement: value
-    // });
-    // connectionRef.subscribe(result => {
-    //   return result;
-    // })
-    //return  of<MeasurementModel | null>(<any>null);
-    return this.connectionService.AddMeasurement({
-      id: null,
-      areaId: areaId,
-      measurementTypeId: measurementTypeId, 
-      dateAdded: Date.now(),
-      measurement: value
-    });
+  public Add(areaId: string, measurementTypeId: string, value: string): Observable<Measurement>{
+    this.storageService.get("SAPPER-Measurements").subscribe((result: Array<Measurement>) => {
+      result.push(new Measurement({
+        id: null,
+        areaid: areaId,
+        measurementtypeid: measurementTypeId, 
+        dateadded: new Date(),
+        measurement: Number.parseFloat(value)
+      }));
+      this.storageService.set("SAPPER-Measurements", result).subscribe(result => {
+
+      });
+    })
+
+    if(!this.authService.LoginSkipped){
+      var addMeasurement = this.createClient.measurement(new Measurement({
+        id: null,
+        areaid: areaId,
+        measurementtypeid: measurementTypeId, 
+        dateadded: new Date(),
+        measurement: Number.parseFloat(value)
+      }));
+      addMeasurement.subscribe(result =>{
+
+      }, error => {});
+      return addMeasurement;
+    }
+
   }
 }
-export interface MeasurementModel {
-  id: string;
-  areaId: string;
-  measurementTypeId: string;
-  dateAdded: number;
-  measurement: string;
-}
+// export interface MeasurementModel {
+//   id: string;
+//   areaId: string;
+//   measurementTypeId: string;
+//   dateAdded: number;
+//   measurement: string;
+// }

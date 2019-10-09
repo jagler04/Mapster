@@ -43,7 +43,7 @@ namespace Saperr.Controllers
       if (measurementType.owner != owner)
         return Unauthorized();
 
-      _measurementService.Update(measurementType);
+      _measurementService.UpdateMeasurementType(measurementType);
       return measurementType;
     }
 

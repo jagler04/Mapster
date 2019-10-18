@@ -13,15 +13,38 @@ export class MeasurementService {
     private getClient: GetClient, private storageService: StorageMap) { }
 
   public Get(areaId: string, measurementTypeId: string): Observable<Array<Measurement>>{
-    if(this.authService.LoginSkipped){
-      this.storageService.get("SAPPER-Measurements").subscribe((result: Array<Measurement>) => {
-        return of(result);
-      });
-    }
-    else{
+    if(!this.authService.LoginSkipped && this.authService.isPremium){
       return this.getClient.measurement(areaId, measurementTypeId);
     }
+    else{
+      this.storageService.get("SAPPER-Measurements").subscribe((result: Array<Measurement>) => {
+        var specifiedMeasurements: Array<Measurement> = [];
+        result.forEach(e => {
+          if(e.areaid == areaId && e.measurementtypeid == measurementTypeId){
+            specifiedMeasurements.push(e);
+          }
+        });
+        return of(specifiedMeasurements);
+      });
+    }
 
+  }
+  public GetAllByMeasurementType(measurementTypeId: string): Observable<Array<Measurement>> {
+    if(!this.authService.LoginSkipped && this.authService.isPremium){
+      //return this.getClient.measurement(1, measurementTypeId);
+      return of();
+    }
+    else{
+      this.storageService.get("SAPPER-Measurements").subscribe((result: Array<Measurement>) => {
+        var specifiedMeasurements: Array<Measurement> = [];
+        result.forEach(e => {
+          if( e.measurementtypeid == measurementTypeId){
+            specifiedMeasurements.push(e);
+          }
+        });
+        return of(specifiedMeasurements);
+      });
+    }
   }
 
   Testing(areaId: string, measurementTypeId: string){
@@ -42,7 +65,7 @@ export class MeasurementService {
   }
 
   public Add(areaId: string, measurementTypeId: string, value: string): Observable<Measurement>{
-    this.storageService.get("SAPPER-Measurements").subscribe((result: Array<Measurement>) => {
+    this.storageService.get("SAPPER-Measurements-Queue").subscribe((result: Array<Measurement>) => {
       result.push(new Measurement({
         id: null,
         areaid: areaId,
@@ -50,7 +73,7 @@ export class MeasurementService {
         dateadded: new Date(),
         measurement: Number.parseFloat(value)
       }));
-      this.storageService.set("SAPPER-Measurements", result).subscribe(result => {
+      this.storageService.set("SAPPER-Measurements-Queue", result).subscribe(result => {
 
       });
     })

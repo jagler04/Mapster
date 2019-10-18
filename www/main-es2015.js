@@ -293,7 +293,7 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"graphService.TypeSettings.get(MeasurementTypeId).Visible\" class=\"card graphControl\">\n    <h4 class=\"card-title\">{{MeasurementName}}</h4>\n    <a class=\"icon\"><i class=\"material-icons\">settings</i></a>\n    <div style=\"display: block\">\n        <canvas baseChart\n                [datasets]=\"barChartData\"\n                [labels]=\"barChartLabels\"\n                [options]=\"barChartOptions\"\n                [legend]=\"barChartLegend\"\n                [chartType]=\"graphService.TypeSettings.get(MeasurementTypeId).GraphStyle\">\n        </canvas>\n    </div>\n</div>"
+module.exports = "<div *ngIf=\"graphService.TypeSettings.get(MeasurementTypeId).Visible\" class=\"card graphControl\">\n    <h4 class=\"card-title\">{{MeasurementName}}</h4>\n    <a class=\"icon\"><i class=\"material-icons\">filter_list</i></a>\n    <div style=\"display: block\">\n        <canvas baseChart\n                [datasets]=\"barChartData\"\n                [labels]=\"barChartLabels\"\n                [options]=\"barChartOptions\"\n                [legend]=\"barChartLegend\"\n                [chartType]=\"graphService.TypeSettings.get(MeasurementTypeId).GraphStyle\">\n        </canvas>\n    </div>\n</div>"
 
 /***/ }),
 
@@ -326,7 +326,7 @@ module.exports = "<div class=\"map\" *ngIf=\"options != null\" style=\"height: 1
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngFor=\"let mt of measurementTypes\">\r\n    <div  class=\"measurementItem\">\r\n        <span><b>{{mt.measurementname}}</b></span>\r\n        <a class=\"btn-flat AlignRight\" (click)=\"ShowHideMeasurements(mt)\" *ngIf=\"mt.isOpen\"><i class=\"material-icons\">arrow_drop_down</i></a>\r\n        <a class=\"btn-flat AlignRight\" (click)=\"ShowHideMeasurements(mt)\" *ngIf=\"!mt.isOpen\"><i class=\"material-icons\">arrow_drop_up</i></a>\r\n        <a class=\"btn-small waves-effect waves-light AlignRight\" (click)=\"ShowAdd(mt)\"><i class=\"material-icons\">add</i></a>\r\n    </div>\r\n\r\n    <div *ngIf=\"mt.isOpen\">\r\n        <div *ngFor=\"let entry of mt.entries\">\r\n            <span class=\"date\"><b>Date: </b>{{entry.dateAdded |  date:'short'}}</span>\r\n            <span class=\"measurement\"><b>Measurement: </b>{{entry.measurement}} {{mt.units}}</span>\r\n        </div>\r\n    </div>\r\n    \r\n</div>\r\n"
+module.exports = "<div *ngFor=\"let mt of measurementTypes\">\r\n    <div  class=\"measurementItem\">\r\n        <span><b>{{mt.measurementname}}</b></span>\r\n        <a class=\"btn-flat AlignRight\" (click)=\"ShowHideMeasurements(mt)\" *ngIf=\"mt.isOpen\"><i class=\"material-icons\">arrow_drop_down</i></a>\r\n        <a class=\"btn-flat AlignRight\" (click)=\"ShowHideMeasurements(mt)\" *ngIf=\"!mt.isOpen\"><i class=\"material-icons\">arrow_drop_up</i></a>\r\n        <a class=\"btn-small waves-effect waves-light AlignRight\" (click)=\"ShowAdd(mt)\"><i class=\"material-icons\">add</i></a>\r\n    </div>\r\n\r\n    <div *ngIf=\"mt.isOpen\">\r\n        <div *ngFor=\"let entry of mt.entries\">\r\n            <span class=\"date\"><b>Date: </b>{{entry.dateadded |  date:'short'}}</span>\r\n            <span class=\"measurement\"><b>Measurement: </b>{{entry.measurement}} {{mt.units}}</span>\r\n        </div>\r\n    </div>\r\n    \r\n</div>\r\n"
 
 /***/ }),
 
@@ -534,8 +534,9 @@ let GraphControlComponent = class GraphControlComponent {
         this.MeasurementName = this.measurementTypeService.Get(this.measurementTypeId).measurementname;
         var graphItem = this.graphService.TypeSettings.get(this.MeasurementTypeId);
         this.graphService.GetMeasurements(this.measurementTypeId, new Date(), new Date(), "DAY").subscribe(result => {
-            this.barChartData = this.graphService.TypeSettings.get(this.MeasurementTypeId).Measurements;
-            this.barChartLabels = this.graphService.TypeSettings.get(this.MeasurementTypeId).Labels;
+            console.log(result);
+            // this.barChartData = this.graphService.TypeSettings.get(this.MeasurementTypeId).Measurements;
+            // this.barChartLabels = this.graphService.TypeSettings.get(this.MeasurementTypeId).Labels;
         });
     }
 };
@@ -989,6 +990,7 @@ let AreaMeasurementsComponent = class AreaMeasurementsComponent {
         mt.isOpen = !mt.isOpen;
         if (mt.isOpen && mt.entries.length === 0) {
             this.measurementService.Get(this.areaId, mt.id).subscribe(result => {
+                console.log(result[0].dateadded.toDateString());
                 mt.entries = result;
             });
         }
@@ -1686,6 +1688,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _authentication_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./authentication.service */ "./src/app/Services/authentication.service.ts");
 /* harmony import */ var _ngx_pwa_local_storage__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @ngx-pwa/local-storage */ "./node_modules/@ngx-pwa/local-storage/fesm2015/ngx-pwa-local-storage.js");
 /* harmony import */ var _tools_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./tools.service */ "./src/app/Services/tools.service.ts");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm2015/index.js");
+
 
 
 
@@ -1706,15 +1710,19 @@ let AreaService = class AreaService {
         this.Areas = [];
     }
     getAreas() {
-        if (this.authService.LoginSkipped) {
+        if (this.authService.LoginSkipped || !this.authService.isPremium) {
             this.storageService.get('SAPPER-Areas').subscribe((result) => {
                 this.Areas = result;
+                return Object(rxjs__WEBPACK_IMPORTED_MODULE_7__["of"])(result);
             });
         }
         else {
-            this.getClient.areas().subscribe(x => {
+            var obGetAreas = this.getClient.areas();
+            obGetAreas.subscribe(x => {
                 this.Areas = x;
+                return x;
             });
+            return obGetAreas;
         }
     }
     CreateNewArea(path, areaName) {
@@ -1733,7 +1741,7 @@ let AreaService = class AreaService {
             }));
             pos++;
         }
-        if (this.authService.LoginSkipped) {
+        if (this.authService.LoginSkipped || !this.authService.isPremium) {
             newAreaDB.id = this.toolsService.uuidv4();
             this.Areas.push(newAreaDB);
             this.storageService.set('SAPPER-Areas', this.Areas).subscribe(result => {
@@ -1759,6 +1767,25 @@ let AreaService = class AreaService {
                 console.log('update complete!');
             });
         }
+    }
+    GetAreaNameById(id) {
+        if (this.Areas.length === 0) {
+            this.getAreas().subscribe(result => {
+                result.forEach(a => {
+                    if (a.id === id) {
+                        return a.areaname;
+                    }
+                });
+            });
+        }
+        else {
+            this.Areas.forEach(a => {
+                if (a.id === id) {
+                    return a.areaname;
+                }
+            });
+        }
+        return "";
     }
 };
 AreaService.ctorParameters = () => [
@@ -1806,7 +1833,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let AuthenticationService = class AuthenticationService {
-    //public IsAuthenticated: boolean;
     constructor(pubsub, dialog, backendClient) {
         this.pubsub = pubsub;
         this.dialog = dialog;
@@ -1817,7 +1843,12 @@ let AuthenticationService = class AuthenticationService {
             email: email,
             password: password
         });
-        return this.backendClient.login(user);
+        var retrieveToken = this.backendClient.login(user);
+        retrieveToken.subscribe(result => {
+            var decoded = jwt_decode__WEBPACK_IMPORTED_MODULE_5__(result);
+            this.isPremium = decoded.premium;
+        });
+        return retrieveToken;
     }
     Logout() {
         this.pubsub.$pub("LoggedOut");
@@ -1873,9 +1904,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
 /* harmony import */ var _measurement_type_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./measurement-type.service */ "./src/app/Services/measurement-type.service.ts");
-/* harmony import */ var _ngx_pwa_local_storage__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @ngx-pwa/local-storage */ "./node_modules/@ngx-pwa/local-storage/fesm2015/ngx-pwa-local-storage.js");
-/* harmony import */ var _mapster_client__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./mapster.client */ "./src/app/Services/mapster.client.ts");
-/* harmony import */ var _area_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./area.service */ "./src/app/Services/area.service.ts");
+/* harmony import */ var _measurement_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./measurement.service */ "./src/app/Services/measurement.service.ts");
+/* harmony import */ var _ngx_pwa_local_storage__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @ngx-pwa/local-storage */ "./node_modules/@ngx-pwa/local-storage/fesm2015/ngx-pwa-local-storage.js");
+/* harmony import */ var _mapster_client__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./mapster.client */ "./src/app/Services/mapster.client.ts");
+/* harmony import */ var _area_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./area.service */ "./src/app/Services/area.service.ts");
+/* harmony import */ var _pub_sub_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./pub-sub.service */ "./src/app/Services/pub-sub.service.ts");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm2015/index.js");
+/* harmony import */ var _authentication_service__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./authentication.service */ "./src/app/Services/authentication.service.ts");
+
+
+
+
 
 
 
@@ -1883,23 +1922,31 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let GraphServiceService = class GraphServiceService {
-    constructor(measurementTypeService, areaService, storageService, graphClient) {
+    constructor(measurementTypeService, areaService, storageService, graphClient, pubsub, authService, measurementService) {
+        //MAYBE LOAD FROM Local preferences for graph type? 
         this.measurementTypeService = measurementTypeService;
         this.areaService = areaService;
         this.storageService = storageService;
         this.graphClient = graphClient;
+        this.pubsub = pubsub;
+        this.authService = authService;
+        this.measurementService = measurementService;
         this.TypeSettings = new Map();
-        //MAYBE LOAD FROM Local preferences for graph type? 
-        this.measurementTypeService.MeasurementTypes.forEach(mt => {
-            var gs = { GraphStyle: 'bar', Visible: true, Measurements: [], Labels: [], InvisibleAreas: [] };
-            this.TypeSettings.set(mt.id, gs);
+        this.pubsub.$sub("Measuremet type List Updated").subscribe(result => {
+            this.measurementTypeService.MeasurementTypes.forEach(mt => {
+                var gs = { GraphStyle: 'bar', Visible: true, Measurements: [], Labels: [], InvisibleAreas: [] };
+                this.TypeSettings.set(mt.id, gs);
+            });
+            this.storageService.get("SAPPER-Graph-Settings").subscribe((response) => this.SetSettings(response));
         });
-        this.storageService.get("SAPPER-Graph-Settings").subscribe((response) => this.SetSettings(response));
     }
     SetSettings(response) {
         if (response !== undefined) {
             var settings = response;
             response.forEach(itm => {
+                if (!this.TypeSettings.has(itm.MeasurementTypeId)) {
+                    this.TypeSettings.set(itm.MeasurementTypeId, { GraphStyle: itm.GraphStyle, Visible: itm.Visible, Measurements: [], Labels: [], InvisibleAreas: [] });
+                }
                 this.TypeSettings.get(itm.MeasurementTypeId).GraphStyle = itm.GraphStyle;
                 this.TypeSettings.get(itm.MeasurementTypeId).Visible = itm.Visible;
             });
@@ -1934,23 +1981,248 @@ let GraphServiceService = class GraphServiceService {
                 }
             });
         });
-        return this.graphClient.measurements(new _mapster_client__WEBPACK_IMPORTED_MODULE_4__["GraphMeasurementRequest"]({ startDate: starting, endDate: ending, measurementTypeId: measurementTypId, groupBy: grouping, areas: visibleAreas }));
+        var request = new _mapster_client__WEBPACK_IMPORTED_MODULE_5__["GraphMeasurementRequest"]({ startDate: starting, endDate: ending, measurementTypeId: measurementTypId, groupBy: grouping, areas: visibleAreas });
+        if (!this.authService.LoginSkipped && this.authService.isPremium) {
+            return this.graphClient.measurements(request);
+        }
+        else {
+            this.measurementService.GetAllByMeasurementType(request.measurementTypeId).subscribe(result => { return this.GenerateDataGroups(request, result); });
+        }
         // this.TypeSettings.get(measurementTypeId).Measurements = [{data: [21,32,21,66], label:"Area 1"}, {data: [22,31,21,63], label:"Area 2"},
         // {data: [22,31,21,63], label:"Area 3"}, {data: [22,31,21,63], label:"Area 4"}, {data: [22,31,21,63], label:"Area 5"}, {data: [22,31,21,63], label:"Area 6"}];
         // this.TypeSettings.get(measurementTypeId).Labels = ["9/17/2019", "9/18/2019", "9/19/2019", "9/20/2019"];
     }
+    GenerateDataGroups(request, measurements) {
+        var returnData = new _mapster_client__WEBPACK_IMPORTED_MODULE_5__["GraphData"]();
+        returnData.labels = [];
+        var areaGraphDataObject = new Map();
+        //Fill map with areas and blank arrays
+        request.areas.forEach(id => {
+            if (!areaGraphDataObject.has(id)) {
+                areaGraphDataObject.set(id, new _mapster_client__WEBPACK_IMPORTED_MODULE_5__["GraphDataObject"]({ data: new Array(), label: this.areaService.GetAreaNameById(id) }));
+            }
+        });
+        if (request.groupBy == "Hour") {
+            var currentHour = request.startDate;
+            while (currentHour <= request.endDate) {
+                var prevHour = currentHour;
+                returnData.labels.push(this.formatHourDate(prevHour));
+                currentHour.setTime(currentHour.getTime() + (1 * 60 * 60 * 1000));
+                var areaMap = new Map();
+                var endDate = request.endDate;
+                if (currentHour < request.endDate) {
+                    endDate = currentHour;
+                }
+                measurements.forEach(m => {
+                    if (m.dateadded >= prevHour && m.dateadded < endDate) {
+                        if (areaMap.has(m.areaid)) {
+                            areaMap.set(m.areaid, areaMap.get(m.areaid) + m.measurement);
+                        }
+                        else {
+                            areaMap.set(m.areaid, m.measurement);
+                        }
+                    }
+                });
+                for (var item of areaMap) {
+                    var gd = areaGraphDataObject.get(item[0]);
+                    gd.data.push(item[1]);
+                    areaGraphDataObject.set(item[0], gd);
+                }
+            }
+        }
+        else if (request.groupBy == "Day") {
+            var currentDay = request.startDate;
+            currentDay.setHours(0, 0, 0, 0);
+            while (currentDay <= request.endDate) {
+                var prevDay = currentDay;
+                prevDay.setHours(23, 59, 59, 59);
+                returnData.labels.push(this.formatDayDate(prevDay));
+                currentDay.setDate(1);
+                var areaMap = new Map();
+                var endDate = request.endDate;
+                if (currentDay < request.endDate) {
+                    endDate = currentDay;
+                }
+                measurements.forEach(m => {
+                    if (m.dateadded >= prevDay && m.dateadded < endDate) {
+                        if (areaMap.has(m.areaid)) {
+                            areaMap.set(m.areaid, areaMap.get(m.areaid) + m.measurement);
+                        }
+                        else {
+                            areaMap.set(m.areaid, m.measurement);
+                        }
+                    }
+                });
+                for (var item of areaMap) {
+                    var gd = areaGraphDataObject.get(item[0]);
+                    gd.data.push(item[1]);
+                    areaGraphDataObject.set(item[0], gd);
+                }
+            }
+        }
+        else if (request.groupBy == "Week") {
+            var currentWeek = request.startDate;
+            currentWeek.setHours(0, 0, 0, 0);
+            while (this.getDayOfTheWeek(currentWeek) != "Sunday") {
+                currentWeek.setDate(-1);
+            }
+            request.endDate.setHours(0, 0, 0, 0);
+            while (this.getDayOfTheWeek(request.endDate) != "Sunday") {
+                request.endDate.setDate(1);
+            }
+            while (currentWeek <= request.endDate) {
+                var prevWeek = currentWeek;
+                returnData.labels.push(this.formatWeekDate(prevWeek));
+                currentWeek.setDate(7);
+                var areaMap = new Map();
+                var endDate = request.endDate;
+                if (currentWeek < request.endDate) {
+                    endDate = currentDay;
+                }
+                measurements.forEach(m => {
+                    if (m.dateadded >= prevWeek && m.dateadded < endDate) {
+                        if (areaMap.has(m.areaid)) {
+                            areaMap.set(m.areaid, areaMap.get(m.areaid) + m.measurement);
+                        }
+                        else {
+                            areaMap.set(m.areaid, m.measurement);
+                        }
+                    }
+                });
+                for (var item of areaMap) {
+                    var gd = areaGraphDataObject.get(item[0]);
+                    gd.data.push(item[1]);
+                    areaGraphDataObject.set(item[0], gd);
+                }
+            }
+        }
+        else if (request.groupBy == "Month") {
+            var currentMonth = request.startDate;
+            currentMonth.setHours(0, 0, 0, 0);
+            while (currentMonth.getDate() != 1) {
+                currentMonth.setDate(-1);
+            }
+            request.endDate.setHours(0, 0, 0, 0);
+            while (request.endDate.getDate() != 1) {
+                request.endDate.setDate(1);
+            }
+            while (currentMonth < request.endDate) {
+                var prevMonth = currentMonth;
+                returnData.labels.push(this.formatMonthDate(prevMonth));
+                currentMonth.setMonth(1);
+                var areaMap = new Map();
+                var endDate = request.endDate;
+                if (currentMonth < request.endDate) {
+                    endDate = currentDay;
+                }
+                measurements.forEach(m => {
+                    if (m.dateadded >= prevMonth && m.dateadded < endDate) {
+                        if (areaMap.has(m.areaid)) {
+                            areaMap.set(m.areaid, areaMap.get(m.areaid) + m.measurement);
+                        }
+                        else {
+                            areaMap.set(m.areaid, m.measurement);
+                        }
+                    }
+                });
+                for (var item of areaMap) {
+                    var gd = areaGraphDataObject.get(item[0]);
+                    gd.data.push(item[1]);
+                    areaGraphDataObject.set(item[0], gd);
+                }
+            }
+        }
+        else if (request.groupBy == "Year") {
+            var currentMonth = request.startDate;
+            currentMonth.setHours(0, 0, 0, 0);
+            currentMonth.setFullYear(currentMonth.getFullYear(), 0, 1);
+            request.endDate.setHours(0, 0, 0, 0);
+            request.endDate.setFullYear(request.endDate.getFullYear(), 0, 1);
+            while (currentMonth < request.endDate) {
+                var prevMonth = currentMonth;
+                returnData.labels.push(this.formatYearDate(prevMonth));
+                currentMonth.setFullYear(1);
+                var areaMap = new Map();
+                var endDate = request.endDate;
+                if (currentMonth < request.endDate) {
+                    endDate = currentDay;
+                }
+                measurements.forEach(m => {
+                    if (m.dateadded >= prevMonth && m.dateadded < endDate) {
+                        if (areaMap.has(m.areaid)) {
+                            areaMap.set(m.areaid, areaMap.get(m.areaid) + m.measurement);
+                        }
+                        else {
+                            areaMap.set(m.areaid, m.measurement);
+                        }
+                    }
+                });
+                for (var item of areaMap) {
+                    var gd = areaGraphDataObject.get(item[0]);
+                    gd.data.push(item[1]);
+                    areaGraphDataObject.set(item[0], gd);
+                }
+            }
+        }
+        return Object(rxjs__WEBPACK_IMPORTED_MODULE_8__["of"])(new _mapster_client__WEBPACK_IMPORTED_MODULE_5__["GraphData"]());
+    }
+    formatHourDate(date) {
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var ampm = hours >= 12 ? 'pm' : 'am';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        var strTime = hours + ' ' + ampm;
+        return date.getMonth() + 1 + "/" + date.getDate() + "/" + date.getFullYear() + "  " + strTime;
+    }
+    formatDayDate(date) {
+        return date.getMonth() + 1 + "/" + date.getDate() + "/" + date.getFullYear();
+    }
+    formatWeekDate(date) {
+        var start = date.getMonth() + 1 + "/" + date.getDate() + "/" + date.getFullYear();
+        return "Week Starting " + start;
+    }
+    formatMonthDate(date) {
+        return date.getMonth() + 1 + "/" + date.getFullYear();
+    }
+    formatYearDate(date) {
+        return date.getFullYear();
+    }
+    getDayOfTheWeek(date) {
+        switch (date.getDay()) {
+            case 0:
+                return "Sunday";
+            case 1:
+                return "Monday";
+            case 2:
+                return "Tuesday";
+            case 3:
+                return "Wednesday";
+            case 4:
+                return "Thursday";
+            case 5:
+                return "Friday";
+            case 6:
+                return "Saturday";
+        }
+    }
 };
 GraphServiceService.ctorParameters = () => [
     { type: _measurement_type_service__WEBPACK_IMPORTED_MODULE_2__["MeasurementTypeService"] },
-    { type: _area_service__WEBPACK_IMPORTED_MODULE_5__["AreaService"] },
-    { type: _ngx_pwa_local_storage__WEBPACK_IMPORTED_MODULE_3__["StorageMap"] },
-    { type: _mapster_client__WEBPACK_IMPORTED_MODULE_4__["GraphClient"] }
+    { type: _area_service__WEBPACK_IMPORTED_MODULE_6__["AreaService"] },
+    { type: _ngx_pwa_local_storage__WEBPACK_IMPORTED_MODULE_4__["StorageMap"] },
+    { type: _mapster_client__WEBPACK_IMPORTED_MODULE_5__["GraphClient"] },
+    { type: _pub_sub_service__WEBPACK_IMPORTED_MODULE_7__["PubSubService"] },
+    { type: _authentication_service__WEBPACK_IMPORTED_MODULE_9__["AuthenticationService"] },
+    { type: _measurement_service__WEBPACK_IMPORTED_MODULE_3__["MeasurementService"] }
 ];
 GraphServiceService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
         providedIn: 'root'
     }),
-    tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_measurement_type_service__WEBPACK_IMPORTED_MODULE_2__["MeasurementTypeService"], _area_service__WEBPACK_IMPORTED_MODULE_5__["AreaService"], _ngx_pwa_local_storage__WEBPACK_IMPORTED_MODULE_3__["StorageMap"], _mapster_client__WEBPACK_IMPORTED_MODULE_4__["GraphClient"]])
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_measurement_type_service__WEBPACK_IMPORTED_MODULE_2__["MeasurementTypeService"], _area_service__WEBPACK_IMPORTED_MODULE_6__["AreaService"], _ngx_pwa_local_storage__WEBPACK_IMPORTED_MODULE_4__["StorageMap"], _mapster_client__WEBPACK_IMPORTED_MODULE_5__["GraphClient"],
+        _pub_sub_service__WEBPACK_IMPORTED_MODULE_7__["PubSubService"], _authentication_service__WEBPACK_IMPORTED_MODULE_9__["AuthenticationService"], _measurement_service__WEBPACK_IMPORTED_MODULE_3__["MeasurementService"]])
 ], GraphServiceService);
 
 
@@ -3694,13 +3966,36 @@ let MeasurementService = class MeasurementService {
         this.storageService = storageService;
     }
     Get(areaId, measurementTypeId) {
-        if (this.authService.LoginSkipped) {
-            this.storageService.get("SAPPER-Measurements").subscribe((result) => {
-                return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(result);
-            });
+        if (!this.authService.LoginSkipped && this.authService.isPremium) {
+            return this.getClient.measurement(areaId, measurementTypeId);
         }
         else {
-            return this.getClient.measurement(areaId, measurementTypeId);
+            this.storageService.get("SAPPER-Measurements").subscribe((result) => {
+                var specifiedMeasurements = [];
+                result.forEach(e => {
+                    if (e.areaid == areaId && e.measurementtypeid == measurementTypeId) {
+                        specifiedMeasurements.push(e);
+                    }
+                });
+                return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(specifiedMeasurements);
+            });
+        }
+    }
+    GetAllByMeasurementType(measurementTypeId) {
+        if (!this.authService.LoginSkipped && this.authService.isPremium) {
+            //return this.getClient.measurement(1, measurementTypeId);
+            return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])();
+        }
+        else {
+            this.storageService.get("SAPPER-Measurements").subscribe((result) => {
+                var specifiedMeasurements = [];
+                result.forEach(e => {
+                    if (e.measurementtypeid == measurementTypeId) {
+                        specifiedMeasurements.push(e);
+                    }
+                });
+                return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(specifiedMeasurements);
+            });
         }
     }
     Testing(areaId, measurementTypeId) {
@@ -3719,7 +4014,7 @@ let MeasurementService = class MeasurementService {
         return lst;
     }
     Add(areaId, measurementTypeId, value) {
-        this.storageService.get("SAPPER-Measurements").subscribe((result) => {
+        this.storageService.get("SAPPER-Measurements-Queue").subscribe((result) => {
             result.push(new _mapster_client__WEBPACK_IMPORTED_MODULE_4__["Measurement"]({
                 id: null,
                 areaid: areaId,
@@ -3727,7 +4022,7 @@ let MeasurementService = class MeasurementService {
                 dateadded: new Date(),
                 measurement: Number.parseFloat(value)
             }));
-            this.storageService.set("SAPPER-Measurements", result).subscribe(result => {
+            this.storageService.set("SAPPER-Measurements-Queue", result).subscribe(result => {
             });
         });
         if (!this.authService.LoginSkipped) {

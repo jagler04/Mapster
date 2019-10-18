@@ -43,8 +43,8 @@ namespace Saperr.Services
           while (currentHour < measurementRequest.EndDate)
           {
             var prevHour = currentHour;
+            returnData.Labels.Add(prevHour.ToString("mm/dd/yyyy h tt"));
             currentHour = currentHour.AddHours(1);
-            returnData.Labels.Add(currentHour.ToString("mm/dd/yyyy h tt"));
             if (currentHour < measurementRequest.EndDate)
             {
               var dataGrouped = (from d in data.AsQueryable()

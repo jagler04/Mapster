@@ -1,6 +1,6 @@
 <div *ngIf="graphService.TypeSettings.get(MeasurementTypeId).Visible" class="card graphControl">
     <h4 class="card-title">{{MeasurementName}}</h4>
-    <a class="icon"><i class="material-icons">settings</i></a>
+    <a class="icon"><i class="material-icons">filter_list</i></a>
     <div style="display: block">
         <canvas baseChart
                 [datasets]="barChartData"

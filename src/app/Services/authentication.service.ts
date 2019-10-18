@@ -13,7 +13,7 @@ export class AuthenticationService {
 
   public AuthToken: string;
   public LoginSkipped: boolean;
-  //public IsAuthenticated: boolean;
+  public isPremium: boolean;
   constructor(private pubsub: PubSubService, private dialog: MatDialog, private backendClient: Client) { }
 
   login(email: string, password: string) {
@@ -22,7 +22,12 @@ export class AuthenticationService {
       password: password
     });
 
-    return this.backendClient.login(user);
+    var retrieveToken = this.backendClient.login(user);
+    retrieveToken.subscribe(result => {
+      var decoded = jwt_decode(result);
+      this.isPremium = decoded.premium;
+    });
+    return retrieveToken;
   }
   public Logout() {
     this.pubsub.$pub("LoggedOut");

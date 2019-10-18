@@ -5,6 +5,7 @@ import { Area, User, Point, Location, GetClient, UpdateClient, CreateClient } fr
 import { AuthenticationService } from './authentication.service';
 import { StorageMap } from '@ngx-pwa/local-storage';
 import { ToolsService } from './tools.service';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -17,17 +18,21 @@ export class AreaService {
     this.Areas = [];
   }
 
-  getAreas() {
+  getAreas(): Observable<Array<Area>> {
 
-    if (this.authService.LoginSkipped) {
+    if (this.authService.LoginSkipped || !this.authService.isPremium) {
       this.storageService.get('SAPPER-Areas').subscribe((result: Area[]) => {
         this.Areas = result
+        return of(result);
       })
     }
     else {
-      this.getClient.areas().subscribe(x => {
+      var obGetAreas = this.getClient.areas();
+      obGetAreas.subscribe(x => {
         this.Areas = x;
-      })
+        return x;
+      });
+      return obGetAreas;
     }
   }
 
@@ -50,7 +55,7 @@ export class AreaService {
       pos++;
     }
 
-    if (this.authService.LoginSkipped) {
+    if (this.authService.LoginSkipped || !this.authService.isPremium) {
       newAreaDB.id = this.toolsService.uuidv4();
       this.Areas.push(newAreaDB);
 
@@ -78,5 +83,24 @@ export class AreaService {
         console.log('update complete!')
       })
     }
+  }
+  public GetAreaNameById(id: string){
+    if(this.Areas.length === 0){
+      this.getAreas().subscribe(result => {
+        result.forEach(a =>{
+          if(a.id === id){
+            return a.areaname
+          }
+        })
+      });
+    }
+    else{
+      this.Areas.forEach(a =>{
+        if(a.id === id){
+          return a.areaname
+        }
+      })
+    }
+    return "";
   }
 }

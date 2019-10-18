@@ -11,17 +11,17 @@ namespace Saperr.Controllers
   public class GraphController : ControllerBase
   {
     private readonly IAuthenticationService _authService;
-    private readonly MeasurementService _measurementService;
+    private readonly GraphService _graphService;
 
-    public GraphController(IAuthenticationService authService, MeasurementService measurementService)
+    public GraphController(IAuthenticationService authService, GraphService graphService)
     {
       _authService = authService;
-      _measurementService = measurementService;
+      _graphService = graphService;
     }
     [HttpGet(Name = "Graph_Measurements")]
     public ActionResult<GraphData> GetGraphMeasurements([FromBody]GraphMeasurementRequest measurement)
     {
-      return null;
+      return _graphService.GetGraphData(measurement);
 
     }
   }

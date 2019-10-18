@@ -57,7 +57,8 @@ namespace Saperr.Services
       var claims = new[] {
                 new Claim(JwtRegisteredClaimNames.Sub, userInfo.Id),
                 new Claim(JwtRegisteredClaimNames.Email, userInfo.email),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim("UserData", userInfo.premium.ToString())
             };
 
       var token = new JwtSecurityToken(_config["Jwt:Issuer"],

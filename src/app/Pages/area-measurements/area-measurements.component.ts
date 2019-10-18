@@ -69,6 +69,7 @@ export class AreaMeasurementsComponent implements OnInit {
     mt.isOpen = !mt.isOpen;
     if(mt.isOpen && mt.entries.length === 0){
       this.measurementService.Get(this.areaId, mt.id).subscribe(result => {
+        console.log(result[0].dateadded.toDateString());
         mt.entries = result;
       });
     }

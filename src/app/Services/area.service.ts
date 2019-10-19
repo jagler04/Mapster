@@ -15,7 +15,6 @@ export class AreaService {
   public Areas: Area[] = [];
   constructor(private toolsService: ToolsService, public pubsub: PubSubService, private getClient: GetClient, private updateClient: UpdateClient, private createClient: CreateClient,
     private authService: AuthenticationService, private storageService: StorageMap) {
-    this.Areas = [];
   }
 
   getAreas(): Observable<Array<Area>> {
@@ -54,8 +53,11 @@ export class AreaService {
       }));
       pos++;
     }
-
+    if(this.Areas === undefined){
+      this.Areas = [];
+    }
     if (this.authService.LoginSkipped || !this.authService.isPremium) {
+
       newAreaDB.id = this.toolsService.uuidv4();
       this.Areas.push(newAreaDB);
 
@@ -67,6 +69,7 @@ export class AreaService {
     else {
       this.Areas.push(newAreaDB);
       this.createClient.area(newAreaDB).subscribe(x => {
+        this.Areas.push(x);
         this.pubsub.$pub("Areas Updates", this.Areas);
         console.log('creation complete!');
       });

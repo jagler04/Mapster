@@ -19,6 +19,9 @@ export class LoginComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       console.log(params)
     });
+    if(this.authService.LoginSkipped){
+      this.nav.Push("areas");
+    }
   }
 
   login() {

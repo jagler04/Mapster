@@ -17,7 +17,7 @@ export class NavigationService {
 
   public Push(page: string, param: string = null) {
     if (page != 'login' && page != 'registration') {
-      if (!this.authService.isAuthenticated()) {
+      if (!this.authService.isAuthenticated() && !this.authService.LoginSkipped) {
         return;
       }
     }

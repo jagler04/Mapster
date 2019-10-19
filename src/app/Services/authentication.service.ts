@@ -4,7 +4,8 @@ import { MatDialog } from '@angular/material';
 import { LoginComponent } from '../Pages/login/login.component';
 import { Client, User } from './mapster.client';
 import * as jwt_decode from "jwt-decode";
-
+import { StorageMap } from '@ngx-pwa/local-storage';
+import { resource } from 'selenium-webdriver/http';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,16 @@ export class AuthenticationService {
   public AuthToken: string;
   public LoginSkipped: boolean;
   public isPremium: boolean;
-  constructor(private pubsub: PubSubService, private dialog: MatDialog, private backendClient: Client) { }
+  constructor(private pubsub: PubSubService, private dialog: MatDialog, private backendClient: Client, private storageService: StorageMap) { 
+
+    this.storageService.has("SAPERR-LoginSkipped").subscribe(hasValue => {
+      if(hasValue){
+        this.storageService.get("SAPERR-LoginSkipped").subscribe((r: boolean) => {
+          this.LoginSkipped = r;
+        })
+      }
+    });
+  }
 
   login(email: string, password: string) {
     let user = new User({
@@ -33,6 +43,10 @@ export class AuthenticationService {
     this.pubsub.$pub("LoggedOut");
   }
 
+  public ContinueWithNoLogin(){
+    this.LoginSkipped = true;
+    this.storageService.set("SAPERR-LoginSkipped", true).subscribe(result => {});
+  }
 
   saveToken(token: string) {
     localStorage.setItem('token', token)

@@ -66,7 +66,7 @@ export class GraphServiceService {
       this.storageService.set("SAPPER-Graph-Settings", settings).subscribe(() => {});
   }
 
-  public GetMeasurements(measurementTypId: string, starting: Date, ending: Date, grouping: string): Observable<GraphData>{
+  public GetMeasurements(measurementTypId: string, starting: Date, ending: Date, grouping: string){
     var areaList = this.areaService.Areas;
     var visibleAreas: Array<string> = [];
     this.TypeSettings.get(measurementTypId).InvisibleAreas.forEach(n => {
@@ -79,18 +79,43 @@ export class GraphServiceService {
     
     var request = new GraphMeasurementRequest({startDate: starting, endDate: ending, measurementTypeId: measurementTypId, groupBy: grouping, areas: visibleAreas});
 
-    if(!this.authService.LoginSkipped && this.authService.isPremium){    
-      return this.graphClient.measurements(request);
+    // if(!this.authService.LoginSkipped && this.authService.isPremium){    
+    //   this.graphClient.measurements(request).subscribe(result =>{
+    //     this.TypeSettings.get(request.measurementTypeId).Measurements = result.measurements;
+    //     this.TypeSettings.get(request.measurementTypeId).Labels = result.labels;
+    //   });
+    // }
+    // else{
+      
+    //   // this.measurementService.GetAllByMeasurementType(request.measurementTypeId).subscribe(meas => {
+    //   //   var gd = this.GenerateDataGroups(request, meas);
+    //   //   gd.forEach(g => {
+    //   //     this.TypeSettings.get(request.measurementTypeId).Measurements = g.measurements;
+    //   //     this.TypeSettings.get(request.measurementTypeId).Labels = g.labels;
+    //   //   })
+    //   //   console.log(gd);
+    //   //   return of(gd);
+    //   // });
+      
+    // }
+    if(this.measurementService.measurements.entries.length === 0){
+      this.pubsub.$sub("Measurements Loaded").subscribe( result => {
+        var gd = this.GenerateDataGroups(request, result[request.measurementTypeId]);
+      gd.forEach(g => {
+        this.TypeSettings.get(request.measurementTypeId).Measurements = g.measurements;
+        this.TypeSettings.get(request.measurementTypeId).Labels = g.labels;
+      })
+      console.log(gd);
+      });
     }
     else{
-      this.measurementService.GetAllByMeasurementType(request.measurementTypeId).subscribe(result => {return this.GenerateDataGroups(request, result)})
-      
+      var gd = this.GenerateDataGroups(request, this.measurementService.measurements[request.measurementTypeId]);
+      gd.forEach(g => {
+        this.TypeSettings.get(request.measurementTypeId).Measurements = g.measurements;
+        this.TypeSettings.get(request.measurementTypeId).Labels = g.labels;
+      })
+      console.log(gd);
     }
-
-    // this.TypeSettings.get(measurementTypeId).Measurements = [{data: [21,32,21,66], label:"Area 1"}, {data: [22,31,21,63], label:"Area 2"},
-    // {data: [22,31,21,63], label:"Area 3"}, {data: [22,31,21,63], label:"Area 4"}, {data: [22,31,21,63], label:"Area 5"}, {data: [22,31,21,63], label:"Area 6"}];
-    // this.TypeSettings.get(measurementTypeId).Labels = ["9/17/2019", "9/18/2019", "9/19/2019", "9/20/2019"];
-
   }  
   private GenerateDataGroups(request: GraphMeasurementRequest, measurements: Array<Measurement>): Observable<GraphData> {
     var returnData = new GraphData();

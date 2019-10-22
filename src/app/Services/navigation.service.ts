@@ -16,11 +16,11 @@ export class NavigationService {
   }
 
   public Push(page: string, param: string = null) {
-    if (page != 'login' && page != 'registration') {
-      if (!this.authService.isAuthenticated() && !this.authService.LoginSkipped) {
-        return;
-      }
-    }
+    // if (page != 'login' && page != 'registration') {
+    //   if (!this.authService.isAuthenticated() && !this.authService.LoginSkipped) {
+    //     return;
+    //   }
+    // }
     this.CurrentPage = page.replace(/([A-Z])/g, ' $1').trim();
     console.log("page pushed: " + page);
 

@@ -44,11 +44,7 @@ export class GraphControlComponent implements OnInit {
 
     var graphItem = this.graphService.TypeSettings.get(this.MeasurementTypeId);
 
-    this.graphService.GetMeasurements(this.measurementTypeId, new Date(), new Date(), "DAY").subscribe( result => {
-      console.log(result)
-      // this.barChartData = this.graphService.TypeSettings.get(this.MeasurementTypeId).Measurements;
-      // this.barChartLabels = this.graphService.TypeSettings.get(this.MeasurementTypeId).Labels;
-    });
+    this.graphService.GetMeasurements(this.measurementTypeId, new Date(), new Date(), "DAY");
 
   }
 

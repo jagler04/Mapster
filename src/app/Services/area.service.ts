@@ -15,24 +15,30 @@ export class AreaService {
   public Areas: Area[] = [];
   constructor(private toolsService: ToolsService, public pubsub: PubSubService, private getClient: GetClient, private updateClient: UpdateClient, private createClient: CreateClient,
     private authService: AuthenticationService, private storageService: StorageMap) {
+      this.getAreas();
   }
 
-  getAreas(): Observable<Array<Area>> {
+  getAreas(){
 
-    if (this.authService.LoginSkipped || !this.authService.isPremium) {
-      this.storageService.get('SAPPER-Areas').subscribe((result: Area[]) => {
-        this.Areas = result
-        return of(result);
-      })
-    }
-    else {
-      var obGetAreas = this.getClient.areas();
-      obGetAreas.subscribe(x => {
-        this.Areas = x;
-        return x;
-      });
-      return obGetAreas;
-    }
+    // if (this.authService.LoginSkipped || !this.authService.isPremium) {
+    //   this.storageService.get('SAPPER-Areas').subscribe((result: Area[]) => {
+    //     this.Areas = result;
+    //     this.pubsub.$pub("Areas Loaded", result);
+    //     return of(result);
+    //   })
+    // }
+    // else {
+    //   var obGetAreas = this.getClient.areas();
+    //   obGetAreas.subscribe(x => {
+    //     this.Areas = x;
+    //     return x;
+    //   });
+    //   return obGetAreas;
+    // }
+    this.storageService.get('SAPPER-Areas').subscribe((result: Area[]) => {
+      this.Areas = result;
+      this.pubsub.$pub("Areas Loaded", result);
+    })
   }
 
   public CreateNewArea(path: Array<LatLngLiteral>, areaName: string) {
@@ -89,7 +95,8 @@ export class AreaService {
   }
   public GetAreaNameById(id: string){
     if(this.Areas.length === 0){
-      this.getAreas().subscribe(result => {
+      this.getAreas()
+      this.pubsub.$sub("Areas Loaded").subscribe(result => {
         result.forEach(a =>{
           if(a.id === id){
             return a.areaname

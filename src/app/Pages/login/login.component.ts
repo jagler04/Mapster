@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
 
   checkAuth() {
     //this.authService.IsAuthenticated = true;
-    this.authService.LoginSkipped = true;
+    this.authService.ContinueWithNoLogin();
     this.nav.Push("areas");
   }
 

@@ -3,8 +3,8 @@
     <a class="icon"><i class="material-icons">filter_list</i></a>
     <div style="display: block">
         <canvas baseChart
-                [datasets]="barChartData"
-                [labels]="barChartLabels"
+                [datasets]="graphService.TypeSettings.get(MeasurementTypeId).Measurements"
+                [labels]="graphService.TypeSettings.get(MeasurementTypeId).Labels"
                 [options]="barChartOptions"
                 [legend]="barChartLegend"
                 [chartType]="graphService.TypeSettings.get(MeasurementTypeId).GraphStyle">

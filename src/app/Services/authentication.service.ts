@@ -19,8 +19,8 @@ export class AuthenticationService {
 
     this.storageService.has("SAPERR-LoginSkipped").subscribe(hasValue => {
       if(hasValue){
-        this.storageService.get("SAPERR-LoginSkipped").subscribe((r: boolean) => {
-          this.LoginSkipped = r;
+        this.storageService.get("SAPERR-LoginSkipped").subscribe(r => {
+          this.LoginSkipped = (r === "true");
         })
       }
     });
@@ -45,7 +45,7 @@ export class AuthenticationService {
 
   public ContinueWithNoLogin(){
     this.LoginSkipped = true;
-    this.storageService.set("SAPERR-LoginSkipped", true).subscribe(result => {});
+    this.storageService.set("SAPERR-LoginSkipped", "true").subscribe(result => {});
   }
 
   saveToken(token: string) {

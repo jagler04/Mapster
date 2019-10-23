@@ -42,9 +42,11 @@ export class GraphControlComponent implements OnInit {
   ngOnInit() {
     this.MeasurementName = this.measurementTypeService.Get(this.measurementTypeId).measurementname;
 
-    var graphItem = this.graphService.TypeSettings.get(this.MeasurementTypeId);
+    // var graphItem = this.graphService.TypeSettings.get(this.MeasurementTypeId);
 
-    this.graphService.GetMeasurements(this.measurementTypeId, new Date(), new Date(), "DAY");
+    // this.graphService.GetMeasurements(this.measurementTypeId, new Date(), new Date(), "DAY");
+
+    console.log(this.graphService.TypeSettings.get(this.MeasurementTypeId));
 
   }
 

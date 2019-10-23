@@ -139,12 +139,11 @@ export class MeasurementService {
       areas.forEach(area =>{
         var meas = this.Testing(area.id, mt.id);
 
-        console.log(meas);
         this.measurements.set(mt.id, meas);
       });
       
     });
-    console.log(this.measurements);
+    this.pubsub.$pub("Measurements Loaded", this.measurements);
   }
 
   Testing(areaId: string, measurementTypeId: string){

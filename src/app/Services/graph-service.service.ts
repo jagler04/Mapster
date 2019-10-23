@@ -79,28 +79,9 @@ export class GraphServiceService {
     
     var request = new GraphMeasurementRequest({startDate: starting, endDate: ending, measurementTypeId: measurementTypId, groupBy: grouping, areas: visibleAreas});
 
-    // if(!this.authService.LoginSkipped && this.authService.isPremium){    
-    //   this.graphClient.measurements(request).subscribe(result =>{
-    //     this.TypeSettings.get(request.measurementTypeId).Measurements = result.measurements;
-    //     this.TypeSettings.get(request.measurementTypeId).Labels = result.labels;
-    //   });
-    // }
-    // else{
-      
-    //   // this.measurementService.GetAllByMeasurementType(request.measurementTypeId).subscribe(meas => {
-    //   //   var gd = this.GenerateDataGroups(request, meas);
-    //   //   gd.forEach(g => {
-    //   //     this.TypeSettings.get(request.measurementTypeId).Measurements = g.measurements;
-    //   //     this.TypeSettings.get(request.measurementTypeId).Labels = g.labels;
-    //   //   })
-    //   //   console.log(gd);
-    //   //   return of(gd);
-    //   // });
-      
-    // }
-    if(this.measurementService.measurements.entries.length === 0){
+    if(this.measurementService.measurements.get(request.measurementTypeId).length === 0){
       this.pubsub.$sub("Measurements Loaded").subscribe( result => {
-        var gd = this.GenerateDataGroups(request, result[request.measurementTypeId]);
+        var gd = this.GenerateDataGroups(request, result.get(request.measurementTypeId));
       gd.forEach(g => {
         this.TypeSettings.get(request.measurementTypeId).Measurements = g.measurements;
         this.TypeSettings.get(request.measurementTypeId).Labels = g.labels;
@@ -109,7 +90,7 @@ export class GraphServiceService {
       });
     }
     else{
-      var gd = this.GenerateDataGroups(request, this.measurementService.measurements[request.measurementTypeId]);
+      var gd = this.GenerateDataGroups(request, this.measurementService.measurements.get(request.measurementTypeId));
       gd.forEach(g => {
         this.TypeSettings.get(request.measurementTypeId).Measurements = g.measurements;
         this.TypeSettings.get(request.measurementTypeId).Labels = g.labels;

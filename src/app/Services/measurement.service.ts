@@ -136,12 +136,16 @@ export class MeasurementService {
   LoadMeasurments(areas: any){
     this.measurementTypeService.MeasurementTypes.forEach(mt => {
       var lst : Array<Measurement> = [];
+      
       areas.forEach(area =>{
         var meas = this.Testing(area.id, mt.id);
 
-        this.measurements.set(mt.id, meas);
+        meas.forEach(m => {
+          lst.push(m);
+        })
       });
       
+        this.measurements.set(mt.id, lst);
     });
     this.pubsub.$pub("Measurements Loaded", this.measurements);
   }
@@ -150,7 +154,7 @@ export class MeasurementService {
     var lst: Array<Measurement> = [];
 
     var pos = 0;
-    while(pos < 200){
+    while(pos < 100){
       var d = new Date();
       d.setHours((-1 * pos));
       lst.push(new Measurement({

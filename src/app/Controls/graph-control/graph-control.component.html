@@ -1,13 +1,13 @@
-<div *ngIf="graphService.TypeSettings.get(MeasurementTypeId).Visible" class="card graphControl">
+<div *ngIf="graphService.TypeSettings.get(measurementTypeId).Visible" class="card graphControl">
     <h4 class="card-title">{{MeasurementName}}</h4>
     <a class="icon"><i class="material-icons">filter_list</i></a>
-    <div style="display: block" *ngIf="graphService.TypeSettings.get(MeasurementTypeId) === undefined && graphService.TypeSettings.get(MeasurementTypeId).Measurements ! == []">
+    <div style="display: block">
         <canvas baseChart
-                [datasets]="graphService.TypeSettings.get(MeasurementTypeId).Measurements"
-                [labels]="graphService.TypeSettings.get(MeasurementTypeId).Labels"
+                [datasets]="graphService.TypeSettings.get(measurementTypeId).Measurements"
+                [labels]="graphService.TypeSettings.get(measurementTypeId).Labels"
                 [options]="barChartOptions"
                 [legend]="barChartLegend"
-                [chartType]="graphService.TypeSettings.get(MeasurementTypeId).GraphStyle">
+                [chartType]="graphService.TypeSettings.get(measurementTypeId).GraphStyle">
         </canvas>
     </div>
 </div>

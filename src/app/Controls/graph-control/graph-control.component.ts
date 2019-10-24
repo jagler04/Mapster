@@ -44,10 +44,9 @@ export class GraphControlComponent implements OnInit {
 
     // var graphItem = this.graphService.TypeSettings.get(this.MeasurementTypeId);
 
-    // this.graphService.GetMeasurements(this.measurementTypeId, new Date(), new Date(), "DAY");
-
-    console.log(this.graphService.TypeSettings.get(this.MeasurementTypeId));
-
+    var prevDAte = new Date();
+    prevDAte.setDate(prevDAte.getDate() - 3);
+    this.graphService.GetMeasurements(this.measurementTypeId, prevDAte, new Date(), "Day");
   }
 
 }

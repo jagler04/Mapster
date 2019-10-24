@@ -94,23 +94,12 @@ export class AreaService {
     }
   }
   public GetAreaNameById(id: string){
-    if(this.Areas.length === 0){
-      this.getAreas()
-      this.pubsub.$sub("Areas Loaded").subscribe(result => {
-        result.forEach(a =>{
-          if(a.id === id){
-            return a.areaname
-          }
-        })
-      });
-    }
-    else{
-      this.Areas.forEach(a =>{
-        if(a.id === id){
-          return a.areaname
-        }
-      })
-    }
-    return "";
+    var name = "";
+    this.Areas.forEach(a =>{
+      if(a.id === id){
+        name = a.areaname
+      }
+    });
+    return name;
   }
 }

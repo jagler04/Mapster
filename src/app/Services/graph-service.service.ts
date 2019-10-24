@@ -67,38 +67,84 @@ export class GraphServiceService {
   }
 
   public GetMeasurements(measurementTypId: string, starting: Date, ending: Date, grouping: string){
-    var areaList = this.areaService.Areas;
-    var visibleAreas: Array<string> = [];
-    this.TypeSettings.get(measurementTypId).InvisibleAreas.forEach(n => {
-      areaList.forEach(a => {
-        if(a.id !== n){
-          visibleAreas.push(n);          
-        }
-      })
-    })
-    
-    var request = new GraphMeasurementRequest({startDate: starting, endDate: ending, measurementTypeId: measurementTypId, groupBy: grouping, areas: visibleAreas});
-
-    if(this.measurementService.measurements.get(request.measurementTypeId).length === 0){
+   
+    if(!this.measurementService.measurements.has(measurementTypId) ||this.measurementService.measurements.get(measurementTypId).length === 0){
       this.pubsub.$sub("Measurements Loaded").subscribe( result => {
+        var areaList = this.areaService.Areas;
+        var visibleAreas: Array<string> = [];
+        areaList.forEach(a =>{
+          visibleAreas.push(a.id);
+        });
+        this.TypeSettings.get(measurementTypId).InvisibleAreas.forEach(n => {
+          var pos = 0;
+          while(pos < visibleAreas.length){
+            if(visibleAreas[pos] === n){
+              visibleAreas.splice(pos, 1);
+            }
+            else{
+              pos ++;
+            }
+          }
+        });
+        
+        var request = new GraphMeasurementRequest({startDate: starting, endDate: ending, measurementTypeId: measurementTypId, groupBy: grouping, areas: visibleAreas});
+    
         var gd = this.GenerateDataGroups(request, result.get(request.measurementTypeId));
-      gd.forEach(g => {
-        this.TypeSettings.get(request.measurementTypeId).Measurements = g.measurements;
-        this.TypeSettings.get(request.measurementTypeId).Labels = g.labels;
-      })
+      this.TypeSettings.get(request.measurementTypeId).Measurements = gd.measurements;
+      this.TypeSettings.get(request.measurementTypeId).Labels = gd.labels;
       console.log(gd);
       });
     }
     else{
+      var areaList = this.areaService.Areas;
+      var visibleAreas: Array<string> = [];
+      areaList.forEach(a =>{
+        visibleAreas.push(a.id);
+      });
+      this.TypeSettings.get(measurementTypId).InvisibleAreas.forEach(n => {
+        var pos = 0;
+        while(pos < visibleAreas.length){
+          if(visibleAreas[pos] === n){
+            visibleAreas.splice(pos, 1);
+          }
+          else{
+            pos ++;
+          }
+        }
+      });
+      
+      var request = new GraphMeasurementRequest({startDate: starting, endDate: ending, measurementTypeId: measurementTypId, groupBy: grouping, areas: visibleAreas});
+  
       var gd = this.GenerateDataGroups(request, this.measurementService.measurements.get(request.measurementTypeId));
-      gd.forEach(g => {
-        this.TypeSettings.get(request.measurementTypeId).Measurements = g.measurements;
-        this.TypeSettings.get(request.measurementTypeId).Labels = g.labels;
-      })
+      this.TypeSettings.get(request.measurementTypeId).Measurements = gd.measurements;
+      this.TypeSettings.get(request.measurementTypeId).Labels = gd.labels;
       console.log(gd);
     }
   }  
-  private GenerateDataGroups(request: GraphMeasurementRequest, measurements: Array<Measurement>): Observable<GraphData> {
+  private GenerateDataGroups(request: GraphMeasurementRequest, measurements: Array<Measurement>): GraphData {
+    // var returnData = new GraphData();
+    // returnData.labels = [];
+
+    // var areaGraphDataObject = new Map<string, GraphDataObject>();
+    // //Fill map with areas and blank arrays
+    // request.areas.forEach( id => {
+    //   if(!areaGraphDataObject.has(id)){
+    //     areaGraphDataObject.set(id, new GraphDataObject({data: new Array<number>(), label: this.areaService.GetAreaNameById(id)}));
+    //   }
+    // });
+
+    switch(request.groupBy){
+      case "Day":
+        return this.ByDay(request, measurements);
+    }
+
+    // for(var dat of areaGraphDataObject){
+    //   returnData.measurements.push(dat[1]);
+    // }
+    // return returnData;
+  }
+
+  private ByDay(request: GraphMeasurementRequest, measurements: Array<Measurement>){
     var returnData = new GraphData();
     returnData.labels = [];
 
@@ -109,59 +155,23 @@ export class GraphServiceService {
         areaGraphDataObject.set(id, new GraphDataObject({data: new Array<number>(), label: this.areaService.GetAreaNameById(id)}));
       }
     });
-
-    if(request.groupBy == "Hour"){
-      var currentHour = request.startDate;
-      
-      while (currentHour <= request.endDate){
-        var prevHour = currentHour;
-        returnData.labels.push(this.formatHourDate(prevHour));
-        currentHour.setTime(currentHour.getTime() + (1*60*60*1000));
-
-        var areaMap = new Map<string, number>();
-        var endDate = request.endDate;
-        if(currentHour < request.endDate){
-          endDate = currentHour;
-        }
-
-        measurements.forEach( m => {
-          if(m.dateadded >= prevHour && m.dateadded < endDate){
-            if(areaMap.has(m.areaid)){
-              areaMap.set(m.areaid, areaMap.get(m.areaid) + m.measurement);
-            }
-            else{
-              areaMap.set(m.areaid, m.measurement);
-            }
-          }
-
-        });
-
-        for(var item of areaMap){
-          var gd = areaGraphDataObject.get(item[0]);
-          gd.data.push(item[1]);
-          areaGraphDataObject.set(item[0], gd);
-        }
-      }
-
-    }
-    else if(request.groupBy == "Day") {
-      var currentDay = request.startDate;
+    var currentDay = request.startDate;
       currentDay.setHours(0,0,0,0);
       
       while (currentDay <= request.endDate){
-        var prevDay = currentDay;
-        prevDay.setHours(23,59,59,59);
+        var prevDay = new Date(currentDay);
+
         returnData.labels.push(this.formatDayDate(prevDay));
-        currentDay.setDate(1);
+        currentDay.setDate(currentDay.getDate() + 1);
 
         var areaMap = new Map<string, number>();
-        var endDate = request.endDate;
+        var endDate = new Date(request.endDate);
         if(currentDay < request.endDate){
-          endDate = currentDay;
+          endDate = new Date(currentDay);
         }
 
         measurements.forEach( m => {
-          if(m.dateadded >= prevDay && m.dateadded < endDate){
+          if(m.dateadded > prevDay && m.dateadded <= endDate){
             if(areaMap.has(m.areaid)){
               areaMap.set(m.areaid, areaMap.get(m.areaid) + m.measurement);
             }
@@ -171,135 +181,22 @@ export class GraphServiceService {
           }
 
         });
-
-        for(var item of areaMap){
-          var gd = areaGraphDataObject.get(item[0]);
-          gd.data.push(item[1]);
-          areaGraphDataObject.set(item[0], gd);
-        }
-      }
-    }
-    else if(request.groupBy == "Week") {
-      var currentWeek = request.startDate;
-      currentWeek.setHours(0,0,0,0);
-      while(this.getDayOfTheWeek(currentWeek) != "Sunday"){
-        currentWeek.setDate(-1);
-      }
-      request.endDate.setHours(0,0,0,0);
-      while(this.getDayOfTheWeek(request.endDate) != "Sunday"){
-        request.endDate.setDate(1);
-      }
-      
-      while (currentWeek <= request.endDate){
-        var prevWeek = currentWeek;
-        returnData.labels.push(this.formatWeekDate(prevWeek));
-        currentWeek.setDate(7);
-
-        var areaMap = new Map<string, number>();
-        var endDate = request.endDate;
-        if(currentWeek < request.endDate){
-          endDate = currentDay;
-        }
-
-        measurements.forEach( m => {
-          if(m.dateadded >= prevWeek && m.dateadded < endDate){
-            if(areaMap.has(m.areaid)){
-              areaMap.set(m.areaid, areaMap.get(m.areaid) + m.measurement);
-            }
-            else{
-              areaMap.set(m.areaid, m.measurement);
-            }
+        //need to make the data that doesn't exist null
+        request.areas.forEach(a =>{
+          if(!areaMap.has(a)){
+            areaMap.set(a, null);
           }
-
-        });
-
+        })
         for(var item of areaMap){
           var gd = areaGraphDataObject.get(item[0]);
           gd.data.push(item[1]);
           areaGraphDataObject.set(item[0], gd);
         }
       }
-    }
-    else if(request.groupBy == "Month") {
-      var currentMonth = request.startDate;
-      currentMonth.setHours(0,0,0,0);
-      while(currentMonth.getDate() != 1){
-        currentMonth.setDate(-1);
+      for(var dat of areaGraphDataObject){
+        returnData.measurements.push(dat[1]);
       }
-      request.endDate.setHours(0,0,0,0);
-      while(request.endDate.getDate() != 1){
-        request.endDate.setDate(1);
-      }
-      
-      while (currentMonth < request.endDate){
-        var prevMonth = currentMonth;
-        returnData.labels.push(this.formatMonthDate(prevMonth));
-        currentMonth.setMonth(1);
-
-        var areaMap = new Map<string, number>();
-        var endDate = request.endDate;
-        if(currentMonth < request.endDate){
-          endDate = currentDay;
-        }
-
-        measurements.forEach( m => {
-          if(m.dateadded >= prevMonth && m.dateadded < endDate){
-            if(areaMap.has(m.areaid)){
-              areaMap.set(m.areaid, areaMap.get(m.areaid) + m.measurement);
-            }
-            else{
-              areaMap.set(m.areaid, m.measurement);
-            }
-          }
-
-        });
-
-        for(var item of areaMap){
-          var gd = areaGraphDataObject.get(item[0]);
-          gd.data.push(item[1]);
-          areaGraphDataObject.set(item[0], gd);
-        }
-      }
-    }
-    else if(request.groupBy == "Year") {
-      var currentMonth = request.startDate;
-      currentMonth.setHours(0,0,0,0);
-      currentMonth.setFullYear(currentMonth.getFullYear(), 0, 1);
-      
-      request.endDate.setHours(0,0,0,0);
-      request.endDate.setFullYear(request.endDate.getFullYear(), 0, 1);
-      
-      while (currentMonth < request.endDate){
-        var prevMonth = currentMonth;
-        returnData.labels.push(this.formatYearDate(prevMonth));
-        currentMonth.setFullYear(1);
-
-        var areaMap = new Map<string, number>();
-        var endDate = request.endDate;
-        if(currentMonth < request.endDate){
-          endDate = currentDay;
-        }
-
-        measurements.forEach( m => {
-          if(m.dateadded >= prevMonth && m.dateadded < endDate){
-            if(areaMap.has(m.areaid)){
-              areaMap.set(m.areaid, areaMap.get(m.areaid) + m.measurement);
-            }
-            else{
-              areaMap.set(m.areaid, m.measurement);
-            }
-          }
-
-        });
-
-        for(var item of areaMap){
-          var gd = areaGraphDataObject.get(item[0]);
-          gd.data.push(item[1]);
-          areaGraphDataObject.set(item[0], gd);
-        }
-      }
-    }
-    return of(new GraphData());
+      return returnData;
   }
   private formatHourDate(date) {
     var hours = date.getHours();

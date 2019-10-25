@@ -154,7 +154,7 @@ export class MeasurementService {
     var lst: Array<Measurement> = [];
 
     var pos = 0;
-    while(pos < 100){
+    while(pos < 3){
       var d = new Date();
       d.setHours((-1 * pos));
       lst.push(new Measurement({

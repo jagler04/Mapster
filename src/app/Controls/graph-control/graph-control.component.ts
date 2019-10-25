@@ -44,9 +44,15 @@ export class GraphControlComponent implements OnInit {
 
     // var graphItem = this.graphService.TypeSettings.get(this.MeasurementTypeId);
 
+    // var prevDAte = new Date();
+    // prevDAte.setDate(prevDAte.getDate() - 3);
+    // this.graphService.GetMeasurements(this.measurementTypeId, prevDAte, new Date(), "Day");
+
     var prevDAte = new Date();
-    prevDAte.setDate(prevDAte.getDate() - 3);
-    this.graphService.GetMeasurements(this.measurementTypeId, prevDAte, new Date(), "Day");
+    prevDAte.setDate(prevDAte.getDate() - 1);
+    prevDAte.setHours(prevDAte.getHours(), 0, 0, 0);
+    //this.graphService.GetMeasurements(this.measurementTypeId, prevDAte, new Date(), "Hour");
+    this.graphService.GetMeasurements(this.measurementTypeId, prevDAte, new Date(), "Week");
   }
 
 }

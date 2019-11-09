@@ -12,41 +12,26 @@ export class MeasurementTypeService {
 
   public MeasurementTypes: Array<MeasurementType> = [];
   constructor(private storageService: StorageMap, private authService: AuthenticationService, private toolsService: ToolsService, private pubsub: PubSubService, private createClient: CreateClient, private updateClient: UpdateClient, private getClient: GetClient) {
-    this.GetMeasurementTypes();
+    // this.GetMeasurementTypes();
+  }
+
+  init() {
+    return this.storageService.get('SAPPER-MeasurementTypes');
   }
 
   GetMeasurementTypes() {
-    //console.log(this.authService)
-    if (this.authService.LoginSkipped || !this.authService.isPremium) {
-      this.storageService.get('SAPPER-MeasurementTypes').subscribe((result: Array<MeasurementType>) => {
-        //console.log(result);
-        this.MeasurementTypes = result
-        this.pubsub.$pub("Measuremet type List Updated");
-      })
-    }
-    else {
-      this.getClient.measurementTypes().subscribe(result => {
-        this.MeasurementTypes = result;
-        this.pubsub.$pub("Measuremet type List Updated");
-      })
-    }
+    this.storageService.get('SAPPER-MeasurementTypes').subscribe((result: Array<MeasurementType>) => {
+      //console.log(result);
+      this.MeasurementTypes = result
+      this.pubsub.$pub("Measuremet type List Updated");
+    })
   }
   CreateMeasurementType(newMeasurementType: MeasurementType) {
-
-    if (this.authService.LoginSkipped || !this.authService.isPremium) {
-      newMeasurementType.id = this.toolsService.uuidv4();
-      this.MeasurementTypes.push(newMeasurementType);
-      this.storageService.set('SAPPER-MeasurementTypes', this.MeasurementTypes).subscribe(result => {
-        //console.log(result)
-        this.pubsub.$pub("MeasurementTypes Updated", this.MeasurementTypes);
-      })
-    }
-    else {
-      this.createClient.measurementType(newMeasurementType).subscribe(result => {
-        this.MeasurementTypes.push(newMeasurementType);
-        this.pubsub.$pub("MeasurementTypes Updated", this.MeasurementTypes);
-      })
-    }
+    newMeasurementType.id = this.toolsService.uuidv4();
+    this.MeasurementTypes.push(newMeasurementType);
+    this.storageService.set('SAPPER-MeasurementTypes', this.MeasurementTypes).subscribe(result => {
+      this.pubsub.$pub("MeasurementTypes Updated", this.MeasurementTypes);
+    })
   }
   UpdateMeasurementType(updatedMeasurementType: MeasurementType) {
     if (this.authService.LoginSkipped) {

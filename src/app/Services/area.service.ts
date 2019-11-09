@@ -15,26 +15,13 @@ export class AreaService {
   public Areas: Area[] = [];
   constructor(private toolsService: ToolsService, public pubsub: PubSubService, private getClient: GetClient, private updateClient: UpdateClient, private createClient: CreateClient,
     private authService: AuthenticationService, private storageService: StorageMap) {
-      this.getAreas();
+      // this.getAreas();
+  }
+  init(){
+    return this.storageService.get('SAPPER-Areas');
   }
 
   getAreas(){
-
-    // if (this.authService.LoginSkipped || !this.authService.isPremium) {
-    //   this.storageService.get('SAPPER-Areas').subscribe((result: Area[]) => {
-    //     this.Areas = result;
-    //     this.pubsub.$pub("Areas Loaded", result);
-    //     return of(result);
-    //   })
-    // }
-    // else {
-    //   var obGetAreas = this.getClient.areas();
-    //   obGetAreas.subscribe(x => {
-    //     this.Areas = x;
-    //     return x;
-    //   });
-    //   return obGetAreas;
-    // }
     this.storageService.get('SAPPER-Areas').subscribe((result: Area[]) => {
       this.Areas = result;
       this.pubsub.$pub("Areas Loaded", result);

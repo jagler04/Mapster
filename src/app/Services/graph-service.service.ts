@@ -146,6 +146,8 @@ export class GraphServiceService {
         return this.ByWeek(request, measurements);
       case "Month":
         return this.ByMonth(request, measurements);
+      case "Year":
+        return this.ByYear(request, measurements);
     }
 
     return new GraphData();
@@ -328,7 +330,7 @@ export class GraphServiceService {
 
       while (currentMonth <= request.endDate){
         var prevMonth = new Date(currentMonth);
-        returnData.labels.push(this.formatWeekDate(prevMonth));
+        returnData.labels.push(this.formatMonthDate(prevMonth));
         currentMonth.setDate(new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 0).getDate());
 
         var areaMap = new Map<string, number>();
@@ -361,6 +363,56 @@ export class GraphServiceService {
     }
     return returnData;
   }
+
+  private ByYear(request: GraphMeasurementRequest, measurements: Array<Measurement>){
+    var returnData = new GraphData();
+    returnData.labels = [];
+
+    var areaGraphDataObject = new Map<string, GraphDataObject>();
+    //Fill map with areas and blank arrays
+    request.areas.forEach( id => {
+      if(!areaGraphDataObject.has(id)){
+        areaGraphDataObject.set(id, new GraphDataObject({data: new Array<number>(), label: this.areaService.GetAreaNameById(id)}));
+      }
+    });
+    var currentYear = new Date(request.startDate.getFullYear(), 0, 1, 0, 0, 0, 0);
+
+      while (currentYear <= request.endDate){
+        var prevMonth = new Date(currentYear);
+        returnData.labels.push(this.formatYearDate(prevMonth));
+        currentYear = new Date(currentYear.getFullYear() + 1, 0, 1, 0, 0, 0, 0);
+
+        var areaMap = new Map<string, number>();
+        var endDate = new Date(request.endDate);
+        if(currentYear < request.endDate){
+          endDate = new Date(currentYear);
+        }
+
+        measurements.forEach( m => {
+          if(m.dateadded >= prevMonth && m.dateadded < endDate){
+            if(areaMap.has(m.areaid)){
+              areaMap.set(m.areaid, areaMap.get(m.areaid) + m.measurement);
+            }
+            else{
+              areaMap.set(m.areaid, m.measurement);
+            }
+          }
+
+        });
+
+        for(var item of areaMap){
+          var gd = areaGraphDataObject.get(item[0]);
+          gd.data.push(item[1]);
+          areaGraphDataObject.set(item[0], gd);
+        }
+      }
+
+    for(var dat of areaGraphDataObject){
+      returnData.measurements.push(dat[1]);
+    }
+    return returnData;
+  }
+
 
   private formatHourDate(date) {
     var hours = date.getHours();

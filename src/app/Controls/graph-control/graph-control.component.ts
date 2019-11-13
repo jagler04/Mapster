@@ -52,7 +52,8 @@ export class GraphControlComponent implements OnInit {
     prevDAte.setDate(prevDAte.getDate() - 1);
     prevDAte.setHours(prevDAte.getHours(), 0, 0, 0);
     //this.graphService.GetMeasurements(this.measurementTypeId, prevDAte, new Date(), "Hour");
-    this.graphService.GetMeasurements(this.measurementTypeId, prevDAte, new Date(), "Week");
+    //this.graphService.GetMeasurements(this.measurementTypeId, prevDAte, new Date(), "Week");
+    this.graphService.GetMeasurements(this.measurementTypeId, prevDAte, new Date(), "Month");
   }
 
 }

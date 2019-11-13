@@ -18,16 +18,26 @@ export class GraphServiceService {
 
   constructor(private measurementTypeService: MeasurementTypeService, private areaService: AreaService, private storageService: StorageMap, private graphClient: GraphClient,
     private pubsub: PubSubService, private authService: AuthenticationService, private measurementService: MeasurementService) {
-    //MAYBE LOAD FROM Local preferences for graph type? 
 
-    this.pubsub.$sub("Measuremet type List Updated").subscribe(result => {
+    this.pubsub.$sub("MeasurementTypes Updated").subscribe(result => {
       this.measurementTypeService.MeasurementTypes.forEach(mt =>{
-        var gs: GraphSettingsModel = { GraphStyle: 'bar', Visible: true, Measurements: [], Labels: [], InvisibleAreas: []};
-        this.TypeSettings.set(mt.id, gs);
-      });
-          this.storageService.get("SAPPER-Graph-Settings").subscribe((response: SettingSaveModel[]) => this.SetSettings(response));
-    });
+        if(!this.TypeSettings.has(mt.id)){
+          var gs: GraphSettingsModel = { GraphStyle: 'bar', Visible: true, Measurements: [], Labels: [], InvisibleAreas: []};
+          this.TypeSettings.set(mt.id, gs);
+        }
 
+      });
+      this.storageService.set("SAPPER-Graph-Settings", this.TypeSettings);
+    });
+    this.GetTypeSettings();
+
+  }
+
+  private GetTypeSettings(){
+    this.storageService.get("SAPPER-Graph-Settings").subscribe((response: SettingSaveModel[]) => {
+      this.SetSettings(response);
+      this.pubsub.$pub("TypeSettings");
+    });
   }
 
   private SetSettings(response: SettingSaveModel[]){
@@ -75,6 +85,10 @@ export class GraphServiceService {
         areaList.forEach(a =>{
           visibleAreas.push(a.id);
         });
+        if(!this.TypeSettings.has(measurementTypId)){
+          var gs: GraphSettingsModel = { GraphStyle: 'bar', Visible: true, Measurements: [], Labels: [], InvisibleAreas: []};
+          this.TypeSettings.set(measurementTypId, gs);
+        }
         this.TypeSettings.get(measurementTypId).InvisibleAreas.forEach(n => {
           var pos = 0;
           while(pos < visibleAreas.length){
@@ -122,16 +136,6 @@ export class GraphServiceService {
     }
   }  
   private GenerateDataGroups(request: GraphMeasurementRequest, measurements: Array<Measurement>): GraphData {
-    // var returnData = new GraphData();
-    // returnData.labels = [];
-
-    // var areaGraphDataObject = new Map<string, GraphDataObject>();
-    // //Fill map with areas and blank arrays
-    // request.areas.forEach( id => {
-    //   if(!areaGraphDataObject.has(id)){
-    //     areaGraphDataObject.set(id, new GraphDataObject({data: new Array<number>(), label: this.areaService.GetAreaNameById(id)}));
-    //   }
-    // });
 
     switch(request.groupBy){
       case "Hour":
@@ -142,10 +146,7 @@ export class GraphServiceService {
         return this.ByWeek(request, measurements);
     }
 
-    // for(var dat of areaGraphDataObject){
-    //   returnData.measurements.push(dat[1]);
-    // }
-    // return returnData;
+    return new GraphData();
   }
   private ByHour(request: GraphMeasurementRequest, measurements: Array<Measurement>){
     var returnData = new GraphData();
@@ -214,7 +215,7 @@ export class GraphServiceService {
         areaGraphDataObject.set(id, new GraphDataObject({data: new Array<number>(), label: this.areaService.GetAreaNameById(id)}));
       }
     });
-    var currentDay = request.startDate;
+    var currentDay = new Date(request.startDate);
       currentDay.setHours(0,0,0,0);
       
       while (currentDay <= request.endDate){
@@ -268,45 +269,45 @@ export class GraphServiceService {
         areaGraphDataObject.set(id, new GraphDataObject({data: new Array<number>(), label: this.areaService.GetAreaNameById(id)}));
       }
     });
-    var currentWeek = request.startDate;
+    var currentWeek = new Date(request.startDate);
       currentWeek.setHours(0,0,0,0);
-      // while(this.getDayOfTheWeek(currentWeek) != "Sunday"){
-      //   currentWeek.setDate(-1);
-      // }
+      while(this.getDayOfTheWeek(currentWeek) != "Monday"){
+        currentWeek.setDate(currentWeek.getDate() - 1);
+      }
       // request.endDate.setHours(0,0,0,0);
       // while(this.getDayOfTheWeek(request.endDate) != "Sunday"){
       //   request.endDate.setDate(1);
       // }
       
-      // while (currentWeek <= request.endDate){
-      //   var prevWeek = new Date(currentWeek);
-      //   returnData.labels.push(this.formatWeekDate(prevWeek));
-      //   currentWeek.setDate(7);
+      while (currentWeek <= request.endDate){
+        var prevWeek = new Date(currentWeek);
+        returnData.labels.push(this.formatWeekDate(prevWeek));
+        currentWeek.setDate(currentWeek.getDate() + 7);
 
-      //   var areaMap = new Map<string, number>();
-      //   var endDate = new Date(request.endDate);
-      //   if(currentWeek < request.endDate){
-      //     endDate = new Date(currentWeek);
-      //   }
+        var areaMap = new Map<string, number>();
+        var endDate = new Date(request.endDate);
+        if(currentWeek < request.endDate){
+          endDate = new Date(currentWeek);
+        }
 
-      //   measurements.forEach( m => {
-      //     if(m.dateadded >= prevWeek && m.dateadded < endDate){
-      //       if(areaMap.has(m.areaid)){
-      //         areaMap.set(m.areaid, areaMap.get(m.areaid) + m.measurement);
-      //       }
-      //       else{
-      //         areaMap.set(m.areaid, m.measurement);
-      //       }
-      //     }
+        measurements.forEach( m => {
+          if(m.dateadded >= prevWeek && m.dateadded < endDate){
+            if(areaMap.has(m.areaid)){
+              areaMap.set(m.areaid, areaMap.get(m.areaid) + m.measurement);
+            }
+            else{
+              areaMap.set(m.areaid, m.measurement);
+            }
+          }
 
-      //   });
+        });
 
-      //   for(var item of areaMap){
-      //     var gd = areaGraphDataObject.get(item[0]);
-      //     gd.data.push(item[1]);
-      //     areaGraphDataObject.set(item[0], gd);
-      //   }
-      // }
+        for(var item of areaMap){
+          var gd = areaGraphDataObject.get(item[0]);
+          gd.data.push(item[1]);
+          areaGraphDataObject.set(item[0], gd);
+        }
+      }
 
     for(var dat of areaGraphDataObject){
       returnData.measurements.push(dat[1]);

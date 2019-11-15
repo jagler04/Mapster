@@ -9,9 +9,10 @@ import { AreaMeasurementsComponent } from './Pages/area-measurements/area-measur
 import { AreaMapComponent } from './Pages/area-map/area-map.component';
 import { GraphComponent } from './Pages/graph/graph.component';
 import { RegistrationComponent } from './Pages/registration/registration.component';
+import { LoadingComponent } from './Pages/loading/loading.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: '', redirectTo: 'loading', pathMatch: 'full' },
   { path:'home', component: HomeComponent },
   { path:'login', component: LoginComponent },
   { path:'registration', component: RegistrationComponent },
@@ -21,7 +22,8 @@ const routes: Routes = [
   { path: "areaMeasurements/:id", component: AreaMeasurementsComponent },
   { path: "areaMap/:id", component: AreaMapComponent },
   { path: "graphs/:id", component: GraphComponent },
-  { path: "graphs", component: GraphComponent }
+  { path: "graphs", component: GraphComponent },
+  { path: "loading", component: LoadingComponent }
 ];
 
 @NgModule({

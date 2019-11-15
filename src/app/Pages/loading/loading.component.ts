@@ -1,0 +1,45 @@
+import { Component, OnInit } from '@angular/core';
+import { AreaService } from 'src/app/Services/area.service';
+import { MeasurementTypeService } from 'src/app/Services/measurement-type.service';
+import { MeasurementService } from 'src/app/Services/measurement.service';
+import { PubSubService } from 'src/app/Services/pub-sub.service';
+import { NavigationService } from 'src/app/Services/navigation.service';
+
+@Component({
+  selector: 'app-loading',
+  templateUrl: './loading.component.html',
+  styleUrls: ['./loading.component.scss']
+})
+export class LoadingComponent implements OnInit {
+
+  private areasLoaded = false;
+  private measurementTypesLoaded = false;
+  private measurementsLoaded = false;
+
+  constructor(private areaService: AreaService, private measurementTypeService: MeasurementTypeService, private measurementService: MeasurementService,
+    private pubSub: PubSubService, private navigationService: NavigationService) { }
+
+  ngOnInit() {
+    this.areaService.getAreas();
+    this.pubSub.$sub("Areas Loaded").subscribe(result => {
+      this.areasLoaded = true;
+      this.Navigate();
+    });
+    this.measurementTypeService.GetMeasurementTypes();
+    this.pubSub.$sub("MeasurementTypes Updated").subscribe(result => {
+        this.measurementTypesLoaded = true;
+        this.Navigate();
+    });
+    this.measurementService.init();
+    this.pubSub.$sub("Measurements Loaded").subscribe(result => {
+      this.measurementsLoaded = true;
+      this.Navigate();
+    });
+  }
+
+  private Navigate(){
+    if(this.areasLoaded && this.measurementTypesLoaded && this.measurementsLoaded){
+      this.navigationService.GoNext();
+    }
+  }
+}

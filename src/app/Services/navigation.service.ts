@@ -2,54 +2,57 @@ import { Injectable } from '@angular/core';
 import { PubSubService } from './pub-sub.service';
 import { Router, NavigationEnd, RouterEvent } from '@angular/router';
 import { AuthenticationService } from './authentication.service';
+import { AreaService } from './area.service';
+import { MeasurementTypeService } from './measurement-type.service';
+import { MeasurementService } from './measurement.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NavigationService {
 
-  private pages: string[] = [];
   public CurrentPage: string;
 
-  constructor(private pubsub: PubSubService, private router: Router, private authService: AuthenticationService) {
+  private nextPage = "";
+  private nextParam = "";
+  constructor(private pubsub: PubSubService, private router: Router, private authService: AuthenticationService, private areaService: AreaService,
+    private measurementTypeService: MeasurementTypeService, private measurementService: MeasurementService) {
     //this.router.events.subscribe(this.RouterEvents);
   }
 
   public Push(page: string, param: string = null) {
-    // if (page != 'login' && page != 'registration') {
-    //   if (!this.authService.isAuthenticated() && !this.authService.LoginSkipped) {
-    //     return;
-    //   }
-    // }
-    this.CurrentPage = page.replace(/([A-Z])/g, ' $1').trim();
-    console.log("page pushed: " + page);
-
-    if (this.pages.length == 0) {
-      this.pages = [page];
+    if(this.areaService.Areas.length == 0 || this.measurementTypeService.MeasurementTypes.length == 0 
+      || this.measurementService.measurements.keys.length == 0){
+        this.nextPage = page;
+        this.nextParam = param;
+        this.router.navigateByUrl("/loading");
     }
-    else {
-      this.pages.push(page);
+    else{
+      this.CurrentPage = page.replace(/([A-Z])/g, ' $1').trim();
+      console.log("page pushed: " + page);
+  
+      if (param !== null) {
+        this.router.navigate(["/" + page, param])
+      }
+      else {
+        this.router.navigateByUrl("/" + page);
+      }
     }
-    if (param !== null) {
-      this.router.navigate(["/" + page, param])
-    }
-    else {
-      this.router.navigateByUrl("/" + page);
-    }
+    
 
   }
-  public Pop() {
-    if (this.pages.length > 0) {
-      this.pages.pop();
 
-      this.router.navigateByUrl("/" + this.pages[this.pages.length - 1]);
+  public GoNext(){
+    if(this.nextPage == ""){
+      if (this.nextParam !== null) {
+        this.router.navigate(["/" + this.nextPage, this.nextParam])
+      }
+      else {
+        this.router.navigateByUrl("/" + this.nextPage);
+      }
     }
-
+    else{
+      //LOAD THE DEFAULT HOME PAGE
+    }
   }
-  // private RouterEvents(currentEvent: RouterEvent) {
-  //   if(currentEvent instanceof NavigationEnd) {
-  //     this.CurrentPage = currentEvent.url;
-  //     this.pubsub.$pub("Navigated",  this.CurrentPage);
-  //   }
-  // }
 }

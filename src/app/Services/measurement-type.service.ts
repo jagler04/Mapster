@@ -23,7 +23,7 @@ export class MeasurementTypeService {
     this.storageService.get('SAPPER-MeasurementTypes').subscribe((result: Array<MeasurementType>) => {
       //console.log(result);
       this.MeasurementTypes = result
-      this.pubsub.$pub("Measuremet type List Updated");
+      this.pubsub.$pub("MeasurementTypes Updated");
     })
   }
   CreateMeasurementType(newMeasurementType: MeasurementType) {

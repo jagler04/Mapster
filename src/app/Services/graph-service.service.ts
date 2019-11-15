@@ -25,8 +25,8 @@ export class GraphServiceService {
         var gs: GraphSettingsModel = { GraphStyle: 'bar', Visible: true, Measurements: [], Labels: [], InvisibleAreas: []};
         this.TypeSettings.set(mt.id, gs);
       });
-          this.storageService.get("SAPPER-Graph-Settings").subscribe((response: SettingSaveModel[]) => this.SetSettings(response));
     });
+    this.storageService.get("SAPPER-Graph-Settings").subscribe((response: SettingSaveModel[]) => this.SetSettings(response));
 
   }
 
@@ -287,7 +287,7 @@ export class GraphServiceService {
       //   var endDate = new Date(request.endDate);
       //   if(currentWeek < request.endDate){
       //     endDate = new Date(currentWeek);
-      //   }
+      //   }  
 
       //   measurements.forEach( m => {
       //     if(m.dateadded >= prevWeek && m.dateadded < endDate){

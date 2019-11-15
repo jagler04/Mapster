@@ -20,7 +20,7 @@ export class GraphComponent implements OnInit {
         this.oneArea = true;
       }
     });
-
+    console.log(this.measurementTypeService.MeasurementTypes);
   }
 
 }

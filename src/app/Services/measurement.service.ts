@@ -21,8 +21,8 @@ export class MeasurementService {
     private measurementTypeService: MeasurementTypeService, private toolsService: ToolsService) {
 
     //this.GetAllMeasurements();
-
-    // this.TestingAll();
+      this.init();
+    //this.TestingAll();
   }
   init() {
     this.storageService.get("SAPPER-Measurements").subscribe((measurements: Array<Measurement>) => {
@@ -32,8 +32,8 @@ export class MeasurementService {
           this.AddOrUpdateMeasurementMap(measurements[i]);
         }
         console.log(this.measurements)
-        this.pubsub.$pub("Measurements Loaded", this.measurements);
       }
+      this.pubsub.$pub("Measurements Loaded", this.measurements);
 
     })
   }

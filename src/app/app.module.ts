@@ -30,6 +30,7 @@ import { GraphControlComponent } from './Controls/graph-control/graph-control.co
 import { ChartsModule } from 'ng2-charts';
 import { StorageModule } from '@ngx-pwa/local-storage';
 import { RegistrationComponent } from './Pages/registration/registration.component';
+import { LoadingComponent } from './Pages/loading/loading.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { RegistrationComponent } from './Pages/registration/registration.compone
     AreaMapComponent,
     GraphComponent,
     GraphControlComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    LoadingComponent
   ],
   imports: [
     BrowserModule,

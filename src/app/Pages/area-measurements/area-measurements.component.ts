@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material';
 import { EntryDialogComponent } from 'src/app/Popups/entry-dialog/entry-dialog.component';
 import { MeasurementType, Measurement } from 'src/app/Services/mapster.client';
 import { PubSubService } from 'src/app/Services/pub-sub.service';
+import { NavigationService } from 'src/app/Services/navigation.service';
 
 @Component({
   selector: 'app-area-measurements',
@@ -17,12 +18,17 @@ export class AreaMeasurementsComponent implements OnInit {
   areaId: string;
   measurementTypes: Array<MeasurementTypeExtended> = [];
   constructor(private measurementTypeService: MeasurementTypeService, private measurementService: MeasurementService,
-    private route: ActivatedRoute, private dialog: MatDialog, private pubsub: PubSubService) { }
+    private route: ActivatedRoute, private dialog: MatDialog, private pubsub: PubSubService, private navigationService: NavigationService) {
+      
+     }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
       if (params !== undefined) {
         this.areaId = params["id"];
+        if(!this.measurementTypeService.MeasurementTypesLoaded){
+          this.navigationService.Push("areaMeasurements", this.areaId)
+        }
       }
     });
     this.measurementTypeService.MeasurementTypes.forEach(mt => {

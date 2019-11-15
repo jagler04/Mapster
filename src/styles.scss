@@ -121,7 +121,7 @@
 	min-width: 1px;
 	min-height: 1px
 }
-app-areas, app-measurement-types, app-area-measurements, app-login, app-graph, app-registration, app-home {
+app-areas, app-measurement-types, app-area-measurements, app-login, app-graph, app-registration, app-home, app-loading {
     margin-top:56px;
     position: absolute;
     width:100vw;
@@ -141,4 +141,20 @@ app-areas, app-measurement-types, app-area-measurements, app-login, app-graph, a
 }
 .AlignRight{
     float: right;
+}
+.cdk-overlay-pane, .cdk-overlay-pane button {
+	background-color: white;
+}
+.mat-calendar-body-cell:hover{
+	background-color: $primary-color;
+	color: white;
+}
+.btn {
+	background-color: $primary-color !important;
+	&:hover{
+		background-color: $primary-color-light !important;
+	}
+	&:active {
+		background-color: $primary-color-dark !important;
+	}
 }

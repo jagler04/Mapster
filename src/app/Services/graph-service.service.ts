@@ -8,6 +8,7 @@ import { AreaService } from './area.service';
 import { PubSubService } from './pub-sub.service';
 import { Observable, of } from 'rxjs';
 import { AuthenticationService } from './authentication.service';
+import { NavigationService } from './navigation.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,27 +18,46 @@ export class GraphServiceService {
   public TypeSettings: Map<string, GraphSettingsModel> = new Map();
 
   constructor(private measurementTypeService: MeasurementTypeService, private areaService: AreaService, private storageService: StorageMap, private graphClient: GraphClient,
-    private pubsub: PubSubService, private authService: AuthenticationService, private measurementService: MeasurementService) {
+    private pubsub: PubSubService, private authService: AuthenticationService, private measurementService: MeasurementService, private navigationService: NavigationService) {
 
-    this.pubsub.$sub("MeasurementTypes Updated").subscribe(result => {
-      this.measurementTypeService.MeasurementTypes.forEach(mt =>{
-        if(!this.TypeSettings.has(mt.id)){
-          var gs: GraphSettingsModel = { GraphStyle: 'bar', Visible: true, Measurements: [], Labels: [], InvisibleAreas: []};
-          this.TypeSettings.set(mt.id, gs);
-        }
+    // this.pubsub.$sub("MeasurementTypes Updated").subscribe(result => {
+    //   this.measurementTypeService.MeasurementTypes.forEach(mt =>{
+    //     if(!this.TypeSettings.has(mt.id)){
+    //       var gs: GraphSettingsModel = { GraphStyle: 'bar', Visible: true, Measurements: [], Labels: [], InvisibleAreas: []};
+    //       this.TypeSettings.set(mt.id, gs);
+    //     }
 
-      });
-      this.storageService.set("SAPPER-Graph-Settings", this.TypeSettings);
-    });
-    this.GetTypeSettings();
-
+    //   });
+    //   this.storageService.set("SAPPER-Graph-Settings", this.TypeSettings);
+    // });
+    // if(!this.areaService.AreasLoaded || !this.measurementTypeService.MeasurementTypesLoaded
+    //   || !this.measurementService.MeasurementsLoaded){
+    //     this.navigationService.Push("graphs");
+    // }
+    // else{
+    //   this.GetTypeSettings();
+    // }
+    //this.GetTypeSettings();
   }
 
-  private GetTypeSettings(){
-    this.storageService.get("SAPPER-Graph-Settings").subscribe((response: SettingSaveModel[]) => {
-      this.SetSettings(response);
-      this.pubsub.$pub("TypeSettings");
-    });
+  public GetTypeSettings(): boolean{
+    if(!this.areaService.AreasLoaded || !this.measurementTypeService.MeasurementTypesLoaded
+        || !this.measurementService.MeasurementsLoaded){
+      return false;
+    }
+    else{
+      this.storageService.get("SAPPER-Graph-Settings").subscribe((response: SettingSaveModel[]) => {
+        this.SetSettings(response);
+        this.measurementTypeService.MeasurementTypes.forEach(mt => {
+          if(!this.TypeSettings.has(mt.id)){
+            var gs: GraphSettingsModel = { GraphStyle: 'bar', Visible: true, Measurements: [], Labels: [], InvisibleAreas: []};
+            this.TypeSettings.set(mt.id, gs);
+          }
+        })
+        this.pubsub.$pub("TypeSettings");
+      });
+      return true;
+    }   
   }
 
   private SetSettings(response: SettingSaveModel[]){
@@ -78,76 +98,84 @@ export class GraphServiceService {
 
   public GetMeasurements(measurementTypId: string, starting: Date, ending: Date, grouping: string){
    
-    if(!this.measurementService.measurements.has(measurementTypId) ||this.measurementService.measurements.get(measurementTypId).length === 0){
-      this.pubsub.$sub("Measurements Loaded").subscribe( result => {
-        var areaList = this.areaService.Areas;
-        var visibleAreas: Array<string> = [];
-        areaList.forEach(a =>{
-          visibleAreas.push(a.id);
-        });
-        if(!this.TypeSettings.has(measurementTypId)){
-          var gs: GraphSettingsModel = { GraphStyle: 'bar', Visible: true, Measurements: [], Labels: [], InvisibleAreas: []};
-          this.TypeSettings.set(measurementTypId, gs);
-        }
-        this.TypeSettings.get(measurementTypId).InvisibleAreas.forEach(n => {
-          var pos = 0;
-          while(pos < visibleAreas.length){
-            if(visibleAreas[pos] === n){
-              visibleAreas.splice(pos, 1);
-            }
-            else{
-              pos ++;
-            }
-          }
-        });
+    // if(!this.measurementService.measurements.has(measurementTypId) ||this.measurementService.measurements.get(measurementTypId).length === 0){
+    //   this.pubsub.$sub("Measurements Loaded").subscribe( result => {
+    //     var areaList = this.areaService.Areas;
+    //     var visibleAreas: Array<string> = [];
+    //     areaList.forEach(a =>{
+    //       visibleAreas.push(a.id);
+    //     });
+    //     if(!this.TypeSettings.has(measurementTypId)){
+    //       var gs: GraphSettingsModel = { GraphStyle: 'bar', Visible: true, Measurements: [], Labels: [], InvisibleAreas: []};
+    //       this.TypeSettings.set(measurementTypId, gs);
+    //     }
+    //     this.TypeSettings.get(measurementTypId).InvisibleAreas.forEach(n => {
+    //       var pos = 0;
+    //       while(pos < visibleAreas.length){
+    //         if(visibleAreas[pos] === n){
+    //           visibleAreas.splice(pos, 1);
+    //         }
+    //         else{
+    //           pos ++;
+    //         }
+    //       }
+    //     });
         
-        var request = new GraphMeasurementRequest({startDate: starting, endDate: ending, measurementTypeId: measurementTypId, groupBy: grouping, areas: visibleAreas});
+    //     var request = new GraphMeasurementRequest({startDate: starting, endDate: ending, measurementTypeId: measurementTypId, groupBy: grouping, areas: visibleAreas});
     
-        var gd = this.GenerateDataGroups(request, result.get(request.measurementTypeId));
-      this.TypeSettings.get(request.measurementTypeId).Measurements = gd.measurements;
-      this.TypeSettings.get(request.measurementTypeId).Labels = gd.labels;
-      console.log(gd);
-      });
-    }
-    else{
-      var areaList = this.areaService.Areas;
-      var visibleAreas: Array<string> = [];
-      areaList.forEach(a =>{
-        visibleAreas.push(a.id);
-      });
-      this.TypeSettings.get(measurementTypId).InvisibleAreas.forEach(n => {
-        var pos = 0;
-        while(pos < visibleAreas.length){
-          if(visibleAreas[pos] === n){
-            visibleAreas.splice(pos, 1);
-          }
-          else{
-            pos ++;
-          }
-        }
-      });
+    //     var gd = this.GenerateDataGroups(request, result.get(request.measurementTypeId));
+    //   this.TypeSettings.get(request.measurementTypeId).Measurements = gd.measurements;
+    //   this.TypeSettings.get(request.measurementTypeId).Labels = gd.labels;
+    //   console.log(gd);
+    //   });
+    // }
+    // else{
       
-      var request = new GraphMeasurementRequest({startDate: starting, endDate: ending, measurementTypeId: measurementTypId, groupBy: grouping, areas: visibleAreas});
-  
-      var gd = this.GenerateDataGroups(request, this.measurementService.measurements.get(request.measurementTypeId));
-      this.TypeSettings.get(request.measurementTypeId).Measurements = gd.measurements;
-      this.TypeSettings.get(request.measurementTypeId).Labels = gd.labels;
-      console.log(gd);
+    // }
+    var areaList = this.areaService.Areas;
+    var visibleAreas: Array<string> = [];
+    areaList.forEach(a =>{
+      visibleAreas.push(a.id);
+    });
+    if(!this.TypeSettings.has(measurementTypId)){
+      var gs: GraphSettingsModel = { GraphStyle: 'bar', Visible: true, Measurements: [], Labels: [], InvisibleAreas: []};
+      this.TypeSettings.set(measurementTypId, gs);
+      this.UpdateSettings(measurementTypId, gs.GraphStyle, true);
     }
+    this.TypeSettings.get(measurementTypId).InvisibleAreas.forEach(n => {
+      var pos = 0;
+      while(pos < visibleAreas.length){
+        if(visibleAreas[pos] === n){
+          visibleAreas.splice(pos, 1);
+        }
+        else{
+          pos ++;
+        }
+      }
+    });
+    
+    var request = new GraphMeasurementRequest({startDate: starting, endDate: ending, measurementTypeId: measurementTypId, groupBy: grouping, areas: visibleAreas});
+
+    var gd = this.GenerateDataGroups(request, this.measurementService.measurements.get(request.measurementTypeId));
+    this.TypeSettings.get(request.measurementTypeId).Measurements = gd.measurements;
+    this.TypeSettings.get(request.measurementTypeId).Labels = gd.labels;
+    console.log(gd);
   }  
   private GenerateDataGroups(request: GraphMeasurementRequest, measurements: Array<Measurement>): GraphData {
 
-    switch(request.groupBy){
-      case "Hour":
-        return this.ByHour(request, measurements);
-      case "Day":
-        return this.ByDay(request, measurements);
-      case "Week":
-        return this.ByWeek(request, measurements);
-      case "Month":
-        return this.ByMonth(request, measurements);
-      case "Year":
-        return this.ByYear(request, measurements);
+    if(measurements !== undefined){
+      switch(request.groupBy){
+        case "Hour":
+          return this.ByHour(request, measurements);
+        case "Day":
+          return this.ByDay(request, measurements);
+        case "Week":
+          return this.ByWeek(request, measurements);
+        case "Month":
+          return this.ByMonth(request, measurements);
+        case "Year":
+          return this.ByYear(request, measurements);
+      }
     }
 
     return new GraphData();

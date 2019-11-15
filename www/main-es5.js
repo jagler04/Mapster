@@ -555,7 +555,9 @@ var GraphControlComponent = /** @class */ (function () {
         prevDAte.setDate(prevDAte.getDate() - 1);
         prevDAte.setHours(prevDAte.getHours(), 0, 0, 0);
         //this.graphService.GetMeasurements(this.measurementTypeId, prevDAte, new Date(), "Hour");
-        this.graphService.GetMeasurements(this.measurementTypeId, prevDAte, new Date(), "Week");
+        //this.graphService.GetMeasurements(this.measurementTypeId, prevDAte, new Date(), "Week");
+        //this.graphService.GetMeasurements(this.measurementTypeId, prevDAte, new Date(), "Month");
+        this.graphService.GetMeasurements(this.measurementTypeId, prevDAte, new Date(), "Year");
     };
     GraphControlComponent.ctorParameters = function () { return [
         { type: src_app_Services_graph_service_service__WEBPACK_IMPORTED_MODULE_2__["GraphServiceService"] },
@@ -1346,21 +1348,37 @@ var LoadingComponent = /** @class */ (function () {
     }
     LoadingComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.areaService.getAreas();
-        this.pubSub.$sub("Areas Loaded").subscribe(function (result) {
-            _this.areasLoaded = true;
-            _this.Navigate();
-        });
-        this.measurementTypeService.GetMeasurementTypes();
-        this.pubSub.$sub("MeasurementTypes Updated").subscribe(function (result) {
-            _this.measurementTypesLoaded = true;
-            _this.Navigate();
-        });
-        this.measurementService.init();
-        this.pubSub.$sub("Measurements Loaded").subscribe(function (result) {
-            _this.measurementsLoaded = true;
-            _this.Navigate();
-        });
+        if (!this.areaService.AreasLoaded) {
+            //this.areaService.getAreas();
+            this.pubSub.$sub("Areas Loaded").subscribe(function (result) {
+                _this.areasLoaded = true;
+                _this.Navigate();
+            });
+        }
+        else {
+            this.areasLoaded = true;
+        }
+        if (!this.measurementTypeService.MeasurementTypesLoaded) {
+            //this.measurementTypeService.GetMeasurementTypes();
+            this.pubSub.$sub("MeasurementTypes Updated").subscribe(function (result) {
+                _this.measurementTypesLoaded = true;
+                _this.Navigate();
+            });
+        }
+        else {
+            this.measurementTypesLoaded = true;
+        }
+        if (!this.measurementService.MeasurementsLoaded) {
+            //this.measurementService.init();
+            this.pubSub.$sub("Measurements Loaded").subscribe(function (result) {
+                _this.measurementTypesLoaded = true;
+                _this.Navigate();
+            });
+        }
+        else {
+            this.measurementsLoaded = true;
+        }
+        this.Navigate();
     };
     LoadingComponent.prototype.Navigate = function () {
         if (this.areasLoaded && this.measurementTypesLoaded && this.measurementsLoaded) {
@@ -1877,7 +1895,8 @@ var AreaService = /** @class */ (function () {
         this.authService = authService;
         this.storageService = storageService;
         this.Areas = [];
-        // this.getAreas();
+        this.AreasLoaded = false;
+        this.getAreas();
     }
     AreaService.prototype.init = function () {
         return this.storageService.get('SAPPER-Areas');
@@ -1886,6 +1905,7 @@ var AreaService = /** @class */ (function () {
         var _this = this;
         this.storageService.get('SAPPER-Areas').subscribe(function (result) {
             _this.Areas = result;
+            _this.AreasLoaded = true;
             _this.pubsub.$pub("Areas Loaded", result);
         });
     };
@@ -2088,6 +2108,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _area_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./area.service */ "./src/app/Services/area.service.ts");
 /* harmony import */ var _pub_sub_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./pub-sub.service */ "./src/app/Services/pub-sub.service.ts");
 /* harmony import */ var _authentication_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./authentication.service */ "./src/app/Services/authentication.service.ts");
+/* harmony import */ var _navigation_service__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./navigation.service */ "./src/app/Services/navigation.service.ts");
+
 
 
 
@@ -2098,9 +2120,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var GraphServiceService = /** @class */ (function () {
-    function GraphServiceService(measurementTypeService, areaService, storageService, graphClient, pubsub, authService, measurementService) {
-        //MAYBE LOAD FROM Local preferences for graph type? 
-        var _this = this;
+    function GraphServiceService(measurementTypeService, areaService, storageService, graphClient, pubsub, authService, measurementService, navigationService) {
+        // this.pubsub.$sub("MeasurementTypes Updated").subscribe(result => {
+        //   this.measurementTypeService.MeasurementTypes.forEach(mt =>{
+        //     if(!this.TypeSettings.has(mt.id)){
+        //       var gs: GraphSettingsModel = { GraphStyle: 'bar', Visible: true, Measurements: [], Labels: [], InvisibleAreas: []};
+        //       this.TypeSettings.set(mt.id, gs);
+        //     }
         this.measurementTypeService = measurementTypeService;
         this.areaService = areaService;
         this.storageService = storageService;
@@ -2108,15 +2134,24 @@ var GraphServiceService = /** @class */ (function () {
         this.pubsub = pubsub;
         this.authService = authService;
         this.measurementService = measurementService;
+        this.navigationService = navigationService;
         this.TypeSettings = new Map();
-        this.pubsub.$sub("Measuremet type List Updated").subscribe(function (result) {
-            _this.measurementTypeService.MeasurementTypes.forEach(function (mt) {
-                var gs = { GraphStyle: 'bar', Visible: true, Measurements: [], Labels: [], InvisibleAreas: [] };
-                _this.TypeSettings.set(mt.id, gs);
-            });
-        });
-        this.storageService.get("SAPPER-Graph-Settings").subscribe(function (response) { return _this.SetSettings(response); });
+        //   });
+        //   this.storageService.set("SAPPER-Graph-Settings", this.TypeSettings);
+        // });
+        if (!this.areaService.AreasLoaded || !this.measurementTypeService.MeasurementTypesLoaded
+            || !this.measurementService.MeasurementsLoaded) {
+            this.navigationService.Push("graph");
+        }
+        this.GetTypeSettings();
     }
+    GraphServiceService.prototype.GetTypeSettings = function () {
+        var _this = this;
+        this.storageService.get("SAPPER-Graph-Settings").subscribe(function (response) {
+            _this.SetSettings(response);
+            _this.pubsub.$pub("TypeSettings");
+        });
+    };
     GraphServiceService.prototype.SetSettings = function (response) {
         var _this = this;
         if (response !== undefined) {
@@ -2158,6 +2193,10 @@ var GraphServiceService = /** @class */ (function () {
                 areaList.forEach(function (a) {
                     visibleAreas.push(a.id);
                 });
+                if (!_this.TypeSettings.has(measurementTypId)) {
+                    var gs = { GraphStyle: 'bar', Visible: true, Measurements: [], Labels: [], InvisibleAreas: [] };
+                    _this.TypeSettings.set(measurementTypId, gs);
+                }
                 _this.TypeSettings.get(measurementTypId).InvisibleAreas.forEach(function (n) {
                     var pos = 0;
                     while (pos < visibleAreas.length) {
@@ -2201,15 +2240,6 @@ var GraphServiceService = /** @class */ (function () {
         }
     };
     GraphServiceService.prototype.GenerateDataGroups = function (request, measurements) {
-        // var returnData = new GraphData();
-        // returnData.labels = [];
-        // var areaGraphDataObject = new Map<string, GraphDataObject>();
-        // //Fill map with areas and blank arrays
-        // request.areas.forEach( id => {
-        //   if(!areaGraphDataObject.has(id)){
-        //     areaGraphDataObject.set(id, new GraphDataObject({data: new Array<number>(), label: this.areaService.GetAreaNameById(id)}));
-        //   }
-        // });
         switch (request.groupBy) {
             case "Hour":
                 return this.ByHour(request, measurements);
@@ -2217,11 +2247,12 @@ var GraphServiceService = /** @class */ (function () {
                 return this.ByDay(request, measurements);
             case "Week":
                 return this.ByWeek(request, measurements);
+            case "Month":
+                return this.ByMonth(request, measurements);
+            case "Year":
+                return this.ByYear(request, measurements);
         }
-        // for(var dat of areaGraphDataObject){
-        //   returnData.measurements.push(dat[1]);
-        // }
-        // return returnData;
+        return new _mapster_client__WEBPACK_IMPORTED_MODULE_5__["GraphData"]();
     };
     GraphServiceService.prototype.ByHour = function (request, measurements) {
         var _this = this;
@@ -2305,7 +2336,7 @@ var GraphServiceService = /** @class */ (function () {
                 areaGraphDataObject.set(id, new _mapster_client__WEBPACK_IMPORTED_MODULE_5__["GraphDataObject"]({ data: new Array(), label: _this.areaService.GetAreaNameById(id) }));
             }
         });
-        var currentDay = request.startDate;
+        var currentDay = new Date(request.startDate);
         currentDay.setHours(0, 0, 0, 0);
         while (currentDay <= request.endDate) {
             var prevDay = new Date(currentDay);
@@ -2365,7 +2396,7 @@ var GraphServiceService = /** @class */ (function () {
     };
     GraphServiceService.prototype.ByWeek = function (request, measurements) {
         var _this = this;
-        var e_5, _a;
+        var e_5, _a, e_6, _b;
         var returnData = new _mapster_client__WEBPACK_IMPORTED_MODULE_5__["GraphData"]();
         returnData.labels = [];
         var areaGraphDataObject = new Map();
@@ -2375,52 +2406,184 @@ var GraphServiceService = /** @class */ (function () {
                 areaGraphDataObject.set(id, new _mapster_client__WEBPACK_IMPORTED_MODULE_5__["GraphDataObject"]({ data: new Array(), label: _this.areaService.GetAreaNameById(id) }));
             }
         });
-        var currentWeek = request.startDate;
+        var currentWeek = new Date(request.startDate);
         currentWeek.setHours(0, 0, 0, 0);
+        while (this.getDayOfTheWeek(currentWeek) != "Monday") {
+            currentWeek.setDate(currentWeek.getDate() - 1);
+        }
+        while (currentWeek <= request.endDate) {
+            var prevWeek = new Date(currentWeek);
+            returnData.labels.push(this.formatWeekDate(prevWeek));
+            currentWeek.setDate(currentWeek.getDate() + 7);
+            var areaMap = new Map();
+            var endDate = new Date(request.endDate);
+            if (currentWeek < request.endDate) {
+                endDate = new Date(currentWeek);
+            }
+            measurements.forEach(function (m) {
+                if (m.dateadded >= prevWeek && m.dateadded < endDate) {
+                    if (areaMap.has(m.areaid)) {
+                        areaMap.set(m.areaid, areaMap.get(m.areaid) + m.measurement);
+                    }
+                    else {
+                        areaMap.set(m.areaid, m.measurement);
+                    }
+                }
+            });
+            try {
+                for (var areaMap_3 = tslib__WEBPACK_IMPORTED_MODULE_0__["__values"](areaMap), areaMap_3_1 = areaMap_3.next(); !areaMap_3_1.done; areaMap_3_1 = areaMap_3.next()) {
+                    var item = areaMap_3_1.value;
+                    var gd = areaGraphDataObject.get(item[0]);
+                    gd.data.push(item[1]);
+                    areaGraphDataObject.set(item[0], gd);
+                }
+            }
+            catch (e_5_1) { e_5 = { error: e_5_1 }; }
+            finally {
+                try {
+                    if (areaMap_3_1 && !areaMap_3_1.done && (_a = areaMap_3.return)) _a.call(areaMap_3);
+                }
+                finally { if (e_5) throw e_5.error; }
+            }
+        }
         try {
-            // while(this.getDayOfTheWeek(currentWeek) != "Sunday"){
-            //   currentWeek.setDate(-1);
-            // }
-            // request.endDate.setHours(0,0,0,0);
-            // while(this.getDayOfTheWeek(request.endDate) != "Sunday"){
-            //   request.endDate.setDate(1);
-            // }
-            // while (currentWeek <= request.endDate){
-            //   var prevWeek = new Date(currentWeek);
-            //   returnData.labels.push(this.formatWeekDate(prevWeek));
-            //   currentWeek.setDate(7);
-            //   var areaMap = new Map<string, number>();
-            //   var endDate = new Date(request.endDate);
-            //   if(currentWeek < request.endDate){
-            //     endDate = new Date(currentWeek);
-            //   }  
-            //   measurements.forEach( m => {
-            //     if(m.dateadded >= prevWeek && m.dateadded < endDate){
-            //       if(areaMap.has(m.areaid)){
-            //         areaMap.set(m.areaid, areaMap.get(m.areaid) + m.measurement);
-            //       }
-            //       else{
-            //         areaMap.set(m.areaid, m.measurement);
-            //       }
-            //     }
-            //   });
-            //   for(var item of areaMap){
-            //     var gd = areaGraphDataObject.get(item[0]);
-            //     gd.data.push(item[1]);
-            //     areaGraphDataObject.set(item[0], gd);
-            //   }
-            // }
             for (var areaGraphDataObject_3 = tslib__WEBPACK_IMPORTED_MODULE_0__["__values"](areaGraphDataObject), areaGraphDataObject_3_1 = areaGraphDataObject_3.next(); !areaGraphDataObject_3_1.done; areaGraphDataObject_3_1 = areaGraphDataObject_3.next()) {
                 var dat = areaGraphDataObject_3_1.value;
                 returnData.measurements.push(dat[1]);
             }
         }
-        catch (e_5_1) { e_5 = { error: e_5_1 }; }
+        catch (e_6_1) { e_6 = { error: e_6_1 }; }
         finally {
             try {
-                if (areaGraphDataObject_3_1 && !areaGraphDataObject_3_1.done && (_a = areaGraphDataObject_3.return)) _a.call(areaGraphDataObject_3);
+                if (areaGraphDataObject_3_1 && !areaGraphDataObject_3_1.done && (_b = areaGraphDataObject_3.return)) _b.call(areaGraphDataObject_3);
             }
-            finally { if (e_5) throw e_5.error; }
+            finally { if (e_6) throw e_6.error; }
+        }
+        return returnData;
+    };
+    GraphServiceService.prototype.ByMonth = function (request, measurements) {
+        var _this = this;
+        var e_7, _a, e_8, _b;
+        var returnData = new _mapster_client__WEBPACK_IMPORTED_MODULE_5__["GraphData"]();
+        returnData.labels = [];
+        var areaGraphDataObject = new Map();
+        //Fill map with areas and blank arrays
+        request.areas.forEach(function (id) {
+            if (!areaGraphDataObject.has(id)) {
+                areaGraphDataObject.set(id, new _mapster_client__WEBPACK_IMPORTED_MODULE_5__["GraphDataObject"]({ data: new Array(), label: _this.areaService.GetAreaNameById(id) }));
+            }
+        });
+        var currentMonth = new Date(request.startDate.getFullYear(), request.startDate.getMonth(), 1, 0, 0, 0, 0);
+        while (currentMonth <= request.endDate) {
+            var prevMonth = new Date(currentMonth);
+            returnData.labels.push(this.formatMonthDate(prevMonth));
+            currentMonth.setDate(new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 0).getDate());
+            var areaMap = new Map();
+            var endDate = new Date(request.endDate);
+            if (currentMonth < request.endDate) {
+                endDate = new Date(currentMonth);
+            }
+            measurements.forEach(function (m) {
+                if (m.dateadded >= prevMonth && m.dateadded < endDate) {
+                    if (areaMap.has(m.areaid)) {
+                        areaMap.set(m.areaid, areaMap.get(m.areaid) + m.measurement);
+                    }
+                    else {
+                        areaMap.set(m.areaid, m.measurement);
+                    }
+                }
+            });
+            try {
+                for (var areaMap_4 = tslib__WEBPACK_IMPORTED_MODULE_0__["__values"](areaMap), areaMap_4_1 = areaMap_4.next(); !areaMap_4_1.done; areaMap_4_1 = areaMap_4.next()) {
+                    var item = areaMap_4_1.value;
+                    var gd = areaGraphDataObject.get(item[0]);
+                    gd.data.push(item[1]);
+                    areaGraphDataObject.set(item[0], gd);
+                }
+            }
+            catch (e_7_1) { e_7 = { error: e_7_1 }; }
+            finally {
+                try {
+                    if (areaMap_4_1 && !areaMap_4_1.done && (_a = areaMap_4.return)) _a.call(areaMap_4);
+                }
+                finally { if (e_7) throw e_7.error; }
+            }
+        }
+        try {
+            for (var areaGraphDataObject_4 = tslib__WEBPACK_IMPORTED_MODULE_0__["__values"](areaGraphDataObject), areaGraphDataObject_4_1 = areaGraphDataObject_4.next(); !areaGraphDataObject_4_1.done; areaGraphDataObject_4_1 = areaGraphDataObject_4.next()) {
+                var dat = areaGraphDataObject_4_1.value;
+                returnData.measurements.push(dat[1]);
+            }
+        }
+        catch (e_8_1) { e_8 = { error: e_8_1 }; }
+        finally {
+            try {
+                if (areaGraphDataObject_4_1 && !areaGraphDataObject_4_1.done && (_b = areaGraphDataObject_4.return)) _b.call(areaGraphDataObject_4);
+            }
+            finally { if (e_8) throw e_8.error; }
+        }
+        return returnData;
+    };
+    GraphServiceService.prototype.ByYear = function (request, measurements) {
+        var _this = this;
+        var e_9, _a, e_10, _b;
+        var returnData = new _mapster_client__WEBPACK_IMPORTED_MODULE_5__["GraphData"]();
+        returnData.labels = [];
+        var areaGraphDataObject = new Map();
+        //Fill map with areas and blank arrays
+        request.areas.forEach(function (id) {
+            if (!areaGraphDataObject.has(id)) {
+                areaGraphDataObject.set(id, new _mapster_client__WEBPACK_IMPORTED_MODULE_5__["GraphDataObject"]({ data: new Array(), label: _this.areaService.GetAreaNameById(id) }));
+            }
+        });
+        var currentYear = new Date(request.startDate.getFullYear(), 0, 1, 0, 0, 0, 0);
+        while (currentYear <= request.endDate) {
+            var prevMonth = new Date(currentYear);
+            returnData.labels.push(this.formatYearDate(prevMonth));
+            currentYear = new Date(currentYear.getFullYear() + 1, 0, 1, 0, 0, 0, 0);
+            var areaMap = new Map();
+            var endDate = new Date(request.endDate);
+            if (currentYear < request.endDate) {
+                endDate = new Date(currentYear);
+            }
+            measurements.forEach(function (m) {
+                if (m.dateadded >= prevMonth && m.dateadded < endDate) {
+                    if (areaMap.has(m.areaid)) {
+                        areaMap.set(m.areaid, areaMap.get(m.areaid) + m.measurement);
+                    }
+                    else {
+                        areaMap.set(m.areaid, m.measurement);
+                    }
+                }
+            });
+            try {
+                for (var areaMap_5 = tslib__WEBPACK_IMPORTED_MODULE_0__["__values"](areaMap), areaMap_5_1 = areaMap_5.next(); !areaMap_5_1.done; areaMap_5_1 = areaMap_5.next()) {
+                    var item = areaMap_5_1.value;
+                    var gd = areaGraphDataObject.get(item[0]);
+                    gd.data.push(item[1]);
+                    areaGraphDataObject.set(item[0], gd);
+                }
+            }
+            catch (e_9_1) { e_9 = { error: e_9_1 }; }
+            finally {
+                try {
+                    if (areaMap_5_1 && !areaMap_5_1.done && (_a = areaMap_5.return)) _a.call(areaMap_5);
+                }
+                finally { if (e_9) throw e_9.error; }
+            }
+        }
+        try {
+            for (var areaGraphDataObject_5 = tslib__WEBPACK_IMPORTED_MODULE_0__["__values"](areaGraphDataObject), areaGraphDataObject_5_1 = areaGraphDataObject_5.next(); !areaGraphDataObject_5_1.done; areaGraphDataObject_5_1 = areaGraphDataObject_5.next()) {
+                var dat = areaGraphDataObject_5_1.value;
+                returnData.measurements.push(dat[1]);
+            }
+        }
+        catch (e_10_1) { e_10 = { error: e_10_1 }; }
+        finally {
+            try {
+                if (areaGraphDataObject_5_1 && !areaGraphDataObject_5_1.done && (_b = areaGraphDataObject_5.return)) _b.call(areaGraphDataObject_5);
+            }
+            finally { if (e_10) throw e_10.error; }
         }
         return returnData;
     };
@@ -2472,14 +2635,15 @@ var GraphServiceService = /** @class */ (function () {
         { type: _mapster_client__WEBPACK_IMPORTED_MODULE_5__["GraphClient"] },
         { type: _pub_sub_service__WEBPACK_IMPORTED_MODULE_7__["PubSubService"] },
         { type: _authentication_service__WEBPACK_IMPORTED_MODULE_8__["AuthenticationService"] },
-        { type: _measurement_service__WEBPACK_IMPORTED_MODULE_3__["MeasurementService"] }
+        { type: _measurement_service__WEBPACK_IMPORTED_MODULE_3__["MeasurementService"] },
+        { type: _navigation_service__WEBPACK_IMPORTED_MODULE_9__["NavigationService"] }
     ]; };
     GraphServiceService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
             providedIn: 'root'
         }),
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_measurement_type_service__WEBPACK_IMPORTED_MODULE_2__["MeasurementTypeService"], _area_service__WEBPACK_IMPORTED_MODULE_6__["AreaService"], _ngx_pwa_local_storage__WEBPACK_IMPORTED_MODULE_4__["StorageMap"], _mapster_client__WEBPACK_IMPORTED_MODULE_5__["GraphClient"],
-            _pub_sub_service__WEBPACK_IMPORTED_MODULE_7__["PubSubService"], _authentication_service__WEBPACK_IMPORTED_MODULE_8__["AuthenticationService"], _measurement_service__WEBPACK_IMPORTED_MODULE_3__["MeasurementService"]])
+            _pub_sub_service__WEBPACK_IMPORTED_MODULE_7__["PubSubService"], _authentication_service__WEBPACK_IMPORTED_MODULE_8__["AuthenticationService"], _measurement_service__WEBPACK_IMPORTED_MODULE_3__["MeasurementService"], _navigation_service__WEBPACK_IMPORTED_MODULE_9__["NavigationService"]])
     ], GraphServiceService);
     return GraphServiceService;
 }());
@@ -4544,7 +4708,8 @@ var MeasurementTypeService = /** @class */ (function () {
         this.updateClient = updateClient;
         this.getClient = getClient;
         this.MeasurementTypes = [];
-        // this.GetMeasurementTypes();
+        this.MeasurementTypesLoaded = false;
+        this.GetMeasurementTypes();
     }
     MeasurementTypeService.prototype.init = function () {
         return this.storageService.get('SAPPER-MeasurementTypes');
@@ -4554,7 +4719,8 @@ var MeasurementTypeService = /** @class */ (function () {
         this.storageService.get('SAPPER-MeasurementTypes').subscribe(function (result) {
             //console.log(result);
             _this.MeasurementTypes = result;
-            _this.pubsub.$pub("MeasurementTypes Updated");
+            _this.MeasurementTypesLoaded = true;
+            _this.pubsub.$pub("MeasurementTypes Updated", _this.MeasurementTypes);
         });
     };
     MeasurementTypeService.prototype.CreateMeasurementType = function (newMeasurementType) {
@@ -4650,6 +4816,7 @@ var MeasurementService = /** @class */ (function () {
         this.measurementTypeService = measurementTypeService;
         this.toolsService = toolsService;
         this.measurements = new Map();
+        this.MeasurementsLoaded = false;
         //this.GetAllMeasurements();
         this.init();
         //this.TestingAll();
@@ -4664,6 +4831,7 @@ var MeasurementService = /** @class */ (function () {
                 }
                 console.log(_this.measurements);
             }
+            _this.MeasurementsLoaded = true;
             _this.pubsub.$pub("Measurements Loaded", _this.measurements);
         });
     };
@@ -4899,8 +5067,8 @@ var NavigationService = /** @class */ (function () {
     }
     NavigationService.prototype.Push = function (page, param) {
         if (param === void 0) { param = null; }
-        if (this.areaService.Areas.length == 0 || this.measurementTypeService.MeasurementTypes.length == 0
-            || this.measurementService.measurements.keys.length == 0) {
+        if (!this.areaService.AreasLoaded || !this.measurementTypeService.MeasurementTypesLoaded
+            || !this.measurementService.MeasurementsLoaded) {
             this.nextPage = page;
             this.nextParam = param;
             this.router.navigateByUrl("/loading");
@@ -5201,7 +5369,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var routes = [
-    { path: '', redirectTo: 'home', pathMatch: 'full' },
+    { path: '', redirectTo: 'loading', pathMatch: 'full' },
     { path: 'home', component: _Pages_home_home_component__WEBPACK_IMPORTED_MODULE_3__["HomeComponent"] },
     { path: 'login', component: _Pages_login_login_component__WEBPACK_IMPORTED_MODULE_4__["LoginComponent"] },
     { path: 'registration', component: _Pages_registration_registration_component__WEBPACK_IMPORTED_MODULE_11__["RegistrationComponent"] },

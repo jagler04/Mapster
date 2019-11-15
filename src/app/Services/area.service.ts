@@ -13,9 +13,11 @@ import { Observable, of } from 'rxjs';
 export class AreaService {
 
   public Areas: Area[] = [];
+  public AreasLoaded = false;
   constructor(private toolsService: ToolsService, public pubsub: PubSubService, private getClient: GetClient, private updateClient: UpdateClient, private createClient: CreateClient,
     private authService: AuthenticationService, private storageService: StorageMap) {
-      // this.getAreas();
+      
+    this.getAreas();
   }
   init(){
     return this.storageService.get('SAPPER-Areas');
@@ -24,6 +26,7 @@ export class AreaService {
   getAreas(){
     this.storageService.get('SAPPER-Areas').subscribe((result: Area[]) => {
       this.Areas = result;
+      this.AreasLoaded = true;
       this.pubsub.$pub("Areas Loaded", result);
     })
   }

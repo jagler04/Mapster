@@ -1,0 +1,16 @@
+.mat-select {
+    display: inline-block;
+    width: 100%;
+    outline: 0;
+    font-family: Roboto,"Helvetica Neue",sans-serif;
+}
+mat-option {
+    background-color: white;
+    :hover {
+        background-color: #3F6844;
+        color: white;
+    }
+}
+mat-datepicker-content {
+    background-color: white;
+}

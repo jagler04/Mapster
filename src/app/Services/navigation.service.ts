@@ -21,8 +21,8 @@ export class NavigationService {
   }
 
   public Push(page: string, param: string = null) {
-    if(this.areaService.Areas.length == 0 || this.measurementTypeService.MeasurementTypes.length == 0 
-      || this.measurementService.measurements.keys.length == 0){
+    if(!this.areaService.AreasLoaded || !this.measurementTypeService.MeasurementTypesLoaded
+      || !this.measurementService.MeasurementsLoaded){
         this.nextPage = page;
         this.nextParam = param;
         this.router.navigateByUrl("/loading");
@@ -43,7 +43,7 @@ export class NavigationService {
   }
 
   public GoNext(){
-    if(this.nextPage == ""){
+    if(this.nextPage !== ""){
       if (this.nextParam !== null) {
         this.router.navigate(["/" + this.nextPage, this.nextParam])
       }
@@ -53,6 +53,7 @@ export class NavigationService {
     }
     else{
       //LOAD THE DEFAULT HOME PAGE
+      this.router.navigateByUrl("/home");
     }
   }
 }

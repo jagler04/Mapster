@@ -1,4 +1,4 @@
-<div *ngIf="graphService.TypeSettings.get(measurementTypeId).Visible" class="card graphControl">
+<div *ngIf="graphService.TypeSettings.get(measurementTypeId).Visible && graphService.TypeSettings.get(measurementTypeId).Measurements.length > 0" class="card graphControl">
     <h4 class="card-title">{{MeasurementName}}</h4>
     <a class="icon"><i class="material-icons">filter_list</i></a>
     <div style="display: block">

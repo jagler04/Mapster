@@ -20,21 +20,39 @@ export class LoadingComponent implements OnInit {
     private pubSub: PubSubService, private navigationService: NavigationService) { }
 
   ngOnInit() {
-    this.areaService.getAreas();
-    this.pubSub.$sub("Areas Loaded").subscribe(result => {
-      this.areasLoaded = true;
-      this.Navigate();
-    });
-    this.measurementTypeService.GetMeasurementTypes();
-    this.pubSub.$sub("MeasurementTypes Updated").subscribe(result => {
-        this.measurementTypesLoaded = true;
+    if(!this.areaService.AreasLoaded){
+      //this.areaService.getAreas();
+      this.pubSub.$sub("Areas Loaded").subscribe(result => {
+        this.areasLoaded = true;
         this.Navigate();
-    });
-    this.measurementService.init();
-    this.pubSub.$sub("Measurements Loaded").subscribe(result => {
+      });
+    }
+    else{
+      this.areasLoaded = true;
+    }
+
+    if (!this.measurementTypeService.MeasurementTypesLoaded){
+      //this.measurementTypeService.GetMeasurementTypes();
+      this.pubSub.$sub("MeasurementTypes Updated").subscribe(result => {
+          this.measurementTypesLoaded = true;
+          this.Navigate();
+      });
+    }
+    else{
+      this.measurementTypesLoaded = true;
+    }
+
+    if(!this.measurementService.MeasurementsLoaded){
+      //this.measurementService.init();
+      this.pubSub.$sub("Measurements Loaded").subscribe(result => {
+        this.measurementsLoaded = true;
+        this.Navigate();
+      });
+    }
+    else{
       this.measurementsLoaded = true;
-      this.Navigate();
-    });
+    }
+    this.Navigate();
   }
 
   private Navigate(){

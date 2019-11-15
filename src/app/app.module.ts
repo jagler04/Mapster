@@ -10,7 +10,7 @@ import { HttpIntercept } from './http-intercept';
 import { LoginComponent } from './Pages/login/login.component';
 import { HomeComponent } from './Pages/home/home.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatCardModule, MatFormFieldModule, MatInputModule } from '@angular/material';
+import { MatCardModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatDatepickerModule, MatNativeDateModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AreasComponent } from './Pages/areas/areas.component';
 import { AddAreaComponent } from './Pages/add-area/add-area.component';
@@ -31,6 +31,8 @@ import { ChartsModule } from 'ng2-charts';
 import { StorageModule } from '@ngx-pwa/local-storage';
 import { RegistrationComponent } from './Pages/registration/registration.component';
 import { LoadingComponent } from './Pages/loading/loading.component';
+import { GraphFilterComponent } from './Popups/graph-filter/graph-filter.component';
+import { AngularDateTimePickerModule } from 'angular2-datetimepicker';
 
 @NgModule({
   declarations: [
@@ -49,7 +51,8 @@ import { LoadingComponent } from './Pages/loading/loading.component';
     GraphComponent,
     GraphControlComponent,
     RegistrationComponent,
-    LoadingComponent
+    LoadingComponent,
+    GraphFilterComponent
   ],
   imports: [
     BrowserModule,
@@ -59,9 +62,13 @@ import { LoadingComponent } from './Pages/loading/loading.component';
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     FormsModule,
     HttpClientModule,
     ChartsModule,
+    AngularDateTimePickerModule,
     StorageModule.forRoot({
       IDBNoWrap: true,
     }), 
@@ -92,7 +99,8 @@ import { LoadingComponent } from './Pages/loading/loading.component';
     LoginComponent,
     EntryDialogComponent,
     AddEditMeasurementTypeDialogComponent,
-    SelectionDialogComponent
+    SelectionDialogComponent,
+    GraphFilterComponent
   ]
 })
 export class AppModule { }

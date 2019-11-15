@@ -1,0 +1,27 @@
+<div>
+    <h5>Filters</h5>
+</div>
+<div class="row">
+    <div class="input-field col s10">
+        <mat-label>Group By</mat-label>
+        <mat-select [(ngModel)]="GroupBy">
+          <mat-option *ngFor="let gp of Groupings" [value]="gp">
+            {{gp}}
+          </mat-option>
+        </mat-select>
+    </div>
+    <div class="input-field col s10">
+        <h6>Start Date</h6>
+        <angular2-date-picker *ngIf="GroupBy === 'Hour'" [(ngModel)]="StartDate" [settings]="HourSettings"></angular2-date-picker>
+        <angular2-date-picker *ngIf="GroupBy !== 'Hour'" [(ngModel)]="StartDate" [settings]="Settings"></angular2-date-picker>
+    </div>
+    <div class="input-field col s10">
+        <h6>End Date</h6>
+        <angular2-date-picker *ngIf="GroupBy === 'Hour'" [(ngModel)]="EndDate" [settings]="HourSettings"></angular2-date-picker>
+        <angular2-date-picker *ngIf="GroupBy !== 'Hour'" [(ngModel)]="EndDate" [settings]="Settings"></angular2-date-picker>
+    </div>
+
+    <div class="row">
+        <a class="btn right" (click)="Filter()">Filter</a>
+    </div>
+</div>

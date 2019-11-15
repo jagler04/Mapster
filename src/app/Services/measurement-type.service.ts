@@ -11,6 +11,7 @@ import { StorageMap } from '@ngx-pwa/local-storage';
 export class MeasurementTypeService {
 
   public MeasurementTypes: Array<MeasurementType> = [];
+  public MeasurementTypesLoaded = false;
   constructor(private storageService: StorageMap, private authService: AuthenticationService, private toolsService: ToolsService, private pubsub: PubSubService, private createClient: CreateClient, private updateClient: UpdateClient, private getClient: GetClient) {
     this.GetMeasurementTypes();
   }
@@ -22,7 +23,8 @@ export class MeasurementTypeService {
   GetMeasurementTypes() {
     this.storageService.get('SAPPER-MeasurementTypes').subscribe((result: Array<MeasurementType>) => {
       //console.log(result);
-      this.MeasurementTypes = result
+      this.MeasurementTypes = result;
+      this.MeasurementTypesLoaded = true;
       this.pubsub.$pub("MeasurementTypes Updated", this.MeasurementTypes);
     })
   }

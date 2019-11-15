@@ -16,13 +16,13 @@ export class MeasurementService {
 
   public measurements: Map<string, Array<Measurement>> = new Map<string, Array<Measurement>>();
 
+  public MeasurementsLoaded = false;
+
   constructor(private authService: AuthenticationService, private createClient: CreateClient, private updateClient: UpdateClient,
     private getClient: GetClient, private storageService: StorageMap, private areaService: AreaService, private pubsub: PubSubService,
     private measurementTypeService: MeasurementTypeService, private toolsService: ToolsService) {
 
-    //this.GetAllMeasurements();
       this.init();
-    //this.TestingAll();
   }
   init() {
     this.storageService.get("SAPPER-Measurements").subscribe((measurements: Array<Measurement>) => {
@@ -33,6 +33,7 @@ export class MeasurementService {
         }
         console.log(this.measurements)
       }
+      this.MeasurementsLoaded = true;
       this.pubsub.$pub("Measurements Loaded", this.measurements);
 
     })
@@ -166,19 +167,19 @@ export class MeasurementService {
   Testing(areaId: string, measurementTypeId: string) {
     var lst: Array<Measurement> = [];
 
-    var pos = 0;
-    while (pos < 3) {
-      var d = new Date();
-      d.setHours((-1 * pos));
-      lst.push(new Measurement({
-        id: areaId + (pos + 1).toString(),
-        areaid: areaId,
-        measurementtypeid: measurementTypeId,
-        dateadded: d,
-        measurement: pos
-      }));
-      pos++;
-    }
+    // var pos = 0;
+    // while (pos < 3) {
+    //   var d = new Date();
+    //   d.setHours((-1 * pos));
+    //   lst.push(new Measurement({
+    //     id: areaId + (pos + 1).toString(),
+    //     areaid: areaId,
+    //     measurementtypeid: measurementTypeId,
+    //     dateadded: d,
+    //     measurement: pos
+    //   }));
+    //   pos++;
+    // }
     return lst;
   }
 

@@ -17,6 +17,33 @@ export class GraphControlComponent implements OnInit {
   public get MeasurementTypeId() : string {
     return this.measurementTypeId;
   }
+
+  private startDate: Date;
+  @Input()
+  public set StartDate(value: Date){
+    this.startDate = value;
+  }
+  public get StartDate(): Date {
+    return this.startDate;
+  }
+
+  private endDate: Date;
+  @Input()
+  public set EndDate(value: Date){
+    this.endDate = value;
+  }
+  public get EndDate(): Date {
+    return this.endDate;
+  }
+
+  private groupBy: string;
+  @Input()
+  public set GroupBy(value: string){
+    this.groupBy = value;
+  }
+  public get GroupBy(){
+    return this.groupBy;
+  }
   
   public MeasurementName: string;
 
@@ -42,19 +69,7 @@ export class GraphControlComponent implements OnInit {
   ngOnInit() {
     this.MeasurementName = this.measurementTypeService.Get(this.measurementTypeId).measurementname;
 
-    // var graphItem = this.graphService.TypeSettings.get(this.MeasurementTypeId);
-
-    // var prevDAte = new Date();
-    // prevDAte.setDate(prevDAte.getDate() - 3);
-    // this.graphService.GetMeasurements(this.measurementTypeId, prevDAte, new Date(), "Day");
-
-    var prevDAte = new Date();
-    prevDAte.setDate(prevDAte.getDate() - 1);
-    prevDAte.setHours(prevDAte.getHours(), 0, 0, 0);
-    //this.graphService.GetMeasurements(this.measurementTypeId, prevDAte, new Date(), "Hour");
-    //this.graphService.GetMeasurements(this.measurementTypeId, prevDAte, new Date(), "Week");
-    //this.graphService.GetMeasurements(this.measurementTypeId, prevDAte, new Date(), "Month");
-    this.graphService.GetMeasurements(this.measurementTypeId, prevDAte, new Date(), "Year");
+    this.graphService.GetMeasurements(this.measurementTypeId, this.startDate, this.endDate, this.groupBy);
   }
 
 }

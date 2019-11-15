@@ -1,7 +1,9 @@
 <div *ngIf="oneArea === false">
     <p>Showing multi area content</p>
 </div>
-<div class="filterAll"><a class="icon"><i class="material-icons">filter_list</i></a></div>
-<div *ngFor="let mt of measurementTypeService.MeasurementTypes">
-    <graph-control [MeasurementTypeId]="mt.id"></graph-control>
+<div class="filterAll"><a class="icon btn" (click)="ShowFilter(true)"><i class="material-icons">filter_list</i></a></div>
+<div  *ngIf="CanLoad">
+    <div *ngFor="let mt of measurementTypeService.MeasurementTypes">
+        <graph-control [MeasurementTypeId]="mt.id" [StartDate]="StartDate" [EndDate]="EndDate" [GroupBy]="GroupBy"></graph-control>
+    </div>
 </div>

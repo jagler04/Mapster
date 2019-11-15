@@ -12,7 +12,7 @@ export class MeasurementTypeService {
 
   public MeasurementTypes: Array<MeasurementType> = [];
   constructor(private storageService: StorageMap, private authService: AuthenticationService, private toolsService: ToolsService, private pubsub: PubSubService, private createClient: CreateClient, private updateClient: UpdateClient, private getClient: GetClient) {
-    // this.GetMeasurementTypes();
+    this.GetMeasurementTypes();
   }
 
   init() {
@@ -23,7 +23,7 @@ export class MeasurementTypeService {
     this.storageService.get('SAPPER-MeasurementTypes').subscribe((result: Array<MeasurementType>) => {
       //console.log(result);
       this.MeasurementTypes = result
-      this.pubsub.$pub("MeasurementTypes Updated");
+      this.pubsub.$pub("MeasurementTypes Updated", this.MeasurementTypes);
     })
   }
   CreateMeasurementType(newMeasurementType: MeasurementType) {

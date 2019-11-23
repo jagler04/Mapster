@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { AreaService } from 'src/app/Services/area.service';
 import { MeasurementTypeService } from 'src/app/Services/measurement-type.service';
 import { MeasurementService } from 'src/app/Services/measurement.service';
@@ -15,6 +15,8 @@ export class LoadingComponent implements OnInit {
   private areasLoaded = false;
   private measurementTypesLoaded = false;
   private measurementsLoaded = false;
+  //@ViewChild('videoPlayer') videoplayer: ElementRef;
+  @ViewChild('videoPlayer',{static: true}) videoplayer: ElementRef;
 
   constructor(private areaService: AreaService, private measurementTypeService: MeasurementTypeService, private measurementService: MeasurementService,
     private pubSub: PubSubService, private navigationService: NavigationService) { }
@@ -55,9 +57,14 @@ export class LoadingComponent implements OnInit {
     this.Navigate();
   }
 
+
+toggleVideo(event: any) {
+    this.videoplayer.nativeElement.play();
+}
+
   private Navigate(){
     if(this.areasLoaded && this.measurementTypesLoaded && this.measurementsLoaded){
-      this.navigationService.GoNext();
+      //this.navigationService.GoNext();
     }
   }
 }

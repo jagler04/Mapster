@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChildren, ElementRef, QueryList, Inject } from '@angular/core';
-import * as M from "materialize-css/dist/js/materialize";
+//import * as M from "materialize-css/dist/js/materialize";
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({

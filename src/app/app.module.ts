@@ -33,6 +33,7 @@ import { RegistrationComponent } from './Pages/registration/registration.compone
 import { LoadingComponent } from './Pages/loading/loading.component';
 import { GraphFilterComponent } from './Popups/graph-filter/graph-filter.component';
 import { AngularDateTimePickerModule } from 'angular2-datetimepicker';
+import { MatVideoModule } from 'mat-video';
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import { AngularDateTimePickerModule } from 'angular2-datetimepicker';
     FormsModule,
     HttpClientModule,
     ChartsModule,
+    MatVideoModule,
     AngularDateTimePickerModule,
     StorageModule.forRoot({
       IDBNoWrap: true,

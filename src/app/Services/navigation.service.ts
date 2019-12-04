@@ -53,7 +53,7 @@ export class NavigationService {
     }
     else{
       //LOAD THE DEFAULT HOME PAGE
-      this.router.navigateByUrl("/home");
+      this.router.navigateByUrl("/areas");
     }
   }
 }

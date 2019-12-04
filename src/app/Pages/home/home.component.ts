@@ -18,9 +18,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   constructor(private authService: AuthenticationService, private router: Router) { }
 
   ngOnInit() {
-    if(!this.authService.isAuthenticated && !this.authService.LoginSkipped){
-      this.router.navigateByUrl("/login");
-    }
+    
 
   }
   ngAfterViewInit() {}

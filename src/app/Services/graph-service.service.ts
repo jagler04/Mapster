@@ -194,7 +194,7 @@ export class GraphServiceService {
     var currentHour = new Date(request.startDate);
     currentHour.setHours(currentHour.getHours(), 0 ,0, 0);
       
-      while (currentHour <= request.endDate){
+      while (currentHour <= new Date(request.endDate)){
         var prevHour = new Date(currentHour);
         returnData.labels.push(this.formatHourDate(prevHour));
 
@@ -250,7 +250,7 @@ export class GraphServiceService {
     var currentDay = new Date(request.startDate);
       currentDay.setHours(0,0,0,0);
       
-      while (currentDay <= request.endDate){
+      while (currentDay <= new Date(request.endDate)){
         var prevDay = new Date(currentDay);
 
         returnData.labels.push(this.formatDayDate(prevDay));
@@ -258,7 +258,7 @@ export class GraphServiceService {
 
         var areaMap = new Map<string, number>();
         var endDate = new Date(request.endDate);
-        if(currentDay < request.endDate){
+        if(currentDay < new Date(request.endDate)){
           endDate = new Date(currentDay);
         }
 
@@ -307,14 +307,14 @@ export class GraphServiceService {
         currentWeek.setDate(currentWeek.getDate() - 1);
       }
 
-      while (currentWeek <= request.endDate){
+      while (currentWeek <= new Date(request.endDate)){
         var prevWeek = new Date(currentWeek);
         returnData.labels.push(this.formatWeekDate(prevWeek));
         currentWeek.setDate(currentWeek.getDate() + 7);
 
         var areaMap = new Map<string, number>();
         var endDate = new Date(request.endDate);
-        if(currentWeek < request.endDate){
+        if(currentWeek < new Date(request.endDate)){
           endDate = new Date(currentWeek);
         }
 
@@ -356,14 +356,14 @@ export class GraphServiceService {
     });
     var currentMonth = new Date(request.startDate.getFullYear(), request.startDate.getMonth(), 1, 0, 0, 0, 0);
 
-      while (currentMonth <= request.endDate){
+      while (currentMonth <= new Date(request.endDate)){
         var prevMonth = new Date(currentMonth);
         returnData.labels.push(this.formatMonthDate(prevMonth));
         currentMonth.setDate(new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 0).getDate());
 
         var areaMap = new Map<string, number>();
         var endDate = new Date(request.endDate);
-        if(currentMonth < request.endDate){
+        if(currentMonth < new Date(request.endDate)){
           endDate = new Date(currentMonth);
         }
 
@@ -405,14 +405,14 @@ export class GraphServiceService {
     });
     var currentYear = new Date(request.startDate.getFullYear(), 0, 1, 0, 0, 0, 0);
 
-      while (currentYear <= request.endDate){
+      while (currentYear <= new Date(request.endDate)){
         var prevMonth = new Date(currentYear);
         returnData.labels.push(this.formatYearDate(prevMonth));
         currentYear = new Date(currentYear.getFullYear() + 1, 0, 1, 0, 0, 0, 0);
 
         var areaMap = new Map<string, number>();
         var endDate = new Date(request.endDate);
-        if(currentYear < request.endDate){
+        if(currentYear < new Date(request.endDate)){
           endDate = new Date(currentYear);
         }
 

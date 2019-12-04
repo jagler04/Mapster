@@ -2,8 +2,6 @@
   <div class="nav-wrapper">
     <a href="horizontal-half.html" class="brand-logo"><i class="icon-diamond"></i></a>
     <ul id="nav-mobile" class="left hide-on-med-and-down">
-      <li><a (click)="GoToPage('login')">Login</a></li>
-      <li><a (click)="GoToPage('home')">Home</a></li>
       <li><a (click)="GoToPage('areas')">Areas</a></li>
       <li><a (click)="GoToPage('addMeasurementTypes')">Measurement Types</a></li>
       <li><a class="waves-effect waves-green" (click)="GoToPage('graphs')">Graphs</a></li>
@@ -14,8 +12,6 @@
   </div>
 </nav>
 <ul id="slide-out" class="sidenav" *ngIf="IsAuthenticated">
-  <li><a (click)="GoToPage('login')">Login</a></li>
-  <li><a class="waves-effect waves-green" (click)="GoToPage('home')">Home</a></li>
   <li><a class="waves-effect waves-green" (click)="GoToPage('areas')">Areas</a></li>
   <li><a class="waves-effect waves-green" (click)="GoToPage('addMeasurementTypes')">Measurement Types</a></li>
   <li><a class="waves-effect waves-green" (click)="GoToPage('graphs')">Graphs</a></li>

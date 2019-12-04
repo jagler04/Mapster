@@ -14,7 +14,6 @@ import { LoadingComponent } from './Pages/loading/loading.component';
 const routes: Routes = [
   { path: '', redirectTo: 'loading', pathMatch: 'full' },
   { path:'home', component: HomeComponent },
-  { path:'login', component: LoginComponent },
   { path:'registration', component: RegistrationComponent },
   { path:'areas', component: AreasComponent },
   { path: "addArea", component: AddAreaComponent },

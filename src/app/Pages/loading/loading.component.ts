@@ -64,7 +64,7 @@ toggleVideo(event: any) {
 
   private Navigate(){
     if(this.areasLoaded && this.measurementTypesLoaded && this.measurementsLoaded){
-      //this.navigationService.GoNext();
+      this.navigationService.GoNext();
     }
   }
 }

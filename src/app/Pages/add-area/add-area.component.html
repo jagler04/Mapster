@@ -3,9 +3,9 @@
         <a (click)="GoBack()" class="button-collapse left inlineBlock"><i
                 class="material-icons white-text">arrow_back</i></a>
         <div class="input-field inlineBlock search">
-            <input id="search" type="search" #search autocorrect="off" autocapitalize="off" spellcheck="off">
+            <input id="search" type="search" #search autocorrect="off"  autocapitalize="off" spellcheck="off" [(ngModel)]="searchTerm">
             <label class="label-icon" for="search"><i class="material-icons">search</i></label>
-            <i class="material-icons">close</i>
+            <i class="material-icons" (click)="clearSearch()" >close</i>
         </div>
     </div>
 </nav>
@@ -28,10 +28,10 @@
         </agm-polyline>
 
         <agm-polygon [paths]="paths" [strokeColor]="'#5DAA68'">
-            
+
         </agm-polygon>
     </agm-map> -->
-    <div class="map" *ngIf="options != null"  leaflet [leafletOptions]="options"
+    <div class="map" *ngIf="options != null"  leaflet [leafletOptions]="options" [(leafletCenter)]="centerLocation"
         (leafletClick)="mapClicked($event)">
         <div *ngFor="let l of markerLayers" [leafletLayer]="l"></div>
         <div [leafletLayer]="polygonLayer"></div>

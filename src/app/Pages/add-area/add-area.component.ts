@@ -6,7 +6,7 @@ import { MatDialog } from '@angular/material';
 import { EntryDialogComponent } from 'src/app/Popups/entry-dialog/entry-dialog.component';
 import { AreaService } from 'src/app/Services/area.service';
 import { MeasurementTypeService } from 'src/app/Services/measurement-type.service';
-import { tileLayer, latLng, marker, polygon } from 'leaflet';
+import { tileLayer, latLng, marker, polygon, LatLng } from 'leaflet';
 //import { } from '@types/googlemaps';
 
 @Component({
@@ -22,6 +22,7 @@ export class AddAreaComponent implements OnInit {
   @ViewChild('search', { static: true })
   public searchElementRef: ElementRef;
 
+  searchTerm: string;
   latitude: number = 51.678418;
   longitude: number = 7.809007;
   zoom: number = 15;
@@ -37,6 +38,7 @@ export class AddAreaComponent implements OnInit {
   markerLayers: any = [];
   markers: any = [];
   polygonLayer: any = polygon(this.markers);
+  centerLocation: LatLng = latLng(this.latitude, this.longitude);
 
   constructor(private mapsAPILoader: MapsAPILoader, private ngZone: NgZone, private pubsub: PubSubService,
     private nav: NavigationService, public dialog: MatDialog, private areaService: AreaService,
@@ -58,6 +60,7 @@ export class AddAreaComponent implements OnInit {
           //get the place result
           let place: google.maps.places.PlaceResult = autocomplete.getPlace();
 
+          console.log(place)
           //verify result
           if (place.geometry === undefined || place.geometry === null) {
             return;
@@ -67,6 +70,7 @@ export class AddAreaComponent implements OnInit {
           this.latitude = place.geometry.location.lat();
           this.longitude = place.geometry.location.lng();
           this.zoom = 12;
+          this.centerLocation = latLng(this.latitude, this.longitude)
         });
       });
 
@@ -149,6 +153,10 @@ export class AddAreaComponent implements OnInit {
   GoBack() {
     this.pubsub.$pub("Add Area Page Deactivated");
     this.nav.Push("areas");
+  }
+
+  clearSearch(){
+    this.searchTerm = '';
   }
 
   paths: Array<LatLngLiteral> = [];
